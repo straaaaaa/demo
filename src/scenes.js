@@ -100,8 +100,8 @@ export class DebugScene extends Phaser.Scene {
 }
 
 export class FNFScene extends Phaser.Scene {
-    constructor() {
-        super({key: "FNFScene"});
+    constructor(key) {
+        super({key: key});
     }
 
     create() {
@@ -131,7 +131,7 @@ export class FNFScene extends Phaser.Scene {
 
 export class TitleScene extends FNFScene {
     constructor() {
-        super({key:"TitleScene"});
+        super("TitleScene");
     }
 
     onCreate() {

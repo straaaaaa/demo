@@ -2,7 +2,6 @@ alert("main.jsStart");
 import {
     BootScene,
     DebugScene,
-    FNFScene,
     TitleScene
 } from "./scenes.js";
 
@@ -27,7 +26,7 @@ const config = {
     scene: [
         BootScene,
         DebugScene,
-        FNFScene
+        TitleScene,
     ]
 };
 alert("main.jsEnd")
