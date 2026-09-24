@@ -1,3 +1,4 @@
+alert("main.jsStart");
 import {
     BootScene,
     DebugScene,
@@ -30,4 +31,5 @@ const config = {
         TitleScene
     ]
 };
+alert("main.jsEnd")
 new Phaser.Game(config);
