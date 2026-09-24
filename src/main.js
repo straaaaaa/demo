@@ -24,7 +24,10 @@ const config = {
     },
 
     scene: [
-        BootScene
+        BootScene,
+        DebugScene,
+        FNFScene,
+        TitleScene
     ]
 };
 new Phaser.Game(config);
