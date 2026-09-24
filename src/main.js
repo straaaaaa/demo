@@ -1,4 +1,8 @@
-import { 
+import {
+    BootScene,
+    DebugScene,
+    FNFScene,
+    TitleScene
 } from "./scenes.js";
 
 const config = {

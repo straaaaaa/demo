@@ -56,7 +56,7 @@ export class BootScene extends Phaser.Scene {
                 };
                 this.registry.set("options",options);
             }
-            this.scene.start("FNFScene");
+            this.scene.start("TitleScene");
         })
     }
 }
