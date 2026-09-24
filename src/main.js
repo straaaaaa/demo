@@ -32,4 +32,9 @@ const config = {
     ]
 };
 alert("main.jsEnd")
-new Phaser.Game(config);
+try {
+    new Phaser.Game(config);
+    alert("game created");
+} catch (error) {
+    alert(error.stack || error);
+}
