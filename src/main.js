@@ -26,9 +26,6 @@ const config = {
 
     scene: [
         BootScene,
-        DebugScene,
-        FNFScene,
-        TitleScene
     ]
 };
 alert("main.jsEnd")
