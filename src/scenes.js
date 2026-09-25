@@ -16,6 +16,8 @@ export class BootScene extends Phaser.Scene {
     } else {
         alert("❌ アトラス 'phantommuff' は登録されていません。preloadで失敗しています。");
     }
+    const allKeys = this.textures.getTextureKeys();
+    alert(allKeys);
         const charA = this.add.sprite(640,360,"phantommuff",'a uppercase instance 10000')
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
