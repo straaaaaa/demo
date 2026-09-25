@@ -1,0 +1,16 @@
+﻿{
+  "frames": {
+    "a uppercase instance 10000": {
+      "frame": {"x": 1119, "y": 589, "w": 37, "h": 39},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x": 0, "y": 0, "w": 37, "h": 39},
+      "sourceSize": {"w": 37, "h": 39}
+    }
+  },
+  "meta": {
+    "app": "Adobe Animate",
+    "version": "1.0",
+    "image": "phantommuff.png"
+  }
+}
