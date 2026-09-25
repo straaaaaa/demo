@@ -5,8 +5,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         this.text = text;
         this.type = type;
         this.textScale = scale;
-        this.originX = originX;
-        this.originY = originY;
+        this.originx = originX;
+        this.originy = originY;
         this.distance = distance;
         this.depth = 1000;
         this.letters = [];
@@ -38,12 +38,12 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             }
             const letter = this.scene.add.image(distance,0,"phantommuff",`${char.toLowerCase()} ${type} instance 10000`);
             letter.currentFrameNum = 0;
-            letter.setOrigin(0,this.originY);
+            letter.setOrigin(0,this.originy);
             distance += letter.width + this.distance;
             this.add(letter);
             this.letters.push(letter);
         }
-        const offsetX = (distance-this.distance) * this.originX;
+        const offsetX = (distance-this.distance) * this.originx;
         for (let i = 0; i < this.letters.length; i++) {
             this.letters[i].x -= offsetX;
         }
