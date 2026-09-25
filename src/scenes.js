@@ -18,7 +18,14 @@ export class BootScene extends Phaser.Scene {
             if (type === 'xml') this.xmlLoaded = true;
         }
     });
-        this.load.atlasXML("phantommuff","./assets/font/phantommuff.png","./assets/font/phantommuff.xml");
+        const githubUser = "straaaaaa"; 
+
+    // GitHub Pagesの絶対URLを直接生成します
+    const pngUrl = `https://${githubUser}.github.io/demo/assets/font/phantommuff.png`;
+    const xmlUrl = `https://${githubUser}.github.io/demo/assets/font/phantommuff.xml`;
+
+    // 読み込みに絶対失敗しないよう、フルURLで指定します
+    this.load.atlasXML("phantommuff", pngUrl, xmlUrl);
     }
 
     create() {
