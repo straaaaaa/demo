@@ -38,7 +38,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 type = "bold";
             }
             alert(`${char.toLowerCase()} ${type} instance 10000`);
-            if (!this.scene.textures.has("phantommuff",`${char.toLowerCase()} ${type} instance 10000`)) {
+            if (!this.scene.textures.exists("phantommuff")) {
                 alert("登録されてないよ")
             }
             const letter = this.scene.add.image(distance,0,"phantommuff",`${char.toLowerCase()} ${type} instance 10000`);
