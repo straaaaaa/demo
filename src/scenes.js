@@ -7,6 +7,9 @@ export class BootScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.on('loaderror', function (file) {
+        alert("❌ 読み込み失敗！\n種類: " + file.type + "\n探したURL: " + file.src);
+    });
         this.load.atlasXML("phantommuff","./assets/font/phantommuff.png","./assets/font/phantommuff.xml");
     }
 
