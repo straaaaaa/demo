@@ -7,6 +7,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     preload() {
+        alert("preload")
         this.xmlLoaded = false;
     this.pngLoaded = false;
 
