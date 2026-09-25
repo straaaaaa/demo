@@ -7,12 +7,10 @@ export class BootScene extends Phaser.Scene {
     }
 
     preload() {
-        alert("preload")
-    this.load.atlas("phantommuff", "./assets/font/phantommuff.png", "./assets/font/phantommuff.json");
+        this.load.atlasXML("phantommuff","assets/font/phantommuff.png","assets/font/phantommuff.xml");
     }
 
     create() {
-        const charA = this.add.sprite(640, 360, "phantommuff", "a uppercase instance 10000");
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
@@ -137,6 +135,6 @@ export class TitleScene extends FNFScene {
     onCreate() {
         this.input.setDefaultCursor("none");
         this.scene.launch("DebugScene");
-        this.drawText(630,360,"DebugTeXt012,.;:@[]","");
+        this.drawText(630,360,"DebugTeXt012,.;:@[]");
     }
 }
