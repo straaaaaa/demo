@@ -11,6 +11,11 @@ export class BootScene extends Phaser.Scene {
     }
 
     create() {
+        if (this.textures.exists("phantommuff")) {
+        alert("✅ アトラス 'phantommuff' は正しく登録されています！");
+    } else {
+        alert("❌ アトラス 'phantommuff' は登録されていません。preloadで失敗しています。");
+    }
         const charA = this.add.sprite(640,360,"phantommuff",'a uppercase instance 10000')
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
