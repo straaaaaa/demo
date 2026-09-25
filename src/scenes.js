@@ -11,6 +11,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     create() {
+        const charA = this.add.sprite(640,360,"phantommuff",'a uppercase instance 10000')
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
