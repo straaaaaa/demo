@@ -48,7 +48,6 @@ export class BootScene extends Phaser.Scene {
     // 画面に黒背景で文字を大きく表示する
     this.add.rectangle(0, 0, 1280, 720, 0x000000).setOrigin(0);
     this.add.text(20, 20, debugText, { fontSize: '20px', fill: '#ffffff', wordWrap: { width: 1200 } });
-}
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
