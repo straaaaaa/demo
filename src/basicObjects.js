@@ -26,6 +26,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
     }
 
     updateText() {
+        alert(this.scene);
         this.removeAll(true);
         this.setScale(this.textScale)
         this.letters.length = 0;
