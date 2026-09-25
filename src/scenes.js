@@ -135,5 +135,8 @@ export class TitleScene extends FNFScene {
     }
 
     onCreate() {
+        this.input.setDefaultCursor("none");
+        this.scene.launch("DebugScene");
+        this.drawText(630,360,"DebugTeXt012,.;:@[]");
     }
 }
