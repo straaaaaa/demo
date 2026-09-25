@@ -7,9 +7,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     preload() {
-        alert("Boot")
         this.load.atlasXML("phantommuff","assets/font/phantommuff.png","assets/font/phantommuff.xml");
-        alert("boot")
     }
 
     create() {

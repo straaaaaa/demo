@@ -1,4 +1,3 @@
-alert("main.jsStart");
 import {
     BootScene,
     DebugScene,
@@ -29,10 +28,4 @@ const config = {
         TitleScene,
     ]
 };
-alert("main.jsEnd")
-try {
-    new Phaser.Game(config);
-    alert("game created");
-} catch (error) {
-    alert(error.stack || error);
-}
+new Phaser.Game(config);
