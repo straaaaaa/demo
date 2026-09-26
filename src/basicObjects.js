@@ -84,8 +84,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 const charData = alphabetConfig.characters[lowercaseChar];
                 const offsets = isBold ? charData.bold : charData.normal;
                 if (offsets) {
-                    jsonOffsetX = offsets[0] || 0;
-                    jsonOffsetY = offsets[1] || 0;
+                    jsonOffsetX = -offsets[0] || 0;
+                    jsonOffsetY = -offsets[1] || 0;
                 }
             }
 
@@ -93,9 +93,9 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             letter.currentFrameNum = 0;
             letter.setOrigin(0,0);
 
-            const baseAdd = isBold ? 70 : 110; 
+            const baseAdd = isBold ? 70 : 110;
             
-            const finalYOffset = jsonOffsetY + (letter.frame.realHeight + baseAdd);
+            const finalYOffset = jsonOffsetY + (letter.frame.realHeight - baseAdd);
 
             letter.y += finalYOffset;
             letter.x += jsonOffsetX;
