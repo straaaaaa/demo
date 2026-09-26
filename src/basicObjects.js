@@ -15,6 +15,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
 
         getCharName(char) {
         const symbolMap = {
+            ',': 'comma',
             '.': 'period',
             '\'': 'apostrophe',
             '"': 'quote',
