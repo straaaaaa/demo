@@ -91,7 +91,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
 
             const letter = this.scene.add.image(distance, 0, "phantommuff", `${this.getCharName(char)} ${type} instance 10000`);
             letter.currentFrameNum = 0;
-            letter.setOrigin(0, this.originy);
+            letter.setOrigin(0,0);
 
             const baseAdd = isBold ? 70 : 110; 
             
