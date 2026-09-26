@@ -65,7 +65,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         for (let i = 0; i < this.text.length; i++) {
             const char = this.text[i];
             if (char === " ") {
-                distance += this.distance + 40 * this.textScale;
+                distance += this.distance + 40;
+                continue;
             }
             let type = this.getCharType(char);
             if (this.type === "bold") {
@@ -73,7 +74,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             }
             const letter = this.scene.add.image(distance,0,"phantommuff",`${this.getCharName(char)} ${type} instance 10000`);
             letter.currentFrameNum = 0;
-            letter.setOrigin(0,this.originy);
+            letter.setCenter();
+            letter.setOrigin(0, this.originy);
             distance += letter.width + this.distance;
             this.add(letter);
             this.letters.push(letter);
