@@ -44,13 +44,10 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
     }
 
     getCharType(char) {
-        if (/^\p{Lu}\$/u.test(char)) {
-            return "uppercase";
-        }
+        if (!/^[a-zA-Z]$/.test(char)) return "normal";
 
-        if (/^\p{Ll}\$/u.test(char)) {
-            return "lowercase";
-        }
+        if (/^\p{Lu}/u.test(char)) return "uppercase";
+        if (/^\p{Ll}/u.test(char)) return "lowercase";
 
         return "normal";
     }
@@ -98,7 +95,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             
             const finalYOffset = jsonOffsetY + (letter.frame.realHeight - baseAdd);
 
-            letter.y += finalYOffset;
+            letter.y -= finalYOffset;
             letter.x += jsonOffsetX;
 
             distance += letter.width + this.distance;
