@@ -95,7 +95,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
 
             const baseAdd = isBold ? 70 : 110; 
             
-            const finalYOffset = jsonOffsetY + (letter.frame.realHeight - baseAdd);
+            const finalYOffset = jsonOffsetY + (letter.frame.realHeight + baseAdd);
 
             letter.y += finalYOffset;
             letter.x += jsonOffsetX;
