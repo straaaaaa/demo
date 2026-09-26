@@ -95,12 +95,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
 
             const baseAdd = isBold ? 70 : 110; 
             
-            // 【修正した数式】
-            // originY が 0.5 (真ん中基準) の場合、画像の中心からのズレを正確に計算します。
-            // これにより、アンダーバーは下へ、クォーテーションは上へカチッと配置されます。
-            const finalYOffset = jsonOffsetY + (letter.height * (1 - this.originy)) - (baseAdd * (1 - this.originy));
+            const finalYOffset = jsonOffsetY + (letter.frame.realHeight - baseAdd);
 
-            // 座標の適用
             letter.y += finalYOffset;
             letter.x += jsonOffsetX;
 
