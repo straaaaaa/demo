@@ -1,6 +1,6 @@
 export class PhantommuffText extends Phaser.GameObjects.Container {
-    constructor(scene,x,y,text,type,originX = 0.5,originY=0.5,scale = 1,distance = 2) {
-        super(scene,x,y);
+    constructor(scene, x, y, text, type, originX = 0.5, originY = 0.5, scale = 1, distance = 2) {
+        super(scene, x, y);
         scene.add.existing(this);
         this.text = text;
         this.type = type;
@@ -13,7 +13,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         this.updateText();
     }
 
-        getCharName(char) {
+    getCharName(char) {
         const symbolMap = {
             ',': 'comma',
             '.': 'period',
@@ -22,14 +22,12 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             '/': 'forward slash',
             '\\': 'back slash',
             '*': 'asterisk',
-             '?': 'question',
+            '?': 'question',
             '!': 'exclamation',
             ':': ':',
             ';': ';',
             '<': '<',
             '>': '>',
-            '?': 'question',
-            '!': 'exclamation',
             '[': '[',
             ']': ']',
             '^': '^',
@@ -46,11 +44,11 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
     }
 
     getCharType(char) {
-        if (/^\p{Lu}$/u.test(char)) {
+        if (/^\p{Lu}\$/u.test(char)) {
             return "uppercase";
         }
 
-        if (/^\p{Ll}$/u.test(char)) {
+        if (/^\p{Ll}\$/u.test(char)) {
             return "lowercase";
         }
 
@@ -59,42 +57,55 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
 
     updateText() {
         this.removeAll(true);
-        this.setScale(this.textScale)
+        this.setScale(this.textScale);
         this.letters.length = 0;
+
+        const alphabetConfig = this.scene.cache.json.get('phantommuff_config') || { characters: {} };
+
         let distance = 0;
         for (let i = 0; i < this.text.length; i++) {
             const char = this.text[i];
             if (char === " ") {
-                distance += this.distance + 40;
+                distance += this.distance + 30;
                 continue;
             }
+
             let type = this.getCharType(char);
-            if (this.type === "bold") {
+            const isBold = (this.type === "bold");
+            if (isBold) {
                 type = "bold";
             }
-            const letter = this.scene.add.image(distance,0,"phantommuff",`${this.getCharName(char)} ${type} instance 10000`);
-                        letter.currentFrameNum = 0;
 
-            // --- 正しいトリミング位置の補正処理 ---
-            const frame = letter.frame;
-            if (frame.trimmed) {
-                // Xは左端（0）固定のまま、トリミングのズレ（x）を考慮した値をPhaserに渡す
-                // Yは、元のサイズに対するthis.originyの位置から、上に削られた余白（y）を引いて、本来の比率を復元する
-                letter.setOrigin(
-                    -frame.spriteSourceSizeX / frame.width,
-                    (frame.sourceSizeH * this.originy - frame.spriteSourceSizeY) / frame.height
-                );
-            } else {
-                // トリミング（余白カット）がない通常の文字は、そのまま指定のOriginを適用
-                letter.setOrigin(0, this.originy);
+            let jsonOffsetX = 0;
+            let jsonOffsetY = 0;
+            const lowercaseChar = char.toLowerCase();
+
+            if (alphabetConfig.characters && alphabetConfig.characters[lowercaseChar]) {
+                const charData = alphabetConfig.characters[lowercaseChar];
+                const offsets = isBold ? charData.bold : charData.normal;
+                if (offsets) {
+                    jsonOffsetX = offsets[0] || 0;
+                    jsonOffsetY = offsets[1] || 0;
+                }
             }
-            // ------------------------------------
+
+            const letter = this.scene.add.image(distance, 0, "phantommuff", `${this.getCharName(char)} ${type} instance 10000`);
+            letter.currentFrameNum = 0;
+            letter.setOrigin(0, this.originy);
+
+            const baseAdd = isBold ? 70 : 110; 
+            
+            const finalYOffset = jsonOffsetY + (letter.height - baseAdd);
+
+            letter.y += finalYOffset;
+            letter.x += jsonOffsetX;
 
             distance += letter.width + this.distance;
             this.add(letter);
             this.letters.push(letter);
         }
-        const offsetX = (distance-this.distance) * this.originx;
+
+        const offsetX = (distance - this.distance) * this.originx;
         for (let i = 0; i < this.letters.length; i++) {
             this.letters[i].x -= offsetX;
         }
