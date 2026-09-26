@@ -73,15 +73,23 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 type = "bold";
             }
             const letter = this.scene.add.image(distance,0,"phantommuff",`${this.getCharName(char)} ${type} instance 10000`);
-            letter.currentFrameNum = 0;
+                        letter.currentFrameNum = 0;
+
+            // --- 正しいトリミング位置の補正処理 ---
             const frame = letter.frame;
-            const customOriginX = frame.trimmed ? (frame.spriteSourceSizeX / frame.width) : 0;
-            let customOriginY = this.originy;
             if (frame.trimmed) {
-                const targetY = (frame.sourceSizeH * this.originy) - frame.spriteSourceSizeY;
-                customOriginY = targetY / frame.height;
+                // Xは左端（0）固定のまま、トリミングのズレ（x）を考慮した値をPhaserに渡す
+                // Yは、元のサイズに対するthis.originyの位置から、上に削られた余白（y）を引いて、本来の比率を復元する
+                letter.setOrigin(
+                    -frame.spriteSourceSizeX / frame.width,
+                    (frame.sourceSizeH * this.originy - frame.spriteSourceSizeY) / frame.height
+                );
+            } else {
+                // トリミング（余白カット）がない通常の文字は、そのまま指定のOriginを適用
+                letter.setOrigin(0, this.originy);
             }
-            letter.setOrigin(customOriginX, customOriginY);
+            // ------------------------------------
+
             distance += letter.width + this.distance;
             this.add(letter);
             this.letters.push(letter);
