@@ -21,6 +21,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             '/': 'forward slash',
             '\\': 'back slash',
             '*': 'asterisk',
+             '?': 'question',
+            '!': 'exclamation',
             ':': ':',
             ';': ';',
             '<': '<',
@@ -61,6 +63,9 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         let distance = 0;
         for (let i = 0; i < this.text.length; i++) {
             const char = this.text[i];
+            if (char === " ") {
+                distance += this.distance + 40 * this.textScale;
+            }
             let type = this.getCharType(char);
             if (this.type === "bold") {
                 type = "bold";
