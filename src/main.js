@@ -1,7 +1,7 @@
 import {
     BootScene,
     DebugScene,
-    TitleScene
+    IntroScene
 } from "./scenes.js";
 
 const config = {
@@ -9,7 +9,7 @@ const config = {
     width: 1280,
     height: 720,
     parent: "game",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#000000",
 
     render: {
         antialias: true,
@@ -25,7 +25,7 @@ const config = {
     scene: [
         BootScene,
         DebugScene,
-        TitleScene,
+        IntroScene,
     ]
 };
 new Phaser.Game(config);

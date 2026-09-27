@@ -108,7 +108,18 @@ export class FNFScene extends Phaser.Scene {
         this.onCreate();
     }
 
-    createCommon() {}
+    createCommon() {
+        this.input.setDefaultCursor("none");
+        this.inputManager = new InputManager(this);
+        const sound = this.registry.get("soundManager");
+        if (sound) {
+            sound.scene = this;
+            this.soundManager = sound;
+        } else {
+            this.soundManager = new SoundManager(this);
+            this.registry.set("soundManager",this.soundManager);
+        }
+    }
 
     onCreate() {}
 
@@ -128,14 +139,40 @@ export class FNFScene extends Phaser.Scene {
     }
 }
 
-export class TitleScene extends FNFScene {
+export class IntroScene extends FNFScene {
     constructor() {
-        super("TitleScene");
+        super("IntroScene");
+    }
+    preload() {
+        this.load.audio("freakyMenu","freakyMenu.mp3");
+        this.load.json("text","text.json");
     }
 
     onCreate() {
-        this.input.setDefaultCursor("none");
         this.scene.launch("DebugScene");
-        this.drawText(630,360,"De B012,.;:@[]!?_-=^~|''()",);
+        this.soundManager.playBGM("freakyMenu");
+        const randomTexts = this.cache.json.get("text");
+        const index = const randomNumber = Math.floor(Math.random() * 59);
+        const randomText = randomTexts.splashText[index];
+        this.texts = [
+            "The Funkin' Crew Inc.--presents",
+            "In association--with--NewGrounds",
+            randomText,
+            "Friday!--Night!--Funkin!"
+        ]
+        this.count = 0;
+        this.interval = 0.588;
+    }
+
+    update(time,delta) {
+        const current = this.soundManager.bgm.seek;
+        while((this.count) * this.interval < current) {
+            this.displayNextText();
+            this.count ++;
+        }
+    }
+
+    displayNextText() {
+        f
     }
 }
