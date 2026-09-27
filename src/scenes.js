@@ -152,7 +152,7 @@ export class IntroScene extends FNFScene {
         this.scene.launch("DebugScene");
         this.soundManager.playBGM("freakyMenu");
         const randomTexts = this.cache.json.get("text");
-        const index = const randomNumber = Math.floor(Math.random() * 59);
+        const index = Math.floor(Math.random() * this.splash);
         const randomText = randomTexts.splashText[index];
         this.texts = [
             "The Funkin' Crew Inc.--presents",
