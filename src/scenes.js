@@ -1,5 +1,6 @@
 import {SaveManager} from "./storage.js";
 import {PhantommuffText} from "./basicObjects.js";
+import {InputManager,SoundManager} from "./manager.js";
 
 export class BootScene extends Phaser.Scene {
     constructor() {
@@ -190,10 +191,18 @@ export class IntroScene extends FNFScene {
             this.clear();
             return;
         }
-        const text = texts[textIndex];
-        if (!text) return;
         const startY = 360-30 * (texts.length-1);
         const y = startY + (textIndex*60);
+        const text = texts[textIndex];
+        if (!text) {
+            if (textIndex > 0 && texts[textIndex-1] === "NewGrounds") {
+                const logo = this.add.image(640,y,"newgrounds_logo");
+                logo.setOrigin(0.5,0);
+                logo.setScale(0.8);
+                this.textsSprite.push(logo);
+            }
+            return;
+        }
         const textSprite = this.drawText(640,y,text,"bold");
         if (textSprite) {
             this.textsSprite.push(textSprite);
