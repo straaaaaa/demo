@@ -1,6 +1,6 @@
 import {SaveManager} from "./storage.js";
 import {PhantommuffText} from "./basicObjects.js";
-import {InputManager,SoundManager} from "./manager.js";
+import {InputManager,SoundManager} from "./managers.js";
 
 export class BootScene extends Phaser.Scene {
     constructor() {
