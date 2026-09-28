@@ -11,7 +11,6 @@ export class BootScene extends Phaser.Scene {
     }
 
     create() {
-        const charA = this.add.sprite(640, 360, "phantommuff", "a uppercase instance 10000");
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
@@ -57,7 +56,7 @@ export class BootScene extends Phaser.Scene {
                 };
                 this.registry.set("options",options);
             }
-            this.scene.start("TitleScene");
+            this.scene.start("IntroScene");
         })
     }
 }
@@ -146,13 +145,17 @@ export class IntroScene extends FNFScene {
     preload() {
         this.load.audio("freakyMenu","freakyMenu.mp3");
         this.load.json("text","text.json");
+        this.load.image("newgrounds_logo","newgrounds_logo.png")
     }
 
     onCreate() {
         this.scene.launch("DebugScene");
         this.soundManager.playBGM("freakyMenu");
+
+        this.textsSprite = [];
+
         const randomTexts = this.cache.json.get("text");
-        const index = Math.floor(Math.random() * this.splash);
+        const index = Math.floor(Math.random() * randomTexts.splashText.length);
         const randomText = randomTexts.splashText[index];
         this.texts = [
             "The Funkin' Crew Inc.--presents",
@@ -165,14 +168,42 @@ export class IntroScene extends FNFScene {
     }
 
     update(time,delta) {
+        if (!this.soundManager.bgm) return;
         const current = this.soundManager.bgm.seek;
         while((this.count) * this.interval < current) {
+            if (this.count === 16) {
+                this.scene.start("TitleScene");
+                return;
+            }
             this.displayNextText();
             this.count ++;
         }
     }
 
     displayNextText() {
-        f
+        const section = num => ((num) >> 2);
+        const sectionIndex = section(this.count);
+        if (!this.texts[sectionIndex]) return;
+        const texts = this.texts[sectionIndex].split("--");
+        const textIndex = this.count % 4;
+        if (textIndex === 3) {
+            this.clear();
+            return;
+        }
+        const text = texts[textIndex];
+        if (!text) return;
+        const startY = 360-30 * (texts.length-1);
+        const y = startY + (textIndex*60);
+        const textSprite = this.drawText(640,y,text,"bold");
+        if (textSprite) {
+            this.textsSprite.push(textSprite);
+        }
+    }
+
+    clear() {
+        for (const text of this.textsSprite) {
+            text.destroy();
+        }
+        this.textsSprite = [];
     }
 }
