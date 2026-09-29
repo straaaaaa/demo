@@ -162,7 +162,7 @@ export class IntroScene extends FNFScene {
             "The Funkin' Crew Inc.--presents",
             "In association--with--NewGrounds",
             randomText,
-            "Friday!--Night!--Funkin!"
+            "Friday--Night--Funkin"
         ]
         this.count = 0;
         this.interval = 0.588;
@@ -197,6 +197,7 @@ export class IntroScene extends FNFScene {
         if (!text) {
             if (textIndex > 0 && texts[textIndex-1] === "NewGrounds") {
                 const logo = this.add.image(640,y,"newgrounds_logo");
+                alert("logo")
                 logo.setOrigin(0.5,0);
                 logo.setScale(0.8);
                 this.textsSprite.push(logo);
