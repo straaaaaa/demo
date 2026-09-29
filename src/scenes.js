@@ -191,7 +191,7 @@ export class IntroScene extends FNFScene {
             this.clear();
             return;
         }
-        const startY = 360-30 * (texts.length-1);
+        const startY = 360;
         const y = startY + (textIndex*60);
         const text = texts[textIndex];
         if (!text) {
