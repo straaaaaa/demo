@@ -194,13 +194,12 @@ export class IntroScene extends FNFScene {
         const startY = 200;
         const y = startY + (textIndex*60);
         const text = texts[textIndex];
-        if (textIndex > 0 && texts[textIndex-1] === "NewGrounds") {
-            const logo = this.add.image(640,y,"newgrounds_logo");
+        if (text === "NewGrounds") {
+            const logo = this.add.image(640,y+60,"newgrounds_logo");
             logo.setOrigin(0.5,0);
             logo.setScale(0.8);
             this.textsSprite.push(logo);
         }
-        return;
         
         const textSprite = this.drawText(640,y,text,"bold");
         if (textSprite) {
