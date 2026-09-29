@@ -144,9 +144,9 @@ export class IntroScene extends FNFScene {
         super("IntroScene");
     }
     preload() {
-        this.load.audio("freakyMenu","freakyMenu.mp3");
-        this.load.json("text","text.json");
-        this.load.image("newgrounds_logo","newgrounds_logo.png")
+        this.load.audio("freakyMenu","assets/music/freakyMenu.mp3");
+        this.load.json("text","assets/data/text.json");
+        this.load.image("newgrounds_logo","assets/images/newgrounds_logo.png")
     }
 
     onCreate() {
