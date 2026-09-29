@@ -195,6 +195,7 @@ export class IntroScene extends FNFScene {
         const y = startY + (textIndex*60);
         const text = texts[textIndex];
         if (!text) {
+            alert("abc");
             if (textIndex > 0 && texts[textIndex-1] === "NewGrounds") {
                 const logo = this.add.image(640,y,"newgrounds_logo");
                 alert("logo")
