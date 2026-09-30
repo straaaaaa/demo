@@ -192,7 +192,10 @@ export class IntroScene extends FNFScene {
             return;
         }
         if (texts.length === 2) {
-            if (textIndex === 1) return;
+            if (textIndex === 1) {
+                alert(textIndex)
+                return;
+            }
             textIndex --;
         }
         const startY = 200;
