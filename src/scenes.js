@@ -146,7 +146,9 @@ export class IntroScene extends FNFScene {
     preload() {
         this.load.audio("freakyMenu","assets/music/freakyMenu.mp3");
         this.load.json("text","assets/data/text.json");
-        this.load.image("newgrounds_logo","assets/images/newgrounds_logo.png")
+        this.load.image("newgrounds_logo","assets/images/newgrounds_logo.png");
+        this.load.atlas("gfDanceTitle","assets/images/gfDanceTitle.png","assets/data/gfDanceTitle.json");
+        this.load.atlas("logoBumpin","assets/images/logoBumpin.png","assets/data/logoBumpin.json");
     }
 
     onCreate() {
@@ -221,5 +223,15 @@ export class IntroScene extends FNFScene {
             text.destroy();
         }
         this.textsSprite = [];
+    }
+}
+
+export class TitleScene extends FNFScene {
+    constructor() {
+        super("TitleScene");
+    }
+
+    onCreate() {
+        this.cameras.main.fadeIn(1000,255,255,255)
     }
 }

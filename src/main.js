@@ -1,7 +1,8 @@
 import {
     BootScene,
     DebugScene,
-    IntroScene
+    IntroScene,
+    TitleScene
 } from "./scenes.js";
 
 const config = {
@@ -26,6 +27,7 @@ const config = {
         BootScene,
         DebugScene,
         IntroScene,
+        TitleScene
     ]
 };
 new Phaser.Game(config);
