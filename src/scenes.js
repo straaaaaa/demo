@@ -186,10 +186,14 @@ export class IntroScene extends FNFScene {
         const sectionIndex = section(this.count);
         if (!this.texts[sectionIndex]) return;
         const texts = this.texts[sectionIndex].split("--");
-        const textIndex = (this.count-1) % 4;
+        let textIndex = (this.count-1) % 4;
         if (textIndex === 3) {
             this.clear();
             return;
+        }
+        if (texts.length === 2) {
+            if (textIndex === 1) return;
+            textIndex --;
         }
         const startY = 200;
         const y = startY + (textIndex*60);
