@@ -259,6 +259,24 @@ export class TitleScene extends FNFScene {
             });
         }
 
+        if (!this.anims.exists('logoBump')) {
+            this.anims.create({
+                key: 'logoBump',
+                frames: this.anims.generateFrameNames('logoBumpin', {
+                    prefix: 'logo bumpin',
+                    start: 0,
+                    end: 14,
+                    zeroPad: 4
+                }),
+                frameRate: 24,
+                repeat: 0
+            });
+        }
+
+        this.logo = this.add.sprite(-150, -100, "logoBumpin").setOrigin(0, 0);
+
+        this.logo.play('logoBump');
+
         this.gf = this.add.sprite(512, 40, "gfDanceTitle").setOrigin(0, 0);
         this.bpm = 102; 
         this.interval = 60 / this.bpm;
