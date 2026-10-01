@@ -153,6 +153,7 @@ export class IntroScene extends FNFScene {
         this.load.image("newgrounds_logo","assets/images/newgrounds_logo.png");
         this.load.atlas("gfDanceTitle","assets/images/gfDanceTitle.png","assets/data/gfDanceTitle.json");
         this.load.atlas("logoBumpin","assets/images/logoBumpin.png","assets/data/logoBumpin.json");
+        this.load.atlas("titleEnter","assets/images/titleEnter.png","assets/data/titleEnter.json");
     }
 
     onCreate() {
@@ -289,10 +290,58 @@ export class TitleScene extends FNFScene {
 
         this.gf.play('gfDanceLeft');
 
+        this.pressEnter = this.add.sprite(
+            640,
+            650,
+            "titleEnter",
+            "ENTER IDLE0000"
+        );
+
+        this.pressEnter.setOrigin(0.5);
+
+        this.anims.create({
+            key: "titleEnterPressed",
+            frames: [
+                {
+                    key: "titleEnter",
+                    frame: "ENTER PRESSED0000"
+                },
+                {
+                    key: "titleEnter",
+                    frame: "ENTER PRESSED0001"
+                }
+            ],
+            frameRate: 12,
+            repeat: 0
+        });
+
+        this.titleTextColors = [
+            0x33FFFF,
+            0x3333CC
+        ];
+
+        this.titleTextAlphas = [
+            1,
+            0.64
+        ];
+
+        this.titleTimer = 0;
+
         this.cameras.main.fadeIn(1000, 255, 255, 255);
     }
 
     update(time, delta) {
+        this.titleTimer += Math.min(delta / 1000, 1);
+
+        if (this.titleTimer > 2) {
+            this.titleTimer -= 2;
+        }
+
+        let timer = this.titleTimer;
+
+        if (timer >= 1) {
+            timer = -timer + 2;
+        }
         if (!this.soundManager.bgm) return;
 
         const current = this.soundManager.bgm.seek;

@@ -1,0 +1,95 @@
+{
+  "frames": {
+    "ENTER FREEZE0000": {
+      "frame": {
+        "x": 8,
+        "y": 8,
+        "w": 1477,
+        "h": 79
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1477,
+        "h": 79
+      },
+      "sourceSize": {
+        "w": 1477,
+        "h": 79
+      }
+    },
+    "ENTER IDLE0000": {
+      "frame": {
+        "x": 8,
+        "y": 95,
+        "w": 1477,
+        "h": 79
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1477,
+        "h": 79
+      },
+      "sourceSize": {
+        "w": 1477,
+        "h": 79
+      }
+    },
+    "ENTER PRESSED0000": {
+      "frame": {
+        "x": 8,
+        "y": 8,
+        "w": 1477,
+        "h": 79
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1477,
+        "h": 79
+      },
+      "sourceSize": {
+        "w": 1477,
+        "h": 79
+      }
+    },
+    "ENTER PRESSED0001": {
+      "frame": {
+        "x": 8,
+        "y": 182,
+        "w": 1477,
+        "h": 79
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 1477,
+        "h": 79
+      },
+      "sourceSize": {
+        "w": 1477,
+        "h": 79
+      }
+    }
+  },
+  "meta": {
+    "app": "Adobe Animate XML to Phaser JSON Converter",
+    "version": "1.0.1",
+    "image": "titleEnter.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 2048
+    },
+    "scale": "1"
+  }
+}
