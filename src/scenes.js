@@ -123,12 +123,6 @@ export class FNFScene extends Phaser.Scene {
             this.scene.launch("DebugScene");
         }
         this.scene.bringToTop("DebugScene");
-
-        this.sys.displayList.on('add', (gameObject) => {
-            if ((gameObject.type === 'Sprite' || gameObject.type === 'Image') && gameObject.texture) {
-                gameObject.texture.setFilterMode(Phaser.Textures.FilterMode.LINEAR);
-            }
-        });
     }
 
     onCreate() {}
