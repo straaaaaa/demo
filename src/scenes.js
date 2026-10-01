@@ -337,7 +337,7 @@ export class TitleScene extends FNFScene {
             duration: 2000,
             loop: -1,
             yoyo: true,
-            ease: 'Linear',
+            ease: "Quad.easeInOut",
             onUpdate: (tween, target) => {
                 const interpolatedColor = Phaser.Display.Color.Interpolate.ColorWithColor(
                     colorStart,
