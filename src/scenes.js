@@ -22,15 +22,6 @@ export class BootScene extends Phaser.Scene {
                 this.registry.set("options",saved);
             } else {
                 const options = {
-                    noteColors: {
-                        name: "NOTE COLORS",
-                        values: [
-                            { r: 255, g: 0, b: 0 },
-                            { r: 0, g: 255, b: 255 },
-                            { r: 0, g: 255, b: 0 },
-                            { r: 255, g: 0, b: 255 }
-                        ]
-                    },
                     controls: {
                         name: "CONTROLS",
                         left: ["A", "ArrowLeft"],

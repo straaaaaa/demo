@@ -6,8 +6,8 @@ export class InputManager {
         this.keyCache = {};
     }
     getKeys(action) {
-        const options = this.scene.registry.get("keybind");
-        const keybind = options.controls
+        const options = this.scene.registry.get("options");
+        const keybind = options.controls;
         const keys = keybind?.[action];
         if (!keys) return [];
 
