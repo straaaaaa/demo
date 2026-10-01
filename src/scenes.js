@@ -368,7 +368,7 @@ export class TitleScene extends FNFScene {
                 }
             ],
             frameRate: 12,
-            repeat: 0
+            repeat: -1
         });
 
         this.titleTextColors = [
