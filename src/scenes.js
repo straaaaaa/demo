@@ -416,16 +416,18 @@ export class TitleScene extends FNFScene {
             }
         });
 
+        this.pressed = false;
 
         this.cameras.main.fadeIn(1000, 255, 255, 255);
     }
 
     update(time, delta) {
-        if (this.inputManager.wasPressed("accept")) {
+        if (this.inputManager.wasPressed("accept") && !this.pressed) {
             this.pressEnter.setTint(0xFFFFFF);
             this.pressEnter.setAlpha(1);
             this.pressEnter.play("titleEnterPressed");
             this.soundManager.playSE("confirmMenu");
+            this.pressed = true;
             this.time.delayedCall(1000, () => {
                 this.startTransition();
             });
