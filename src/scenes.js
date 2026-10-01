@@ -297,7 +297,7 @@ export class TitleScene extends FNFScene {
             "ENTER IDLE0000"
         );
 
-        this.pressEnter.setOrigin(0.5);
+        this.pressEnter.setOrigin(0,0);
 
         this.anims.create({
             key: "titleEnterPressed",
