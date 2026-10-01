@@ -232,6 +232,79 @@ export class TitleScene extends FNFScene {
     }
 
     onCreate() {
-        this.cameras.main.fadeIn(1000,255,255,255)
+        // --- 1. アニメーションの作成（初回のみ） ---
+        if (!this.anims.exists('gfDanceLeft')) {
+            
+            // JSONのインデックス配列 [30, 0, 1...] を Phaser 用のフレーム名に変換する関数
+            // 例: 0 -> 'gfDance0000', 14 -> 'gfDance0014'
+            const generateGfFrames = (indices) => {
+                return indices.map(index => {
+                    // 数値を4桁のゼロ埋め文字列にする (例: 5 -> '0005')
+                    const frameNumber = String(index).padStart(4, '0');
+                    return { key: 'gfDanceTitle', frame: `gfDance${frameNumber}` };
+                });
+            };
+
+            // 最初に見せていただいた Psych Engine のアニメーションインデックス配列
+            const leftIndices =;
+            const rightIndices =;
+
+            // ⚠️ 安全対策：アトラスJSONが 0029 までしかないので、30番は0番（か適当なフレーム）に置き換える
+            // もし30番のフレームが本当に存在しない場合のエラーを防ぎます
+            const safeLeftIndices = leftIndices.map(idx => idx > 29 ? 0 : idx);
+
+            // 左ダンスのアニメーション登録
+            this.anims.create({
+                key: 'gfDanceLeft',
+                frames: generateGfFrames(safeLeftIndices),
+                frameRate: 24, // FNF標準の24fps
+                repeat: 0
+            });
+
+            // 右ダンスのアニメーション登録
+            this.anims.create({
+                key: 'gfDanceRight',
+                frames: generateGfFrames(rightIndices),
+                frameRate: 24,
+                repeat: 0
+            });
+        }
+
+        // --- 2. GFスプライトの配置 ---
+        // Psych Engine の座標設定 (gfx: 512, gfy: 40) をそのまま適用
+        this.gf = this.add.sprite(512, 40, "gfDanceTitle").setOrigin(0, 0);
+
+        // --- 3. BPM・音楽同期用の変数設定 ---
+        this.bpm = 102; 
+        this.interval = 60 / this.bpm; // 1拍あたりの秒数 (約0.588秒)
+        
+        // IntroScene から流れているBGM（freakyMenu）の現在位置を取得してビートカウントを合わせる
+        const currentBgmTime = this.soundManager.bgm ? this.soundManager.bgm.seek : 0;
+        this.count = Math.floor(currentBgmTime / this.interval);
+
+        this.gf.play('gfDanceLeft');
+
+        this.cameras.main.fadeIn(1000, 255, 255, 255);
+    }
+
+    update(time, delta) {
+        if (!this.soundManager.bgm) return;
+
+        const current = this.soundManager.bgm.seek;
+
+        while ((this.count) * this.interval < current) {
+            this.dance();
+            this.count++;
+        }
+    }
+
+    dance() {
+        if (!this.gf) return;
+
+        if (this.count % 2 === 0) {
+            this.gf.play('gfDanceLeft');
+        } else {
+            this.gf.play('gfDanceRight');
+        }
     }
 }
