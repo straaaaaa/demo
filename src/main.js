@@ -7,6 +7,7 @@ import {
 
 const config = {
     type: Phaser.WEBGL,
+    parent: "game",
     width: 1280,
     height: 720,
     backgroundColor: "#000000",
