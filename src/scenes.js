@@ -325,23 +325,46 @@ export class TitleScene extends FNFScene {
             0.64
         ];
 
-        this.titleTimer = 0;
+        const colorStart = Phaser.Display.Color.ValueToColor(this.titleTextColors[0]);
+        const colorEnd = Phaser.Display.Color.ValueToColor(this.titleTextColors[1]);
+
+        const alphaStart = this.titleTextAlphas[0];
+        const alphaEnd = this.titleTextAlphas[1];
+
+        this.tweens.add({
+            targets: { progress: 0 },
+            progress: 100,
+            duration: 2000,
+            loop: -1,
+            yoyo: true,
+            ease: 'Linear',
+            onUpdate: (tween, target) => {
+                const interpolatedColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    colorStart,
+                    colorEnd,
+                    100,
+                    target.progress
+                );
+
+                const hexColor = Phaser.Display.Color.GetColor(
+                    interpolatedColor.r,
+                    interpolatedColor.g,
+                    interpolatedColor.b
+                );
+            
+                this.pressEnter.setTint(hexColor);
+
+                const currentAlpha = Phaser.Math.Interpolation.Linear([alphaStart, alphaEnd], target.progress / 100);
+
+                this.pressEnter.setAlpha(currentAlpha);
+            }
+        });
+
 
         this.cameras.main.fadeIn(1000, 255, 255, 255);
     }
 
     update(time, delta) {
-        this.titleTimer += Math.min(delta / 1000, 1);
-
-        if (this.titleTimer > 2) {
-            this.titleTimer -= 2;
-        }
-
-        let timer = this.titleTimer;
-
-        if (timer >= 1) {
-            timer = -timer + 2;
-        }
         if (!this.soundManager.bgm) return;
 
         const current = this.soundManager.bgm.seek;
