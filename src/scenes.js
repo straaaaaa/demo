@@ -302,6 +302,7 @@ export class TitleScene extends FNFScene {
 
     dance() {
         if (!this.gf) return;
+        this.logo.play("logoBump");
 
         if (this.count % 2 === 0) {
             this.gf.play('gfDanceLeft');
