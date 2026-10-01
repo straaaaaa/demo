@@ -64,7 +64,7 @@ export class SoundManager {
         this.bgm.play();
     }
 
-    playSE(key,volume) {
+    playSE(key,volume=1) {
         this.scene.sound.play(key, {
             volume: volume
         });

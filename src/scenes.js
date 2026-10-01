@@ -141,6 +141,70 @@ export class FNFScene extends Phaser.Scene {
         );
         return textObj;
     }
+
+    startTransition(scene) {
+        const transition = this.add.container(0, -1520);
+
+        const gradient = this.add.graphics();
+
+        for (let i = 0; i < 100; i++) {
+            const alpha = 1 - (i / 100);
+            gradient.fillStyle(0x000000, alpha);
+            gradient.fillRect(0, i * 8, 1280, 8);
+        }
+
+        const black = this.add.rectangle(
+            640,
+            -360,
+            1280,
+            720,
+            0x000000
+        );
+
+        transition.add([black, gradient]);
+
+        this.tweens.add({
+            targets: transition,
+            y: 720,
+            duration: 800,
+            ease: "Linear",
+            onComplete: () => {
+                this.scene.start(scene);
+            }
+        });
+    }
+
+    enterTransition() {
+        const transition = this.add.container(0, 720);
+
+        const gradient = this.add.graphics();
+
+        for (let i = 0; i < 100; i++) {
+            const alpha = 1 - (i / 100);
+            gradient.fillStyle(0x000000, alpha);
+            gradient.fillRect(0, i * 8, 1280, 8);
+        }
+
+        const black = this.add.rectangle(
+            640,
+            -350,
+            1280,
+            740,
+            0x000000
+        );
+
+        transition.add([black, gradient]);
+
+        this.tweens.add({
+            targets: transition,
+            y: 2240,
+            duration: 800,
+            ease: "Linear",
+            onComplete: () => {
+                transition.destroy();
+            }
+        });
+    }
 }
 
 export class IntroScene extends FNFScene {
@@ -154,6 +218,7 @@ export class IntroScene extends FNFScene {
         this.load.atlas("gfDanceTitle","assets/images/gfDanceTitle.png","assets/data/gfDanceTitle.json");
         this.load.atlas("logoBumpin","assets/images/logoBumpin.png","assets/data/logoBumpin.json");
         this.load.atlas("titleEnter","assets/images/titleEnter.png","assets/data/titleEnter.json");
+        this.load.audio("confirmMenu","assets/sounds/confirmMenu.mp3");
     }
 
     onCreate() {
@@ -365,6 +430,15 @@ export class TitleScene extends FNFScene {
     }
 
     update(time, delta) {
+        if (this.inputManager.wasPressed("accept")) {
+            this.pressEnter.setTint(0xFFFFFF);
+            this.pressEnter.setAlpha(1);
+            this.pressEnter.play("titleEnterPressed");
+            this.soundManager.playSE("confirmMenu");
+            this.time.delayedCall(1000, () => {
+                this.startTransition();
+            });
+        }
         if (!this.soundManager.bgm) return;
 
         const current = this.soundManager.bgm.seek;
