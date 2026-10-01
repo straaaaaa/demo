@@ -16,7 +16,6 @@ const config = {
         antialiasGL: true,
         pixelArt: false,
         roundPixels: false,
-        mipmapFilter: 'LINEAR_MIPMAP_LINEAR'
     },
 
     scale: {
