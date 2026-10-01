@@ -119,6 +119,16 @@ export class FNFScene extends Phaser.Scene {
             this.soundManager = new SoundManager(this);
             this.registry.set("soundManager",this.soundManager);
         }
+        if (!this.scene.isActive("DebugScene")) {
+            this.scene.launch("DebugScene");
+        }
+        this.scene.bringToTop("DebugScene");
+
+        this.sys.displayList.on('add', (gameObject) => {
+            if ((gameObject.type === 'Sprite' || gameObject.type === 'Image') && gameObject.texture) {
+                gameObject.texture.setFilterMode(Phaser.Textures.FilterMode.LINEAR);
+            }
+        });
     }
 
     onCreate() {}
@@ -152,7 +162,6 @@ export class IntroScene extends FNFScene {
     }
 
     onCreate() {
-        this.scene.launch("DebugScene");
         this.soundManager.playBGM("freakyMenu");
 
         this.textsSprite = [];

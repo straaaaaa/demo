@@ -9,7 +9,6 @@ const config = {
     type: Phaser.WEBGL,
     width: 1280,
     height: 720,
-    parent: "game",
     backgroundColor: "#000000",
 
     render: {
@@ -17,6 +16,7 @@ const config = {
         antialiasGL: true,
         pixelArt: false,
         roundPixels: false,
+        mipmapFilter: 'LINEAR_MIPMAP_LINEAR'
     },
 
     scale: {
