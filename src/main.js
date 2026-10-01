@@ -10,13 +10,10 @@ const config = {
     width: 1280,
     height: 720,
     backgroundColor: "#000000",
-
-    render: {
-        antialias: true,
-        antialiasGL: true,
-        pixelArt: false,
-        roundPixels: false,
-    },
+    antialias: true,
+    antialiasGL: true,
+    pixelArt: false,
+    roundPixels: false,
 
     scale: {
         mode: Phaser.Scale.FIT,
