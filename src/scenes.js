@@ -291,8 +291,8 @@ export class TitleScene extends FNFScene {
         this.gf.play('gfDanceLeft');
 
         this.pressEnter = this.add.sprite(
-            640,
-            650,
+            100,
+            576,
             "titleEnter",
             "ENTER IDLE0000"
         );
