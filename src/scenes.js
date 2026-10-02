@@ -430,7 +430,7 @@ export class TitleScene extends FNFScene {
             this.soundManager.playSE("confirmMenu");
             this.pressed = true;
             this.time.delayedCall(1000, () => {
-                this.startTransition(MainMenuScene);
+                this.startTransition("MainMenuScene");
             });
         }
         if (!this.soundManager.bgm) return;
