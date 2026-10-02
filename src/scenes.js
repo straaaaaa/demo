@@ -467,6 +467,7 @@ export class MainMenuScene extends FNFScene {
 
     preload() {
         this.load.image("menuBG","assets/images/menuBG.png");
+        this.load.atlas("menu_freeplay","assets/images/menu_freeplay.png","assets/data/menu_freeplay.json");
     }
 
     bgColorChange(hue) {
@@ -483,7 +484,10 @@ export class MainMenuScene extends FNFScene {
     }
 
     onCreate() {
-        this.bg = this.add.image(640, 360, 'menuBG').setOrigin(0.5,0.5);
+        this.container = this.add.container(640,0);
+        this.bg = this.add.image(0,360,"menuBG").setOrigin(0.5,0.5);
+        this.freeplay = this.add.sprite()
+        this.container.add(this.bg);
         this.fx = this.bg.postFX.addColorMatrix();
         this.enterTransition();
     }

@@ -11,6 +11,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         this.depth = 1000;
         this.letters = [];
         this.updateText();
+        this.time = 0;
+        this.interval = 41.67;
     }
 
     getCharName(char) {
@@ -53,6 +55,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
     }
 
     updateText() {
+        this.currentFrameNum = 0;
         this.removeAll(true);
         this.setScale(this.textScale);
         this.letters.length = 0;
@@ -88,7 +91,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             }
 
             const letter = this.scene.add.image(distance, 0, "phantommuff", `${this.getCharName(char)} ${type} instance 10000`);
-            letter.currentFrameNum = 0;
+            letter.frameString = `${this.getCharName(char)} ${type} instance 1000`;
             letter.setOrigin(0,0);
 
             const baseAdd = isBold ? 70 : 110;
@@ -106,6 +109,20 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         const offsetX = (distance - this.distance) * this.originx;
         for (let i = 0; i < this.letters.length; i++) {
             this.letters[i].x -= offsetX;
+        }
+    }
+
+    update(time,delta) {
+        this.time += delta;
+        while (this.time >= this.interval) {
+            this.currentFrameNum ++;
+            if (this.currentFrameNum > 3) this.currentFrameNum = 0;
+            this.time -= this.interval;
+        }
+
+        for (const letter of this.letters) {
+            const frameString = `${letter.frameString}${this.currentFrameNum}`;
+            letter.setFrame(frameString);
         }
     }
 }

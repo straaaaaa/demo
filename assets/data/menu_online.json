@@ -1,0 +1,275 @@
+{
+  "frames": {
+    "online basic0000": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0001": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0002": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0003": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0004": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 489,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0005": {
+      "frame": {
+        "x": 489,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0006": {
+      "frame": {
+        "x": 489,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0007": {
+      "frame": {
+        "x": 489,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0008": {
+      "frame": {
+        "x": 489,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online basic0009": {
+      "frame": {
+        "x": 489,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 488,
+        "h": 132
+      },
+      "sourceSize": {
+        "w": 489,
+        "h": 132
+      }
+    },
+    "online white0000": {
+      "frame": {
+        "x": 0,
+        "y": 132,
+        "w": 558,
+        "h": 155
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 558,
+        "h": 155
+      },
+      "sourceSize": {
+        "w": 561,
+        "h": 164
+      }
+    },
+    "online white0001": {
+      "frame": {
+        "x": 0,
+        "y": 287,
+        "w": 558,
+        "h": 158
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 3,
+        "w": 558,
+        "h": 158
+      },
+      "sourceSize": {
+        "w": 561,
+        "h": 164
+      }
+    },
+    "online white0002": {
+      "frame": {
+        "x": 0,
+        "y": 445,
+        "w": 561,
+        "h": 164
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 561,
+        "h": 164
+      },
+      "sourceSize": {
+        "w": 561,
+        "h": 164
+      }
+    }
+  },
+  "meta": {
+    "app": "Adobe Animate XML to Phaser JSON Converter",
+    "version": "1.0.1",
+    "image": "menu_online.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 2048
+    },
+    "scale": "1"
+  }
+}
