@@ -233,6 +233,10 @@ export class IntroScene extends FNFScene {
 
     update(time,delta) {
         if (!this.soundManager.bgm) return;
+        if (this.inputManager.wasPressed("accept")) {
+            this.scene.start("TitleScene");
+            return;
+        }
         const current = this.soundManager.bgm.seek;
         while((this.count) * this.interval < current) {
             if (this.count === 16) {
