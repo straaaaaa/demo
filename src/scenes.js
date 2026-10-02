@@ -368,6 +368,22 @@ export class TitleScene extends FNFScene {
                 }
             ],
             frameRate: 12,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "titleEnterPressed",
+            frames: [
+                {
+                    key: "titleEnter",
+                    frame: "ENTER PRESSED0000"
+                },
+                {
+                    key: "titleEnter",
+                    frame: "ENTER PRESSED0001"
+                }
+            ],
+            frameRate: 12,
             repeat: -1
         });
 
@@ -390,11 +406,12 @@ export class TitleScene extends FNFScene {
         this.tweens.add({
             targets: { progress: 0 },
             progress: 100,
-            duration: 2000,
+            duration: 1000,
             loop: -1,
             yoyo: true,
             ease: "Quad.easeInOut",
             onUpdate: (tween, target) => {
+                if (this.pressed) return;
                 const interpolatedColor = Phaser.Display.Color.Interpolate.ColorWithColor(
                     colorStart,
                     colorEnd,
