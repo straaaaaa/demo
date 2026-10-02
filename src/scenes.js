@@ -166,29 +166,29 @@ export class FNFScene extends Phaser.Scene {
     }
 
     enterTransition() {
-        const transition = this.add.container(0,0);
+        const transition = this.add.container(0, -800);
 
         const gradient = this.add.graphics();
 
         for (let i = 0; i < 100; i++) {
-            const alpha = (i / 100);
+            const alpha = i / 100;
             gradient.fillStyle(0x000000, alpha);
             gradient.fillRect(0, i * 8, 1280, 8);
         }
 
         const black = this.add.rectangle(
             640,
-            -360,
+            1160,
             1280,
-            740,
+            720,
             0x000000
         );
 
-        transition.add([black, gradient]);
+        transition.add([gradient, black]);
 
         this.tweens.add({
             targets: transition,
-            y: 1520,
+            y: 720,
             duration: 800,
             ease: "Linear",
             onComplete: () => {
@@ -196,6 +196,7 @@ export class FNFScene extends Phaser.Scene {
             }
         });
     }
+
 }
 
 export class IntroScene extends FNFScene {
