@@ -166,19 +166,19 @@ export class FNFScene extends Phaser.Scene {
     }
 
     enterTransition() {
-        const transition = this.add.container(0, 720);
+        const transition = this.add.container(0,0);
 
         const gradient = this.add.graphics();
 
         for (let i = 0; i < 100; i++) {
-            const alpha = 1 - (i / 100);
+            const alpha = (i / 100);
             gradient.fillStyle(0x000000, alpha);
             gradient.fillRect(0, i * 8, 1280, 8);
         }
 
         const black = this.add.rectangle(
             640,
-            -350,
+            -360,
             1280,
             740,
             0x000000
@@ -188,7 +188,7 @@ export class FNFScene extends Phaser.Scene {
 
         this.tweens.add({
             targets: transition,
-            y: 2240,
+            y: 1520,
             duration: 800,
             ease: "Linear",
             onComplete: () => {
