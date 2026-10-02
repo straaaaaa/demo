@@ -430,7 +430,7 @@ export class TitleScene extends FNFScene {
             this.soundManager.playSE("confirmMenu");
             this.pressed = true;
             this.time.delayedCall(1000, () => {
-                this.startTransition();
+                this.startTransition(MainMenuScene);
             });
         }
         if (!this.soundManager.bgm) return;
@@ -452,5 +452,34 @@ export class TitleScene extends FNFScene {
         } else {
             this.gf.play('gfDanceRight');
         }
+    }
+}
+
+export class MainMenuScene extends FNFScene {
+    constructor() {
+        super("MainMenuScene");
+    }
+
+    preload() {
+        this.load.image("menuBG","assets/images/menuBG.png");
+    }
+
+    bgColorChange(hue) {
+        //ここでのhueは0~200の範囲にする(わかりやすいようにするため)
+        this.tweens.add({
+            targets: this.fx,
+            _hue: hue*1.8,
+            duration: 500,
+            ease: 'Linear',
+            onUpdate: () => {
+                this.fx.hue(this.fx._hue);
+            }
+        });
+    }
+
+    onCreate() {
+        this.bg = this.add.image(640, 360, 'menuBG').setOrigin(0.5,0.5);
+        this.fx = this.bg.postFX.addColorMatrix();
+        this.enterTransition();
     }
 }
