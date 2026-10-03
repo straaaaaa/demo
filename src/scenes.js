@@ -738,20 +738,23 @@ export class MainMenuScene extends FNFScene {
 
         let elapsedTime = 0;
         let lastBlinkTime = 0;
-        let count = 0
+        let isAltColor = false;
 
         const updateBlink = (time, delta) => {
             elapsedTime += delta;
 
             if (elapsedTime - lastBlinkTime >= blinkInterval) {
-                count++;
                 targetSprite.visible = !targetSprite.visible;
                 lastBlinkTime = elapsedTime;
-                if (count % 2 === 1) {
-                    if (this.fx._hue / 1.8 === 0) {
+
+                if (targetSprite.visible === false) { 
+                    if (isAltColor) {
+                        this.bgColorChange(0);
+                    } else {
                         this.bgColorChange(133.3);
                     }
-                    this.bgColorChange(0);
+
+                    isAltColor = !isAltColor; 
                 }
             }
 
