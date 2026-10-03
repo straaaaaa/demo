@@ -503,15 +503,15 @@ export class MainMenuScene extends FNFScene {
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
-        this.freeplay = this.add.sprite(0,160,"menu_freeplay").setOrigin(0.5,0);
+        this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
         this.freeplay.selectedKey = "freeplay_selected";
 
-        this.online = this.add.sprite(0,340,"menu_online").setOrigin(0.5,0);
+        this.online = this.add.sprite(0,340,"menu_online","online basic0000").setOrigin(0.5,0);
         this.online.idleKey = "online_idle";
         this.online.selectedKey = "online_selected";
 
-        this.options = this.add.sprite(0,520,"menu_options").setOrigin(0.5,0);
+        this.options = this.add.sprite(0,520,"menu_options","options basic0000").setOrigin(0.5,0);
         this.options.idleKey = "options_idle";
         this.options.selectedKey = "options_selected";
 
