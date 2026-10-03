@@ -764,7 +764,7 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        bg.setTint(0xfd719b);
+                        bg.setTint(0xffc222);
                     } else {
                         bg.setTint(0xfd719b);
                     }
