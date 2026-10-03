@@ -100,6 +100,7 @@ export class FNFScene extends Phaser.Scene {
     }
 
     createCommon() {
+        this.updateAble = [];
         this.input.setDefaultCursor("none");
         this.inputManager = new InputManager(this);
         const sound = this.registry.get("soundManager");
@@ -118,6 +119,17 @@ export class FNFScene extends Phaser.Scene {
 
     onCreate() {}
 
+    update(time,delta) {
+        updateCommon(time,delta);
+        onUpdate(time,delta);
+    }
+
+    updateCommon(time,delta) {
+        for (const obj of this.updateAble) {
+            obj.update(time,delta);
+        }
+    }
+
     drawText(x,y,text,type,originX,originY,scale,distance) {
         const textObj = new PhantommuffText(
             this,
@@ -130,6 +142,7 @@ export class FNFScene extends Phaser.Scene {
             scale,
             distance
         );
+        this.updateAble.push(textObj);
         return textObj;
     }
 
