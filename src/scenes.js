@@ -704,11 +704,11 @@ export class MainMenuScene extends FNFScene {
 
         if (currentY > 500) {
             this.addCameraFollow(this.container,{x:0,y:500-currentY},1000);
-            this.addCameraFollow(this.bg,{x:0,y:(500-currentY)*0.7},1000);
+            this.addCameraFollow(this.bg,{x:0,y:(500-currentY)*0.5},1000);
         }
         else if (currentY < 200) {
             this.addCameraFollow(this.container,{x:0,y:200-currentY},1000);
-            this.addCameraFollow(this.bg,{x:0,y:(200-currentY)*0.7},1000);
+            this.addCameraFollow(this.bg,{x:0,y:(200-currentY)*0.5},1000);
         }
     }
 
@@ -730,18 +730,29 @@ export class MainMenuScene extends FNFScene {
                 break;
         }
 
+        this.soundManager.playSE("confirmMenu");
+
         const blinkDuration = 1000;
-        const blinkInterval = 100;
+        const blinkInterval = 50;
+        const bg = this.bg;
 
         let elapsedTime = 0;
         let lastBlinkTime = 0;
+        let count = 0
 
         const updateBlink = (time, delta) => {
             elapsedTime += delta;
 
             if (elapsedTime - lastBlinkTime >= blinkInterval) {
+                count++;
                 targetSprite.visible = !targetSprite.visible;
                 lastBlinkTime = elapsedTime;
+                if (count % 2 === 1) {
+                    if (this.fx._hue / 1.8 === 0) {
+                        this.bgColorChange(133.3);
+                    }
+                    this.bgColorChange(0);
+                }
             }
 
             if (elapsedTime >= blinkDuration) {
