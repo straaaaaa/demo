@@ -536,15 +536,31 @@ export class MainMenuScene extends FNFScene {
         this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
     }
 
-    bgColorChange(hue) {
-        //ここでのhueは0~200の範囲にする(わかりやすいようにするため)
-        this.tweens.add({
-            targets: this.fx,
-            _hue: hue*1.8,
-            duration: 500,
-            ease: 'Linear',
-            onUpdate: () => {
-                this.fx.hue(this.fx._hue);
+    bgColorChange(color,duration=500) {
+        const currentHex = targetBG.isTinted ? targetBG.tintTopLeft : 0xffffff;
+
+        const fromColor = Phaser.Display.Color.IntegerToColor(currentHex);
+        const toColor = Phaser.Display.Color.IntegerToColor(color);
+
+        this.tweens.addCounter({
+            from: 0,
+            to: 1,
+            duration: duration,
+            ease: 'Cubic.easeOut',
+            onUpdate: (tween) => {
+                const progress = tween.getValue();
+
+                const interpolatedColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    fromColor,
+                    toColor,
+                    100,
+                    progress * 100
+                );
+                targetBG.setTint(Phaser.Display.Color.GetColor(
+                    interpolatedColor.r,
+                    interpolatedColor.g,
+                    interpolatedColor.b
+                ));
             }
         });
     }
@@ -552,6 +568,7 @@ export class MainMenuScene extends FNFScene {
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        bg.setTint(0xfde871);
         this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
@@ -571,9 +588,9 @@ export class MainMenuScene extends FNFScene {
 
         this.menuSprites = [this.freeplay, this.online, this.options];
         this.menuItems = [
-            { name: "freeplay", hue: 160 },
-            { name: "online", hue: 110 },
-            { name: "options", hue: 140 }
+            { name: "freeplay"},
+            { name: "online"},
+            { name: "options"}
         ];
 
         this.currentIndex = 0;
@@ -584,8 +601,6 @@ export class MainMenuScene extends FNFScene {
         this.changeSelection(0);
 
         this.container.setDepth(200);
-
-        this.fx = this.bg.postFX.addColorMatrix();
         this.enterTransition();
     }
 
@@ -749,11 +764,9 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        this.fx._hue = 0;
-                        this.fx.hue(0);
+                        bg.setTint(0xfd719b);
                     } else {
-                        this.fx._hue = 198;
-                        this.fx.hue(198);
+                        bg.setTint(0xfd719b);
                     }
 
                     isAltColor = !isAltColor; 
