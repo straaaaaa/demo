@@ -198,7 +198,7 @@ export class FNFScene extends Phaser.Scene {
     }
 
     startTransition(scene) {
-        const transition = this.add.container(0, -1520);
+        const transition = this.add.container(0, -1520).setDepth(2000);
 
         const gradient = this.add.graphics();
 
@@ -230,7 +230,7 @@ export class FNFScene extends Phaser.Scene {
     }
 
     enterTransition() {
-        const transition = this.add.container(0, -800);
+        const transition = this.add.container(0, -800).setDepth(2000);
 
         const gradient = this.add.graphics();
 
@@ -700,8 +700,9 @@ export class MainMenuScene extends FNFScene {
 
         if (currentY > 500) {
             this.addCameraFollow(this.container,{x:0,y:500-currentY},500);
-        } else {
-            this.addCameraFollow(this.container,{x:0,y:0-this.container.y},500);
+        }
+        else if (currentY < 220) {
+            this.addCameraFollow(this.container,{x:0,y:220-currentY},500);
         }
     }
 }
