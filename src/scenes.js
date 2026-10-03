@@ -244,7 +244,7 @@ export class IntroScene extends FNFScene {
         this.interval = 0.588;
     }
 
-    update(time,delta) {
+    onUpdate(time,delta) {
         if (!this.soundManager.bgm) return;
         if (this.inputManager.wasPressed("accept")) {
             this.scene.start("TitleScene");
@@ -440,7 +440,7 @@ export class TitleScene extends FNFScene {
         this.cameras.main.fadeIn(1000, 255, 255, 255);
     }
 
-    update(time, delta) {
+    onUpdate(time, delta) {
         if (this.inputManager.wasPressed("accept") && !this.pressed) {
             this.pressEnter.setTint(0xFFFFFF);
             this.pressEnter.setAlpha(1);
