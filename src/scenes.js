@@ -101,6 +101,7 @@ export class FNFScene extends Phaser.Scene {
 
     createCommon() {
         this.updateAble = [];
+        this._currentFollowUpdate = null;
         this.input.setDefaultCursor("none");
         this.inputManager = new InputManager(this);
         const sound = this.registry.get("soundManager");
@@ -129,6 +130,54 @@ export class FNFScene extends Phaser.Scene {
             obj.update(time,delta);
         }
     }
+
+    addCameraFollow(obj, distance = { x: 0, y: 0 }, duration = 1000) {
+        const array = Array.isArray(obj) ? obj : [obj];
+
+        array.forEach(item => {
+            if (item._followTween) {
+                this.events.off("update", item._followTween);
+                item._followTween = null;
+            }
+        });
+
+        let elapsedTime = 0;
+        const startPositions = array.map(item => ({ x: item.x || 0, y: item.y || 0 }));
+
+        const updateCameraFollow = (time, delta) => {
+            elapsedTime += delta;
+
+            let t = Math.min(elapsedTime / duration, 1);
+            let progress = 1 - Math.pow(1 - t, 4);
+
+            array.forEach((item, index) => {
+                const start = startPositions[index];
+                item.x = start.x + distance.x * progress;
+                item.y = start.y + distance.y * progress;
+            });
+
+            if (elapsedTime >= duration) {
+                this.events.off("update", updateCameraFollow);
+                
+                array.forEach((item, index) => {
+                    const start = startPositions[index];
+                    item.x = start.x + distance.x;
+                    item.y = start.y + distance.y;
+                    if (item._followTween === updateCameraFollow) {
+                        item._followTween = null;
+                    }
+                });
+            }
+        }
+
+        array.forEach(item => {
+            item._followTween = updateCameraFollow;
+        });
+
+        this.events.on("update", updateCameraFollow);
+    }
+
+
 
     onUpdate(time,delta) {};
 
@@ -645,6 +694,14 @@ export class MainMenuScene extends FNFScene {
             } else {
                 sprite.anims.play(sprite.idleKey,true);
             }
+        }
+
+        const currentY = this.container.y + this.menuSprites[this.currentIndex].y;
+
+        if (currentY > 500) {
+            this.addCameraFollow(this.container,{x:0,y:500-currentY},500);
+        } else {
+            this.addCameraFollow(this.container,{x:0,y:0-this.container.y},500);
         }
     }
 }
