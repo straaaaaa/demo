@@ -24,10 +24,10 @@ export class BootScene extends Phaser.Scene {
                 const options = {
                     controls: {
                         name: "CONTROLS",
-                        left: ["A", "ArrowLeft"],
-                        down: ["S", "ArrowDown"],
-                        up: ["W", "ArrowUp"],
-                        right: ["D", "ArrowRight"],
+                        left: ["A", "Left"],
+                        down: ["S", "Down"],
+                        up: ["W", "Up"],
+                        right: ["D", "Right"],
                         accept: ["Space", "Enter"],
                         back: ["Escape","BackSpace"],
                         reset: ["R"]
