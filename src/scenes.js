@@ -564,7 +564,7 @@ export class MainMenuScene extends FNFScene {
 
         this.anims.create({
             key: "online_idle",
-            frames: this.anims.generateFrameNames("menu_freeplay",{
+            frames: this.anims.generateFrameNames("menu_online",{
                 prefix: "online basic",
                 start: 0,
                 end: 8,
