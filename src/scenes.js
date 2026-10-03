@@ -542,7 +542,7 @@ export class MainMenuScene extends FNFScene {
                 prefix: "freeplay idle",
                 start: 0,
                 end: 8,
-                suffix: ".png",
+                suffix: "",
                 zeroPad: 4
             }),
             frameRate: 24,
@@ -555,7 +555,7 @@ export class MainMenuScene extends FNFScene {
                 prefix: "freeplay selected",
                 start: 0,
                 end: 2,
-                suffix: ".png",
+                suffix: "",
                 zeroPad: 4
             }),
             frameRate: 24,
@@ -568,7 +568,7 @@ export class MainMenuScene extends FNFScene {
                 prefix: "online basic",
                 start: 0,
                 end: 8,
-                suffix: ".png",
+                suffix: "",
                 zeroPad: 4
             }),
             frameRate: 24,
@@ -581,7 +581,7 @@ export class MainMenuScene extends FNFScene {
                 prefix: "online white",
                 start: 0,
                 end: 2,
-                suffix: ".png",
+                suffix: "",
                 zeroPad: 4
             }),
             frameRate: 24,
@@ -594,7 +594,7 @@ export class MainMenuScene extends FNFScene {
                 prefix: "options basic",
                 start: 0,
                 end: 8,
-                suffix: ".png",
+                suffix: "",
                 zeroPad: 4
             }),
             frameRate: 24,
@@ -607,7 +607,7 @@ export class MainMenuScene extends FNFScene {
                 prefix: "options white",
                 start: 0,
                 end: 2,
-                suffix: ".png",
+                suffix: "",
                 zeroPad: 4
             }),
             frameRate: 24,
