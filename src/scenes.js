@@ -752,8 +752,8 @@ export class MainMenuScene extends FNFScene {
                         this.fx._hue = 0;
                         this.fx.hue(0);
                     } else {
-                        this.fx._hue = 282;
-                        this.fx.hue(282);
+                        this.fx._hue = 198;
+                        this.fx.hue(198);
                     }
 
                     isAltColor = !isAltColor; 
