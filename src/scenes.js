@@ -120,8 +120,8 @@ export class FNFScene extends Phaser.Scene {
     onCreate() {}
 
     update(time,delta) {
-        updateCommon(time,delta);
-        onUpdate(time,delta);
+        this.updateCommon(time,delta);
+        this.onUpdate(time,delta);
     }
 
     updateCommon(time,delta) {
@@ -129,6 +129,8 @@ export class FNFScene extends Phaser.Scene {
             obj.update(time,delta);
         }
     }
+
+    onUpdate(time,delta) {};
 
     drawText(x,y,text,type,originX,originY,scale,distance) {
         const textObj = new PhantommuffText(
