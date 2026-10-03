@@ -148,7 +148,7 @@ export class FNFScene extends Phaser.Scene {
             elapsedTime += delta;
 
             let t = Math.min(elapsedTime / duration, 1);
-            let progress = 1 - Math.pow(1 - t, 4);
+            let progress = 1 - Math.pow(1 - t,3);
 
             array.forEach((item, index) => {
                 const start = startPositions[index];
@@ -436,7 +436,7 @@ export class TitleScene extends FNFScene {
                     frame: "ENTER PRESSED0001"
                 }
             ],
-            frameRate: 12,
+            frameRate: 24,
             repeat: -1
         });
 
@@ -552,6 +552,7 @@ export class MainMenuScene extends FNFScene {
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
         this.freeplay.selectedKey = "freeplay_selected";
@@ -577,6 +578,8 @@ export class MainMenuScene extends FNFScene {
 
         this.currentIndex = 0;
         this.isTransitioning = false;
+
+        this.accepted = false;
 
         this.changeSelection(0);
 
@@ -675,7 +678,8 @@ export class MainMenuScene extends FNFScene {
             this.changeSelection(1);
         }
 
-        if (this.inputManager.wasPressed("accept")) {
+        if (this.inputManager.wasPressed("accept") && !this.accepted) {
+            this.accepted = true;
             this.selectCurrentItem();
         }
     }
@@ -699,10 +703,55 @@ export class MainMenuScene extends FNFScene {
         const currentY = this.container.y + this.menuSprites[this.currentIndex].y;
 
         if (currentY > 500) {
-            this.addCameraFollow(this.container,{x:0,y:500-currentY},500);
+            this.addCameraFollow(this.container,{x:0,y:500-currentY},1000);
+            this.addCameraFollow(this.bg,{x:0,y:(500-currentY)*0.7},1000);
         }
-        else if (currentY < 220) {
-            this.addCameraFollow(this.container,{x:0,y:220-currentY},500);
+        else if (currentY < 200) {
+            this.addCameraFollow(this.container,{x:0,y:200-currentY},1000);
+            this.addCameraFollow(this.bg,{x:0,y:(200-currentY)*0.7},1000);
         }
+    }
+
+    selectCurrentItem() {
+        const item = this.menuItems[this.currentIndex];
+
+        const targetSprite = this.menuSprites[this.currentIndex];
+
+        let newSceneName = "";
+        switch (item.name) {
+            case "freeplay":
+                newSceneName = "FreeplayScene";
+                break;
+            case "online":
+                newSceneName = "OnlineScene";
+                break;
+            case "options":
+                newSceneName = "OptionScene";
+                break;
+        }
+
+        const blinkDuration = 1000;
+        const blinkInterval = 100;
+
+        let elapsedTime = 0;
+        let lastBlinkTime = 0;
+
+        const updateBlink = (time, delta) => {
+            elapsedTime += delta;
+
+            if (elapsedTime - lastBlinkTime >= blinkInterval) {
+                targetSprite.visible = !targetSprite.visible;
+                lastBlinkTime = elapsedTime;
+            }
+
+            if (elapsedTime >= blinkDuration) {
+                this.events.off("update", updateBlink);
+                targetSprite.visible = true;
+                targetSprite._isBlinking = false;
+                this.startTransition(newSceneName);
+            }
+        };
+
+        this.events.on("update", updateBlink);
     }
 }
