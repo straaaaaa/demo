@@ -531,6 +531,8 @@ export class MainMenuScene extends FNFScene {
 
         this.changeSelection(0);
 
+        this.container.setDepth(200);
+
         this.fx = this.bg.postFX.addColorMatrix();
         this.enterTransition();
     }
