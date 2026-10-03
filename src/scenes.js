@@ -483,6 +483,8 @@ export class MainMenuScene extends FNFScene {
     preload() {
         this.load.image("menuBG","assets/images/menuBG.png");
         this.load.atlas("menu_freeplay","assets/images/menu_freeplay.png","assets/data/menu_freeplay.json");
+        this.load.atlas("menu_options","assets/images/menu_options.png","assets/data/menu_options.json");
+        this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
     }
 
     bgColorChange(hue) {
@@ -500,10 +502,147 @@ export class MainMenuScene extends FNFScene {
 
     onCreate() {
         this.container = this.add.container(640,0);
-        this.bg = this.add.image(0,360,"menuBG").setOrigin(0.5,0.5);
-        this.freeplay = this.add.sprite()
-        this.container.add(this.bg);
+        this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.freeplay = this.add.sprite(0,160,"menu_freeplay").setOrigin(0.5,0);
+        this.freeplay.idleKey = "freeplay_idle";
+        this.freeplay.selectedKey = "freeplay_selected";
+
+        this.online = this.add.sprite(0,340,"menu_online").setOrigin(0.5,0);
+        this.online.idleKey = "online_idle";
+        this.online.selectedKey = "online_selected";
+
+        this.options = this.add.sprite(0,520,"menu_options").setOrigin(0.5,0);
+        this.options.idleKey = "options_idle";
+        this.options.selectedKey = "options_selected";
+
+        this.createAnimations();
+
+        this.container.add([this.freeplay,this.online,this.options]);
+
+        this.menuSprites = [this.freeplay, this.online, this.options];
+        this.menuItems = [
+            { name: "freeplay", hue: 160 },
+            { name: "online", hue: 110 },
+            { name: "options", hue: 140 }
+        ];
+
+        this.currentIndex = 0;
+        this.isTransitioning = false;
+
+        this.changeSelection(0);
+
         this.fx = this.bg.postFX.addColorMatrix();
         this.enterTransition();
+    }
+
+    createAnimations() {
+        this.anims.create({
+            key: "freeplay_idle",
+            frames: this.anims.generateFrameNames("menu_freeplay",{
+                prefix: "freeplay idle",
+                start: 0,
+                end: 8,
+                suffix: ".png",
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "freeplay_selected",
+            frames: this.anims.generateFrameNames("menu_freeplay",{
+                prefix: "freeplay selected",
+                start: 0,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "online_idle",
+            frames: this.anims.generateFrameNames("menu_freeplay",{
+                prefix: "online basic",
+                start: 0,
+                end: 8,
+                suffix: ".png",
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "online_selected",
+            frames: this.anims.generateFrameNames("menu_online",{
+                prefix: "online white",
+                start: 0,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "options_idle",
+            frames: this.anims.generateFrameNames("menu_options",{
+                prefix: "options basic",
+                start: 0,
+                end: 8,
+                suffix: ".png",
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "options_selected",
+            frames: this.anims.generateFrameNames("menu_options",{
+                prefix: "options white",
+                start: 0,
+                end: 2,
+                suffix: ".png",
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: -1
+        });
+    }
+
+    onUpdate(time,delta) {
+        if (this.isTransitioning) return;
+
+        if (this.inputManager.wasPressed("up")) {
+            this.changeSelection(-1);
+        } else if (this.inputManager.wasPressed("down")) {
+            this.changeSelection(1);
+        }
+
+        if (this.inputManager.wasPressed("accept")) {
+            this.selectCurrentItem();
+        }
+    }
+
+    changeSelection(dir) {
+        let nextIndex = this.currentIndex + dir;
+        if (nextIndex < 0) nextIndex = this.menuItems.length -1;
+        if (nextIndex >= this.menuItems.length) nextIndex = 0;
+
+        this.currentIndex = nextIndex;
+
+        for (let i = 0; i < this.menuSprites.length; i++) {
+            const sprite = this.menuSprites[i];
+            if (i === this.currentIndex) {
+                sprite.anims.play(sprite.selectedKey,true);
+            } else {
+                sprite.anims.play(sprite.idleKey,true);
+            }
+        }
     }
 }
