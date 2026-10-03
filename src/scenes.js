@@ -749,9 +749,11 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        this.bgColorChange(0);
+                        this.fx._hue = 0;
+                        this.fx.hue(0);
                     } else {
-                        this.bgColorChange(133.3);
+                        this.fx._hue = 240;
+                        this.fx.hue(240);
                     }
 
                     isAltColor = !isAltColor; 
