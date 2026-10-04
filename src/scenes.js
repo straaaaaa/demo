@@ -172,6 +172,10 @@ export class FNFScene extends Phaser.Scene {
         }
     }
 
+    applyAndSetHue(targetSprite, angle) {
+        targetSprite.setPipeline('PureHue');
+        this.currentHueAngle = angle;
+    }
 
     transitionBGColor(targetAngle, duration = 500) {
         if (this.bgHueTween) {
@@ -807,10 +811,9 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        this.huePipeline.set1f("uHueRotate",0.0);
+                        this.applyAndSetHue(this.bg,0.0);
                     } else {
-                        alert("a")
-                        this.huePipeline.set1f("uHueRotate",240.0);
+                        this.applyAndSetHue(this.bg,240.0);
                     }
 
                     isAltColor = !isAltColor; 
