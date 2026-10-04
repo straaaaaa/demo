@@ -795,9 +795,9 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        this.huePipeline.set1f("uHueRotate",0,0);
+                        this.huePipeline.set1f("uHueRotate",0.0);
                     } else {
-                        this.huePipeline.set1f("uHueRotate",240,0);
+                        this.huePipeline.set1f("uHueRotate",240.0);
                     }
 
                     isAltColor = !isAltColor; 
