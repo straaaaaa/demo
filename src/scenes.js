@@ -104,90 +104,19 @@ export class FNFScene extends Phaser.Scene {
         this._currentFollowUpdate = null;
         this.input.setDefaultCursor("none");
         this.inputManager = new InputManager(this);
-        
         const sound = this.registry.get("soundManager");
         if (sound) {
             sound.scene = this;
             this.soundManager = sound;
         } else {
             this.soundManager = new SoundManager(this);
-            this.registry.set("soundManager", this.soundManager);
+            this.registry.set("soundManager",this.soundManager);
         }
-        
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
         }
         this.scene.bringToTop("DebugScene");
-
-        const renderer = this.renderer;
-        if (renderer && renderer.pipelines && !renderer.pipelines.has('HueRotate')) {
-            renderer.pipelines.add('HueRotate', new Phaser.Renderer.WebGL.Pipelines.FXPipeline({
-                game: this.game,
-                frag: `
-                precision mediump float;
-                uniform sampler2D uMainTexture;
-                uniform float uHueShift;
-                varying vec2 vTexCoord;
-
-                vec3 rgb2hsv(vec3 c) {
-                    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-                    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-                    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-                    float d = q.x - min(q.w, q.y);
-                    float e = 1.0e-10;
-                    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-                }
-
-                vec3 hsv2rgb(vec3 c) {
-                    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-                    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-                    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-                }
-
-                void main() {
-                    vec4 textureColor = texture2D(uMainTexture, vTexCoord);
-                    vec3 hsv = rgb2hsv(textureColor.rgb);
-                    hsv.x = fract(hsv.x + uHueShift);
-                    gl_FragColor = vec4(hsv2rgb(hsv), textureColor.a);
-                }
-                `,
-                onBind: function (pipeline, gameObject) {
-                    const hue = (gameObject && gameObject._myHueShift !== undefined) ? gameObject._myHueShift : 0.0;
-                    pipeline.set1f('uHueShift', hue);
-                }
-            }));
-        }
-
-        const changeHue = (targetImage, hueValue) => {
-            targetImage._myHueShift = hueValue;
-
-            if (targetImage.pipeline !== this.renderer.pipelines.get('HueRotate')) {
-                targetImage.setPipeline('HueRotate');
-            }
-        };
-        
-        this.changeHue = changeHue;
     }
-
-
-    transitionBGColor(targetAngle, duration = 500) {
-        if (this.bgHueTween) {
-            this.bgHueTween.stop();
-        }
-        const animTarget = { angle: this.currentHueAngle };
-        this.bgHueTween = this.tweens.add({
-            targets: animTarget,
-            angle: targetAngle,
-            duration: duration,
-            ease: 'Cubic.easeOut',
-            onUpdate: (tween, target) => {
-                this.currentHueAngle = target.angle;
-                this.huePipeline.set1f('uHueRotate', target.angle);
-            }
-        });
-    }
-
-
 
     onCreate() {}
 
@@ -247,6 +176,8 @@ export class FNFScene extends Phaser.Scene {
 
         this.events.on("update", updateCameraFollow);
     }
+
+
 
     onUpdate(time,delta) {};
 
@@ -605,10 +536,22 @@ export class MainMenuScene extends FNFScene {
         this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
     }
 
+    bgColorChange(hue) {
+        //ここでのhueは0~200の範囲にする(わかりやすいようにするため)
+        this.tweens.add({
+            targets: this.fx,
+            _hue: hue*1.8,
+            duration: 500,
+            ease: 'Linear',
+            onUpdate: () => {
+                this.fx.hue(this.fx._hue);
+            }
+        });
+    }
+
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
-        this.changeHue(this.bg,0.70);
         this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
@@ -628,9 +571,9 @@ export class MainMenuScene extends FNFScene {
 
         this.menuSprites = [this.freeplay, this.online, this.options];
         this.menuItems = [
-            { name: "freeplay"},
-            { name: "online"},
-            { name: "options"}
+            { name: "freeplay", hue: 160 },
+            { name: "online", hue: 110 },
+            { name: "options", hue: 140 }
         ];
 
         this.currentIndex = 0;
@@ -641,6 +584,8 @@ export class MainMenuScene extends FNFScene {
         this.changeSelection(0);
 
         this.container.setDepth(200);
+
+        this.fx = this.bg.postFX.addColorMatrix();
         this.enterTransition();
     }
 
@@ -804,9 +749,9 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        this.changeHue(this.bg,0.0);
+                        this.bgColorChange(0);
                     } else {
-                        this.changeHue(this.bg,0.70);
+                        this.bgColorChange(133.3);
                     }
 
                     isAltColor = !isAltColor; 
