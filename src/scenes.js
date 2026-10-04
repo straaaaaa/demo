@@ -126,9 +126,9 @@ export class FNFScene extends Phaser.Scene {
             key: 'PureHue',
             fragmentShader: `
             precision mediump float;
-            uniform sampler2D uMainTexture; // 💡 FXPipelineの規定名に変更
+            uniform sampler2D uMainSampler;
             uniform float uHueRotate;
-            varying vec2 vTexCoord;        // 💡 FXPipelineの規定名に変更
+            varying vec2 outTexCoord;
 
             vec3 rgb2hsv(vec3 c) {
                 vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -146,7 +146,7 @@ export class FNFScene extends Phaser.Scene {
             }
 
             void main() {
-                vec4 color = texture2D(uMainTexture, vTexCoord);
+                vec4 color = texture2D(uMainSampler, outTexCoord);
                 vec3 hsv = rgb2hsv(color.rgb);
                 hsv.x = fract(hsv.x + (uHueRotate / 360.0));
                 gl_FragColor = vec4(hsv2rgb(hsv), color.a);
@@ -163,16 +163,14 @@ export class FNFScene extends Phaser.Scene {
                     game: this.game,
                     gl: renderer.gl,
                     fragShader: this.PureHueShader.fragmentShader,
-                    // 💡 第一引数は pipeline 自身になります。ここで確実に値をシェーダーへ送ります
-                    onBind: function (pipeline) {
-                        pipeline.set1f('uHueRotate', self.currentHueAngle);
+                    onBind: function (gameObject) {
+                        this.set1f('uHueRotate', self.currentHueAngle);
                     }
                 }));
             }
             this.huePipeline = renderer.pipelines.get('PureHue');
         }
     }
-
 
     applyAndSetHue(targetSprite, angle) {
         targetSprite.setPipeline('PureHue');
