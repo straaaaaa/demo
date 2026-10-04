@@ -104,20 +104,26 @@ export class FNFScene extends Phaser.Scene {
         this._currentFollowUpdate = null;
         this.input.setDefaultCursor("none");
         this.inputManager = new InputManager(this);
+        
         const sound = this.registry.get("soundManager");
         if (sound) {
             sound.scene = this;
             this.soundManager = sound;
         } else {
             this.soundManager = new SoundManager(this);
-            this.registry.set("soundManager",this.soundManager);
+            this.registry.set("soundManager", this.soundManager);
         }
+        
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
         }
         this.scene.bringToTop("DebugScene");
-            this.PureHueShader = {
-                key: 'PureHue',
+
+        this.currentHueAngle = 0;
+        this.bgHueTween = null;
+
+        this.PureHueShader = {
+            key: 'PureHue',
             fragmentShader: `
             precision mediump float;
             uniform sampler2D uMainSampler;
@@ -149,17 +155,23 @@ export class FNFScene extends Phaser.Scene {
         };
 
         const renderer = this.renderer;
-        if (!renderer.pipelines.has('PureHue')) {
-            renderer.pipelines.add('PureHue', new Phaser.Renderer.WebGL.Pipelines.FXPipeline({
-                game: this.game,
-                gl: renderer.gl,
-                fragShader: this.PureHueShader.fragmentShader
-            }));
+        
+        if (renderer.pipelines) {
+            if (!renderer.pipelines.has('PureHue')) {
+                const self = this;
+                renderer.pipelines.add('PureHue', new Phaser.Renderer.WebGL.Pipelines.FXPipeline({
+                    game: this.game,
+                    gl: renderer.gl,
+                    fragShader: this.PureHueShader.fragmentShader,
+                    onBind: function (gameObject) {
+                        this.set1f('uHueRotate', self.currentHueAngle);
+                    }
+                }));
+            }
+            this.huePipeline = renderer.pipelines.get('PureHue');
         }
-        this.huePipeline = renderer.pipelines.get('PureHue');
-        this.currentHueAngle = 0;
-        this.bgHueTween = null;
     }
+
 
     transitionBGColor(targetAngle, duration = 500) {
         if (this.bgHueTween) {
