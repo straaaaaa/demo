@@ -116,7 +116,61 @@ export class FNFScene extends Phaser.Scene {
             this.scene.launch("DebugScene");
         }
         this.scene.bringToTop("DebugScene");
+            this.PureHueShader = {
+                key: 'PureHue',
+            fragmentShader: `
+            precision mediump float;
+            uniform sampler2D uMainSampler;
+            uniform float uHueRotate;
+            varying vec2 outTexCoord;
+
+            vec3 rgb2hsv(vec3 c) {
+                vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+                vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+                vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+                float d = q.x - min(q.w, q.y);
+                float e = 1.0e-10;
+                return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+            }
+
+            vec3 hsv2rgb(vec3 c) {
+                vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+                vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+                return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+            }
+
+            void main() {
+                vec4 color = texture2D(uMainSampler, outTexCoord);
+                vec3 hsv = rgb2hsv(color.rgb);
+                hsv.x = fract(hsv.x + (uHueRotate / 360.0));
+                gl_FragColor = vec4(hsv2rgb(hsv), color.a);
+            }
+            `
+        };
+
+        const renderer = this.renderer;
+        if (!renderer.pipelines.has('PureHue')) {
+            renderer.pipelines.add('PureHue', new Phaser.Renderer.WebGL.Pipelines.FXPipeline({
+                game: this.game,
+                gl: renderer.gl,
+                fragShader: this.PureHueShader.fragmentShader
+            }));
+        }
+        this.huePipeline = renderer.pipelines.get('PureHue');
     }
+
+    transitionBGColor(targetAngle, duration = 500) {
+        this.tweens.add({
+            targets: { angle: 0 },
+            angle: targetAngle,
+            duration: duration,
+            ease: 'Cubic.easeOut',
+            onUpdate: (tween, target) => {
+                this.huePipeline.set1f('uHueRotate', target.angle);
+            }
+        });
+    }
+
 
     onCreate() {}
 
@@ -176,8 +230,6 @@ export class FNFScene extends Phaser.Scene {
 
         this.events.on("update", updateCameraFollow);
     }
-
-
 
     onUpdate(time,delta) {};
 
@@ -536,35 +588,6 @@ export class MainMenuScene extends FNFScene {
         this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
     }
 
-    bgColorChange(color,duration=500) {
-        const currentHex = targetBG.isTinted ? targetBG.tintTopLeft : 0xffffff;
-
-        const fromColor = Phaser.Display.Color.IntegerToColor(currentHex);
-        const toColor = Phaser.Display.Color.IntegerToColor(color);
-
-        this.tweens.addCounter({
-            from: 0,
-            to: 1,
-            duration: duration,
-            ease: 'Cubic.easeOut',
-            onUpdate: (tween) => {
-                const progress = tween.getValue();
-
-                const interpolatedColor = Phaser.Display.Color.Interpolate.ColorWithColor(
-                    fromColor,
-                    toColor,
-                    100,
-                    progress * 100
-                );
-                targetBG.setTint(Phaser.Display.Color.GetColor(
-                    interpolatedColor.r,
-                    interpolatedColor.g,
-                    interpolatedColor.b
-                ));
-            }
-        });
-    }
-
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
@@ -764,9 +787,9 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        bg.setTint(0xffc222);
+                        this.huePipeline.set1f("uHueRotate",0,0);
                     } else {
-                        bg.setTint(0xfd719b);
+                        this.huePipeline.set1f("uHueRotate",240,0);
                     }
 
                     isAltColor = !isAltColor; 
