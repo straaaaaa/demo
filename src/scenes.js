@@ -157,19 +157,27 @@ export class FNFScene extends Phaser.Scene {
             }));
         }
         this.huePipeline = renderer.pipelines.get('PureHue');
+        this.currentHueAngle = 0;
+        this.bgHueTween = null;
     }
 
     transitionBGColor(targetAngle, duration = 500) {
-        this.tweens.add({
-            targets: { angle: 0 },
+        if (this.bgHueTween) {
+            this.bgHueTween.stop();
+        }
+        const animTarget = { angle: this.currentHueAngle };
+        this.bgHueTween = this.tweens.add({
+            targets: animTarget,
             angle: targetAngle,
             duration: duration,
             ease: 'Cubic.easeOut',
             onUpdate: (tween, target) => {
+                this.currentHueAngle = target.angle;
                 this.huePipeline.set1f('uHueRotate', target.angle);
             }
         });
     }
+
 
 
     onCreate() {}
