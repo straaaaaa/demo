@@ -7,7 +7,6 @@ uniform sampler2D uMainSampler;
 uniform float uHueShift; 
 
 varying vec2 outTexCoord;
-varying vec4 outTint;
 
 vec3 rgb2hsv(vec3 c) {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -26,22 +25,18 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-    vec4 textureColor = texture2D(uMainSampler, outTexCoord);
-
-    vec4 color = textureColor * outTint;
+    vec4 color = texture2D(uMainSampler, outTexCoord);
 
     if (color.a > 0.0) {
-        vec3 straightRgb = color.rgb / color.a;
-
-        vec3 hsv = rgb2hsv(straightRgb);
+        vec3 rgb = color.rgb / color.a;
+        vec3 hsv = rgb2hsv(rgb);
         hsv.x += uHueShift / 360.0;
         hsv.x = fract(hsv.x);
 
         vec3 shiftedRgb = hsv2rgb(hsv);
-
         gl_FragColor = vec4(shiftedRgb * color.a, color.a);
     } else {
-        gl_FragColor = vec4(0.0);
+        gl_FragColor = color;
     }
 }
 `;
@@ -56,17 +51,8 @@ export class HueRotatePipeline extends Phaser.Renderer.WebGL.Pipelines.PreFXPipe
         this.hue = 0;
     }
 
-    // 描画が始まる直前に呼び出されるPhaser公式の正しいライフサイクル
     onPreRender() {
-        // PreFXPipelineでは、現在処理中のオブジェクトが this.targets[0] に入っています
-        const gameObject = this.targets ? this.targets[0] : null;
-
-        // オブジェクトの個別プロパティか、パイプライン自体のデフォルト値を取得
-        const degrees = (gameObject && gameObject._hueDegrees !== undefined)
-            ? gameObject._hueDegrees
-            : this.hue;
-
-        // シェーダーにUniform値をセット
-        this.set1f('uHueShift', degrees);
+        // パイプライン自体の this.hue を直接シェーダーに送る（complexな処理を排除）
+        this.set1f('uHueShift', this.hue);
     }
 }
