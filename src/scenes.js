@@ -536,22 +536,15 @@ export class MainMenuScene extends FNFScene {
         this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
     }
 
-    bgColorChange(hue) {
-        //ここでのhueは0~200の範囲にする(わかりやすいようにするため)
-        this.tweens.add({
-            targets: this.fx,
-            _hue: hue*1.8,
-            duration: 500,
-            ease: 'Linear',
-            onUpdate: () => {
-                this.fx.hue(this.fx._hue);
-            }
-        });
+    changeHue(img,hue) {
+        const fx = img.preFX.addColorMatrix();
+        fx.hue(hue);
     }
 
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.changeHue(this.bg,198)
         this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
@@ -749,9 +742,7 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
-                        this.bgColorChange(0);
                     } else {
-                        this.bgColorChange(133.3);
                     }
 
                     isAltColor = !isAltColor; 
