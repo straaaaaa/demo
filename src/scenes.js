@@ -537,10 +537,11 @@ export class MainMenuScene extends FNFScene {
     }
 
     changeHue(img, hue) {
-        let huePipeline = img.postFX.get('HueRotatePipeline')[0];
+        let huePipeline = img._huePipelineInstance;
 
         if (!huePipeline) {
             huePipeline = img.postFX.add(HueRotatePipeline);
+            img._huePipelineInstance = huePipeline;
         }
 
         huePipeline.degrees = hue;
