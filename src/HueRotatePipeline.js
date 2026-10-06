@@ -56,19 +56,17 @@ export class HueRotatePipeline extends Phaser.Renderer.WebGL.Pipelines.PreFXPipe
         this.hue = 0;
     }
 
-    onDraw(renderTarget) {
-        // 現在処理しているゲームオブジェクトを取得
-        const gameObject = this.currentTarget;
-        
-        // オブジェクト単体のプロパティ、またはパイプライン全体のプロパティから角度を取得
-        const degrees = (gameObject && gameObject._hueDegrees !== undefined) 
-            ? gameObject._hueDegrees 
-            : this.hue;
-        
-        // シェーダーにUniform値を送る
-        this.set1f('uHueShift', degrees);
+    // 描画が始まる直前に呼び出されるPhaser公式の正しいライフサイクル
+    onPreRender() {
+        // PreFXPipelineでは、現在処理中のオブジェクトが this.targets[0] に入っています
+        const gameObject = this.targets ? this.targets[0] : null;
 
-        // 必ず親クラスのonDrawを呼んで描画を実行させる
-        super.onDraw(renderTarget);
+        // オブジェクトの個別プロパティか、パイプライン自体のデフォルト値を取得
+        const degrees = (gameObject && gameObject._hueDegrees !== undefined)
+            ? gameObject._hueDegrees
+            : this.hue;
+
+        // シェーダーにUniform値をセット
+        this.set1f('uHueShift', degrees);
     }
 }
