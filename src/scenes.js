@@ -536,15 +536,20 @@ export class MainMenuScene extends FNFScene {
         this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
     }
 
-    changeHue(img,hue) {
-        const huePipeline = img.setPostPipeline('HueRotatePipeline');
+    changeHue(img, hue) {
+        let huePipeline = img.postFX.get('HueRotatePipeline')[0];
+
+        if (!huePipeline) {
+            huePipeline = img.postFX.add(HueRotatePipeline);
+        }
+
         huePipeline.degrees = hue;
     }
 
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
-        this.bg.setTint(0x7755ff);
+        this.changeHue(this.bg,198);
         this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
