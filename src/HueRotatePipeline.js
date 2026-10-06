@@ -46,7 +46,7 @@ void main() {
 }
 `;
 
-export default class HueRotatePipeline extends Phaser.Renderer.WebGL.Pipelines.PreFXPipeline {
+export class HueRotatePipeline extends Phaser.Renderer.WebGL.Pipelines.PreFXPipeline {
     constructor(game) {
         super({
             game: game,
