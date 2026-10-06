@@ -541,11 +541,11 @@ export class MainMenuScene extends FNFScene {
         let huePipeline = img._huePipelineInstance;
 
         if (!huePipeline) {
-            huePipeline = img.postFX.add(HueRotatePipeline);
+            huePipeline = img.preFX.add(HueRotatePipeline);
             img._huePipelineInstance = huePipeline;
         }
 
-        huePipeline.degrees = hue;
+        huePipeline.hue = hue;
     }
 
     onCreate() {
