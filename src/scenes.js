@@ -539,7 +539,7 @@ export class MainMenuScene extends FNFScene {
 
     changeHue(img, hue) {
         const fx = img.preFX.addColorMatrix();
-
+        fx.brightness(0.7);
         fx.hue(hue);
     }
 
