@@ -3,7 +3,7 @@ export class HueRotatePipeline extends Phaser.Renderer.WebGL.Pipelines.PostFXPip
         super({
             game,
             name: 'HueRotatePipeline',
-            frag: `
+            fragShader: `
             #define SHADER_NAME HUE_ROTATE_FS
 
             precision mediump float;
