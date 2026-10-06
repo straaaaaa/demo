@@ -1,5 +1,6 @@
 import {SaveManager} from "./storage.js";
 import {PhantommuffText} from "./basicObjects.js";
+import { HueRotatePipeline } from './HueRotatePipeline.js';
 import {InputManager,SoundManager} from "./managers.js";
 
 export class BootScene extends Phaser.Scene {
