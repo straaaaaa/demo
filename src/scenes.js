@@ -545,7 +545,7 @@ export class MainMenuScene extends FNFScene {
             img._huePipelineInstance = huePipeline;
         }
 
-        huePipeline.hue = hue;
+        huePipeline._hueDegrees = hue;
     }
 
     onCreate() {
