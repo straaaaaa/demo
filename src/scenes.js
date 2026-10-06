@@ -538,15 +538,9 @@ export class MainMenuScene extends FNFScene {
     }
 
     changeHue(img, hue) {
-        let huePipeline = img._huePipelineInstance;
+        const fx = img.preFX.addColorMatrix();
 
-        if (!huePipeline) {
-            huePipeline = img.preFX.add(HueRotatePipeline);
-            img._huePipelineInstance = huePipeline;
-        }
-
-    // パイプラインのプロパティを直接変更
-        huePipeline.hue = hue;
+        fx.hue(hue);
     }
 
     onCreate() {
