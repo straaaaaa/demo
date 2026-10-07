@@ -732,6 +732,7 @@ export class MainMenuScene extends FNFScene {
         let elapsedTime = 0;
         let lastBlinkTime = 0;
         let isAltColor = false;
+        let i = 0;
 
         const updateBlink = (time, delta) => {
             elapsedTime += delta;
@@ -740,14 +741,16 @@ export class MainMenuScene extends FNFScene {
                 targetSprite.visible = !targetSprite.visible;
                 lastBlinkTime = elapsedTime;
 
-                if (targetSprite.visible === false) { 
-                    if (isAltColor) {
-                        this.bg.visible = true;
-                    } else {
-                        this.bg.visible = false;
-                    }
+                if (targetSprite.visible === false) {
+                    if (i % 2 === 0) {
+                        if (isAltColor) {
+                            this.bg.visible = true;
+                        } else {
+                            this.bg.visible = false;
+                        }
 
-                    isAltColor = !isAltColor; 
+                        isAltColor = !isAltColor; 
+                    }
                 }
             }
 
