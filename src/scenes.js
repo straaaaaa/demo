@@ -752,6 +752,7 @@ export class MainMenuScene extends FNFScene {
                         isAltColor = !isAltColor; 
                     }
                 }
+                i++;
             }
 
             if (elapsedTime >= blinkDuration) {
