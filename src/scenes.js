@@ -532,6 +532,7 @@ export class MainMenuScene extends FNFScene {
 
     preload() {
         this.load.image("menuBG","assets/images/menuBG.png");
+        this.load.image("menuDesat","assets/images/menuDesat.png");
         this.load.atlas("menu_freeplay","assets/images/menu_freeplay.png","assets/data/menu_freeplay.json");
         this.load.atlas("menu_options","assets/images/menu_options.png","assets/data/menu_options.json");
         this.load.atlas("menu_online","assets/images/menu_online.png","assets/data/menu_online.json");
@@ -540,6 +541,8 @@ export class MainMenuScene extends FNFScene {
     onCreate() {
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.magenta = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
+        this.bg.setDepth(10);
         this.bg.setTint(0xFFfd719b);
         this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
@@ -738,7 +741,9 @@ export class MainMenuScene extends FNFScene {
 
                 if (targetSprite.visible === false) { 
                     if (isAltColor) {
+                        this.bg.visible = true;
                     } else {
+                        this.bg.visible = false;
                     }
 
                     isAltColor = !isAltColor; 
