@@ -544,6 +544,7 @@ export class MainMenuScene extends FNFScene {
         this.magenta = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setDepth(10);
         this.magenta.setTint(0xFFfd719b);
+        this.magenta.setScale(1.175);
         this.bg.setScale(1.175);
         this.freeplay = this.add.sprite(0,160,"menu_freeplay","freeplay idle0000").setOrigin(0.5,0);
         this.freeplay.idleKey = "freeplay_idle";
