@@ -175,7 +175,7 @@ export class FNFScene extends Phaser.Scene {
         this.events.on("update",updateCameraFollow);
     }
 
-    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=120) {
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=92) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
