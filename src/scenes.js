@@ -181,7 +181,7 @@ export class FNFScene extends Phaser.Scene {
     }
 
 
-    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=120) {
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,followCamera=true,distance=120) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
@@ -211,7 +211,7 @@ export class FNFScene extends Phaser.Scene {
                     moved = true;
                     direction = -1;
                 }
-                if (moved) {
+                if (followCamera && moved) {
                     const nextText = texts[cursor.row];
 
                     const diffY = 360 - nextText.y;
@@ -761,12 +761,10 @@ export class MainMenuScene extends FNFScene {
         const currentY = this.container.y + this.menuSprites[this.currentIndex].y;
 
         if (currentY > 500) {
-            this.addCameraFollow(this.container,{x:0,y:500-currentY},0.32);
-            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(500-currentY)*0.5},0.32);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(500-currentY)*0.5},0.08);
         }
         else if (currentY < 200) {
-            this.addCameraFollow(this.container,{x:0,y:200-currentY},0.32);
-            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(200-currentY)*0.5},0.32);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(200-currentY)*0.5},0.08);
         }
     }
 
@@ -859,10 +857,29 @@ export class OptionScene extends FNFScene {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
-        this.addMenuCursor(texts,1,"static",640);
+        this.menuCursor = this.addMenuCursor(texts,1,"static",640,false);
+        this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
         this.enterTransition();
+    }
+
+    onUpdate(time,delta) {
+        let i = 0;
+        for (const text of this.texts) {
+            if (this.menuCursor.index === i) {
+                if (!text.text.startsWith(">")) {
+                    text.text = `>${text.text}<`;
+                    text.updateText();
+                }
+            } else {
+                if (text.text.startsWith(">")) {
+                    text.text = text.text.slice(1,-1);
+                    text.updateText();
+                }
+            }
+            i++;
+        }
     }
 }
