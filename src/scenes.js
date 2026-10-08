@@ -744,8 +744,8 @@ export class MainMenuScene extends FNFScene {
                     if (i % 4 === 0) {
                         this.bg.visible = !this.bg.visible;
                     }
+                    i++;
                 }
-                i++;
             }
 
             if (elapsedTime >= blinkDuration) {
