@@ -204,7 +204,7 @@ export class FNFScene extends Phaser.Scene {
                     this.soundManager.playSE("scrollMenu");
                     const nextText = texts[cursor.row];
                     const diffY = 360 - nextText.targetY;
-                    const diffX = (type === "v-slice") ? (diffY * 0.45) : 0;
+                    const diffX = (type === "v-slice") ? (x+cursor.row*20) : 0;
                     this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - nextText.x,y:(nextText.targetY + diffY) - nextText.y},500);
                 }
                 if (cols !== 1) {
