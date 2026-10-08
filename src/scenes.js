@@ -1,7 +1,7 @@
 import {SaveManager} from "./storage.js";
 import {PhantommuffText} from "./basicObjects.js";
 import { HueRotatePipeline } from './HueRotatePipeline.js';
-import {InputManager,SoundManager} from "./managers.js";
+import {MenuCursor,InputManager,SoundManager} from "./managers.js";
 
 export class BootScene extends Phaser.Scene {
     constructor() {
@@ -24,7 +24,6 @@ export class BootScene extends Phaser.Scene {
             } else {
                 const options = {
                     controls: {
-                        name: "CONTROLS",
                         left: ["A", "Left"],
                         down: ["S", "Down"],
                         up: ["W", "Up"],
@@ -34,12 +33,10 @@ export class BootScene extends Phaser.Scene {
                         reset: ["R"]
                     },
                     graphics: {
-                        name:"GRAPHICS",
                         fps: 120,
                         disableFpsCounter: false
                     },
                     gameplay: {
-                        name: "GAMEPLAY",
                         DownScroll: false,
                         middlescroll: false,
                         opponentNotes: true,
@@ -175,10 +172,55 @@ export class FNFScene extends Phaser.Scene {
             item._followTween = updateCameraFollow;
         });
 
-        this.events.on("update", updateCameraFollow);
+        this.events.on("update",updateCameraFollow);
     }
 
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=135) {
+        //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
+        const cursor = new MenuCursor({rows: texts.length,cols:cols});
+        cursor.lock = false;
+        texts.forEach((text,i) => {
+            text.y = i*distance+360;
+            if (type === "v-slice") {
+                text.x = x + (text.y * 0.45);
+            } else {
+                text.x = x;
+            }
+            text.targetY = text.y;
+            text.targetX = text.x;
+        }) ;
+        const updateCursor = (time, delta) => {
+            if (!cursor.lock) {
+                const targetCenterX = (type === "v-slice") ? (x + (360 * 0.45)) : texts[cursor.row].targetX;
+                if (this.inputManager.isRepeated("down")) {
+                    cursor.move(0,1);
+                    this.soundManager.playSE("scrollMenu");
+                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:360-texts[cursor.row].targetY});
+                }
+                if (this.inputManager.isRepeated("up")) {
+                    cursor.move(0,-1);
+                    this.soundManager.playSE("scrollMenu");
+                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:360-texts[cursor.row].targetY});
+                }
+                if (cols !== 1) {
+                    if (this.inputManager.isRepeated("right")) {
+                        cursor.move(1,0);
+                        this.soundManager.playSE("scrollMenu");
+                    }
+                    if (this.inputManager.isRepeated("left")) {
+                        cursor.move(-1,0);
+                        this.soundManager.playSE("scrollMenu");
+                    }
+                }
+            }
+            if (this.inputManager.wasPressed("accept")) {
+                this.events.emit("cursorAccepted",cursor.index);
+            }
+        }
+        this.events.on("update",updateCursor);
 
+        return cursor;
+    }
 
     onUpdate(time,delta) {};
 
@@ -276,6 +318,8 @@ export class IntroScene extends FNFScene {
         this.load.atlas("logoBumpin","assets/images/logoBumpin.png","assets/data/logoBumpin.json");
         this.load.atlas("titleEnter","assets/images/titleEnter.png","assets/data/titleEnter.json");
         this.load.audio("confirmMenu","assets/sounds/confirmMenu.mp3");
+        this.load.audio("scrollMenu","assets/sounds/scrollMenu.mp3");
+        this.load.audio("cancelMenu","assets/sounds/cancelMenu.mp3");
     }
 
     onCreate() {
@@ -678,6 +722,7 @@ export class MainMenuScene extends FNFScene {
     }
 
     changeSelection(dir) {
+        this.soundManager.playSE("scrollMenu");
         let nextIndex = this.currentIndex + dir;
         if (nextIndex < 0) nextIndex = this.menuItems.length -1;
         if (nextIndex >= this.menuItems.length) nextIndex = 0;
@@ -728,6 +773,7 @@ export class MainMenuScene extends FNFScene {
         const blinkDuration = 1000;
         const blinkInterval = 50;
         const bg = this.bg;
+        this.bg.visible = false;
 
         let elapsedTime = 0;
         let lastBlinkTime = 0;
@@ -757,5 +803,22 @@ export class MainMenuScene extends FNFScene {
         };
 
         this.events.on("update", updateBlink);
+    }
+}
+
+export class OptionScene extends FNFScene {
+    constructor() {
+        super("OptionScene");
+    }
+
+    onCreate() {
+        const texts = [
+            this.drawText(0,0,"a","bold"),
+            this.drawText(0,0,"b","bold"),
+            this.drawText(0,0,"c","bold"),
+            this.drawText(0,0,"d","bold"),
+            this.drawText(0,0,"e","bold"),
+        ]
+        this.addMenuCursor(texts);
     }
 }

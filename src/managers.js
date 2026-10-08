@@ -1,3 +1,38 @@
+export class MenuCursor {
+    constructor({
+        rows = 1,
+        cols = 1,
+        loop = true
+    }) {
+        this.rows = rows;
+        this.cols = cols;
+        this.loop = loop;
+
+        this.row = 0;
+        this.col = 0;
+    }
+
+    move (dx,dy) {
+        let r = this.row + dy;
+        let c = this.col + dx;
+
+        if (this.loop) {
+            r = (r + this.rows) % this.rows;
+            c = (c + this.cols) % this.cols;
+        } else {
+            r = Phaser.Math.Clamp(r,0,this.rows-1);
+            c = Phaser.Math.Clamp(c,0,this.cols-1);
+        }
+
+        this.row = r;
+        this.col = c;
+    }
+
+    get index() {
+        return this.row * this.cols + this.col;
+    }
+}
+
 export class InputManager {
     constructor(scene) {
         this.scene = scene;
@@ -33,7 +68,7 @@ export class InputManager {
         return this.getKeys(action)
             .some(key => Phaser.Input.Keyboard.JustUp(key));
     }
-    isRepeated(action, delay = 300, interval = 60) {
+    isRepeated(action, delay = 500, interval = 60) {
         return this.getKeys(action).some(key => {
             const duration = key.getDuration();
 
