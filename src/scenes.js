@@ -840,7 +840,7 @@ export class OptionScene extends FNFScene {
     onCreate() {
         const options = Object.keys(this.registry.get("options"));
         const texts = [];
-        for (option of options) {
+        for (const option of options) {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
