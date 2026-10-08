@@ -196,7 +196,7 @@ export class FNFScene extends Phaser.Scene {
                     this.soundManager.playSE("scrollMenu");
                     const nextText = texts[cursor.row];
                     const diffY = 360 - nextText.targetY;
-                    const diffX = (type === "v-slice") ? (diffY * 0.45) : 0;
+                    const diffX = (type === "v-slice") ? (x+cursor.row*20) : 0;
                     this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - nextText.x,y:(nextText.targetY + diffY) - nextText.y},500);
                 }
                 if (this.inputManager.isRepeated("up")) {
@@ -844,7 +844,7 @@ export class OptionScene extends FNFScene {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
-        this.addMenuCursor(texts,"static");
+        this.addMenuCursor(texts,1,"static",360);
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
