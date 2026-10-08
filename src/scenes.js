@@ -697,11 +697,11 @@ export class MainMenuScene extends FNFScene {
 
         if (currentY > 500) {
             this.addCameraFollow(this.container,{x:0,y:500-currentY},1000);
-            this.addCameraFollow(this.bg,{x:0,y:(500-currentY)*0.5},1000);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(500-currentY)*0.5},1000);
         }
         else if (currentY < 200) {
             this.addCameraFollow(this.container,{x:0,y:200-currentY},1000);
-            this.addCameraFollow(this.bg,{x:0,y:(200-currentY)*0.5},1000);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(200-currentY)*0.5},1000);
         }
     }
 
@@ -741,7 +741,7 @@ export class MainMenuScene extends FNFScene {
                 lastBlinkTime = elapsedTime;
 
                 if (targetSprite.visible === false) {
-                    if (i % 4 === 0) {
+                    if (i % 2 === 0) {
                         this.bg.visible = !this.bg.visible;
                     }
                     i++;
