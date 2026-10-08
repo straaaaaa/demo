@@ -846,7 +846,7 @@ export class OptionScene extends FNFScene {
         }
         this.addMenuCursor(texts);
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
-        this.bg.setTint(0xFFea71f);
+        this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
         this.enterTransition();
     }
