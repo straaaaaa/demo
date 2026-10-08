@@ -175,14 +175,14 @@ export class FNFScene extends Phaser.Scene {
         this.events.on("update",updateCameraFollow);
     }
 
-    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=92) {
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=120) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
         texts.forEach((text,i) => {
             text.y = i*distance+360;
             if (type === "v-slice") {
-                text.x = x + (text.y * 0.45);
+                text.x = x + (i*20);
             } else {
                 text.x = x;
             }
@@ -844,7 +844,7 @@ export class OptionScene extends FNFScene {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
-        this.addMenuCursor(texts);
+        this.addMenuCursor(texts,"static");
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
