@@ -818,13 +818,16 @@ export class OptionScene extends FNFScene {
 
     onCreate() {
         const texts = [
-            this.drawText(0,0,"a","bold"),
-            this.drawText(0,0,"b","bold"),
-            this.drawText(0,0,"c","bold"),
-            this.drawText(0,0,"d","bold"),
-            this.drawText(0,0,"e","bold"),
+            this.drawText(0,0,"Untold Loneliness","bold"),
+            this.drawText(0,0,"Unknown Suffering","bold"),
+            this.drawText(0,0,"Termination","bold"),
+            this.drawText(0,0,"2hot","bold"),
+            this.drawText(0,0,"Come along with me","bold"),
         ]
         this.addMenuCursor(texts);
+        this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.magenta.setTint(0xFFea71f);
+        this.bg.setScale(1.175);
         this.enterTransition();
     }
 }
