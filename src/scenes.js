@@ -191,8 +191,9 @@ export class FNFScene extends Phaser.Scene {
         }) ;
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
-                const currentY = texts[cursor.row].y;
-                const currentX = texts[cursor.row].x;
+                const curText = texts[cursor.row];
+                const currentY = curText.targetY*2-curText.y;
+                const currentX = curText.targetX*2-curText.x;
                 if (this.inputManager.isRepeated("down")) {
                     cursor.move(0,1);
                     this.soundManager.playSE("scrollMenu");
