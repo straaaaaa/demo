@@ -188,21 +188,24 @@ export class FNFScene extends Phaser.Scene {
             }
             text.targetY = text.y;
             text.targetX = text.x;
-        }) ;
+        });
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
-                const curText = texts[cursor.row];
-                const currentY = curText.targetY*2-curText.y;
-                const currentX = curText.targetX*2-curText.x;
                 if (this.inputManager.isRepeated("down")) {
                     cursor.move(0,1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:currentX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY},);
+                    const nextText = texts[cursor.row];
+                    const diffY = 360 - nextText.targetY;
+                    const diffX = (type === "v-slice") ? (diffY * 0.45) : 0;
+                    this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - texts[0].x,y:(nextText.targetY + diffY) - nextText.y},);
                 }
                 if (this.inputManager.isRepeated("up")) {
                     cursor.move(0,-1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:currentX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
+                    const nextText = texts[cursor.row];
+                    const diffY = 360 - nextText.targetY;
+                    const diffX = (type === "v-slice") ? (diffY * 0.45) : 0;
+                    this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - texts[0].x,y:(nextText.targetY + diffY) - nextText.y},);
                 }
                 if (cols !== 1) {
                     if (this.inputManager.isRepeated("right")) {
