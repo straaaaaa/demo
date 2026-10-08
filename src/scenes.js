@@ -175,7 +175,7 @@ export class FNFScene extends Phaser.Scene {
         this.events.on("update",updateCameraFollow);
     }
 
-    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=135) {
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=120) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
@@ -196,12 +196,12 @@ export class FNFScene extends Phaser.Scene {
                 if (this.inputManager.isRepeated("down")) {
                     cursor.move(0,1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:texts[cursor.row].targetY-currentY});
+                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
                 }
                 if (this.inputManager.isRepeated("up")) {
                     cursor.move(0,-1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:texts[cursor.row].targetY-currentY});
+                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
                 }
                 if (cols !== 1) {
                     if (this.inputManager.isRepeated("right")) {
