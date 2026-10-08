@@ -129,51 +129,57 @@ export class FNFScene extends Phaser.Scene {
         }
     }
 
-    addCameraFollow(obj, distance = { x: 0, y: 0 }, duration = 1000) {
+    addCameraFollow(obj, distance = { x: 0, y: 0 }, speed = 0.16) {
         const array = Array.isArray(obj) ? obj : [obj];
-
+    
         array.forEach(item => {
             if (item._followTween) {
                 this.events.off("update", item._followTween);
                 item._followTween = null;
             }
         });
-
-        let elapsedTime = 0;
-        const startPositions = array.map(item => ({ x: item.x || 0, y: item.y || 0 }));
-
+    
+        const targetPositions = array.map(item => ({ 
+            x: (item.x || 0) + distance.x, 
+            y: (item.y || 0) + distance.y 
+        }));
+    
         const updateCameraFollow = (time, delta) => {
-            elapsedTime += delta;
-
-            let t = Math.min(elapsedTime / duration, 1);
-            let progress = 1 - Math.pow(1 - t,3);
-
+            let allArrived = true;
+    
             array.forEach((item, index) => {
-                const start = startPositions[index];
-                item.x = start.x + distance.x * progress;
-                item.y = start.y + distance.y * progress;
+                const target = targetPositions[index];
+                const actualSpeed = Math.min((delta / 1000) * (speed * 60), 1);
+    
+                item.x = Phaser.Math.Linear(item.x, target.x, actualSpeed);
+                item.y = Phaser.Math.Linear(item.y, target.y, actualSpeed);
+    
+                const distX = Math.abs(target.x - item.x);
+                const distY = Math.abs(target.y - item.y);
+                if (distX > 0.1 || distY > 0.1) {
+                    allArrived = false;
+                }
             });
-
-            if (elapsedTime >= duration) {
+    
+            if (allArrived) {
                 this.events.off("update", updateCameraFollow);
-                
                 array.forEach((item, index) => {
-                    const start = startPositions[index];
-                    item.x = start.x + distance.x;
-                    item.y = start.y + distance.y;
+                    item.x = targetPositions[index].x;
+                    item.y = targetPositions[index].y;
                     if (item._followTween === updateCameraFollow) {
                         item._followTween = null;
                     }
                 });
             }
         }
-
+    
         array.forEach(item => {
             item._followTween = updateCameraFollow;
         });
-
-        this.events.on("update",updateCameraFollow);
+    
+        this.events.on("update", updateCameraFollow);
     }
+
 
     addMenuCursor(texts=[],cols=1,type="v-slice",x=90,distance=120) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
@@ -191,21 +197,30 @@ export class FNFScene extends Phaser.Scene {
         });
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
+                let moved = false;
+                let direction = 0;
                 if (this.inputManager.isRepeated("down")) {
                     cursor.move(0,1);
                     this.soundManager.playSE("scrollMenu");
-                    const nextText = texts[cursor.row];
-                    const diffY = 360 - nextText.targetY;
-                    const diffX = (type === "v-slice") ? (x+cursor.row*20) : 0;
-                    this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - nextText.x,y:(nextText.targetY + diffY) - nextText.y},500);
+                    moved = true;
+                    direction = 1;
                 }
                 if (this.inputManager.isRepeated("up")) {
                     cursor.move(0,-1);
                     this.soundManager.playSE("scrollMenu");
+                    moved = true;
+                    direction = -1;
+                }
+                if (moved) {
                     const nextText = texts[cursor.row];
-                    const diffY = 360 - nextText.targetY;
-                    const diffX = (type === "v-slice") ? (x+cursor.row*20) : 0;
-                    this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - nextText.x,y:(nextText.targetY + diffY) - nextText.y},500);
+
+                    const diffY = 360 - nextText.y;
+
+                    let diffX = 0;
+                    if (type === "v-slice") {
+                        diffX = x - nextText.x;
+                    }
+                    this.addCameraFollow(texts,{x: diffX,y: diffY });
                 }
                 if (cols !== 1) {
                     if (this.inputManager.isRepeated("right")) {
