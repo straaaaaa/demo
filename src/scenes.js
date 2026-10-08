@@ -191,12 +191,12 @@ export class FNFScene extends Phaser.Scene {
         }) ;
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
-                const currentY = texts[cursor.row].targetY;
-                const currentX = texts[cursor.row].targetX;
+                const currentY = texts[cursor.row].y;
+                const currentX = texts[cursor.row].x;
                 if (this.inputManager.isRepeated("down")) {
                     cursor.move(0,1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:currentX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
+                    this.addCameraFollow(texts,{x:currentX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY},);
                 }
                 if (this.inputManager.isRepeated("up")) {
                     cursor.move(0,-1);
@@ -821,5 +821,6 @@ export class OptionScene extends FNFScene {
             this.drawText(0,0,"e","bold"),
         ]
         this.addMenuCursor(texts);
+        this.enterTransition();
     }
 }
