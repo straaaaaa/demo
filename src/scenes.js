@@ -192,16 +192,16 @@ export class FNFScene extends Phaser.Scene {
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
                 const currentY = texts[cursor.row].targetY;
-                const targetCenterX = (type === "v-slice") ? (x + (360 * 0.45)) : texts[cursor.row].targetX;
+                const currentX = texts[cursor.row].targetX;
                 if (this.inputManager.isRepeated("down")) {
                     cursor.move(0,1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
+                    this.addCameraFollow(texts,{x:currentX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
                 }
                 if (this.inputManager.isRepeated("up")) {
                     cursor.move(0,-1);
                     this.soundManager.playSE("scrollMenu");
-                    this.addCameraFollow(texts,{x:targetCenterX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
+                    this.addCameraFollow(texts,{x:currentX-texts[cursor.row].targetX,y:currentY-texts[cursor.row].targetY});
                 }
                 if (cols !== 1) {
                     if (this.inputManager.isRepeated("right")) {
