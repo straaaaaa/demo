@@ -818,14 +818,14 @@ export class FreeplayScene extends FNFScene {
 
     onCreate() {
         const texts = [
-            this.drawText(0,0,"Untold Loneliness","bold"),
-            this.drawText(0,0,"Unknown Suffering","bold"),
-            this.drawText(0,0,"Termination","bold"),
-            this.drawText(0,0,"2hot","bold"),
-            this.drawText(0,0,"Come along with me","bold"),
+            this.drawText(0,0,"Untold Loneliness","bold",0),
+            this.drawText(0,0,"Unknown Suffering","bold",0),
+            this.drawText(0,0,"Termination","bold",0),
+            this.drawText(0,0,"2hot","bold",0),
+            this.drawText(0,0,"Come along with me","bold",0)
         ]
         this.addMenuCursor(texts);
-        this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
         this.enterTransition();
@@ -845,7 +845,7 @@ export class OptionScene extends FNFScene {
             texts.push(text);
         }
         this.addMenuCursor(texts);
-        this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
         this.enterTransition();
