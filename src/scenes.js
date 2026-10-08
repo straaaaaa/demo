@@ -205,7 +205,7 @@ export class FNFScene extends Phaser.Scene {
                     const nextText = texts[cursor.row];
                     const diffY = 360 - nextText.targetY;
                     const diffX = (type === "v-slice") ? (diffY * 0.45) : 0;
-                    this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - texts[0].x,y:(nextText.targetY + diffY) - nextText.y},);
+                    this.addCameraFollow(texts,{x:(nextText.targetX + diffX) - nextText.x,y:(nextText.targetY + diffY) - nextText.y},);
                 }
                 if (cols !== 1) {
                     if (this.inputManager.isRepeated("right")) {
