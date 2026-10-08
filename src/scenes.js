@@ -811,9 +811,9 @@ export class MainMenuScene extends FNFScene {
     }
 }
 
-export class OptionScene extends FNFScene {
+export class FreeplayScene extends FNFScene {
     constructor() {
-        super("OptionScene");
+        super("FreeplayScene");
     }
 
     onCreate() {
@@ -826,7 +826,27 @@ export class OptionScene extends FNFScene {
         ]
         this.addMenuCursor(texts);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
-        this.magenta.setTint(0xFFea71f);
+        this.bg.setTint(0xFFea71f);
+        this.bg.setScale(1.175);
+        this.enterTransition();
+    }
+}
+
+export class OptionScene extends FNFScene {
+    constructor() {
+        super("OptionScene");
+    }
+
+    onCreate() {
+        const options = Object.keys(this.registry.get("options"));
+        const texts = [];
+        for (option of options) {
+            const text = this.drawText(0,0,option,"bold");
+            texts.push(text);
+        }
+        this.addMenuCursor(texts);
+        this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
+        this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
         this.enterTransition();
     }

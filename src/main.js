@@ -5,6 +5,7 @@ import {
     IntroScene,
     TitleScene,
     MainMenuScene,
+    FreeplayScene,
     OptionScene
 } from "./scenes.js";
 
@@ -31,6 +32,7 @@ const config = {
         IntroScene,
         TitleScene,
         MainMenuScene,
+        FreeplayScene,
         OptionScene
     ]
 };
