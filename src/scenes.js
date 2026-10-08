@@ -761,12 +761,12 @@ export class MainMenuScene extends FNFScene {
         const currentY = this.container.y + this.menuSprites[this.currentIndex].y;
 
         if (currentY > 500) {
-            this.addCameraFollow(this.container,{x:0,y:500-currentY},1000);
-            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(500-currentY)*0.5},1000);
+            this.addCameraFollow(this.container,{x:0,y:500-currentY},0.32);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(500-currentY)*0.5},0.32);
         }
         else if (currentY < 200) {
-            this.addCameraFollow(this.container,{x:0,y:200-currentY},1000);
-            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(200-currentY)*0.5},1000);
+            this.addCameraFollow(this.container,{x:0,y:200-currentY},0.32);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(200-currentY)*0.5},0.32);
         }
     }
 
@@ -859,7 +859,7 @@ export class OptionScene extends FNFScene {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
-        this.addMenuCursor(texts,1,"static",360);
+        this.addMenuCursor(texts,1,"static",640);
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
