@@ -814,6 +814,9 @@ export class FreeplayScene extends FNFScene {
     }
 
     onCreate() {
+        if (this.texts && this.texts.length > 0) {
+            this.texts.forEach(text => { if(text.destroy) text.destroy(); });
+        }
         const texts = [
             this.drawText(0,0,"Untold Loneliness","bold",0),
             this.drawText(0,0,"Unknown Suffering","bold",0),
@@ -822,6 +825,9 @@ export class FreeplayScene extends FNFScene {
             this.drawText(0,0,"Come along with me","bold",0)
         ]
         this.menuCursor = this.addMenuCursor(texts);
+        if (this.menuCursor) {
+            this.menuCursor.index = 0;
+        }
         this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
@@ -834,8 +840,13 @@ export class FreeplayScene extends FNFScene {
             this.startTransition("MainMenuScene");
         }
 
+        if (!this.menuCursor || !this.texts) return;
+
         let i = 0;
         for (const text of this.texts) {
+
+            if (!text) continue; 
+
             if (this.menuCursor.index === i) {
                 if (text.alpha !== 1.0) {
                     text.alpha = 1.0;
