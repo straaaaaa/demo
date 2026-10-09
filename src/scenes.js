@@ -960,6 +960,7 @@ export class OptionScene extends FNFScene {
     }
 
     setItems(key) {
+        this.positionNames.push(key);
         const itemObjects = this.registry.get("options")[key];
         this.texts.length = [];
         this.menuCursor.destroy();
@@ -974,10 +975,10 @@ export class OptionScene extends FNFScene {
                 this.texts.push(text);
             }
         }
-        if (item.type) {
-            this.menuCursor = this.addMenuCursor(this.texts);
-        } else {
+        if (this.positionNames.at(-1) === "main") {
             this.menuCursor = this.addMenuCursor(this.texts,1,"static",640,240,false,120);
+        } else {
+            this.menuCursor = this.addMenuCursor(this.texts);
         }
     }
 }
