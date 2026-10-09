@@ -830,6 +830,7 @@ export class FreeplayScene extends FNFScene {
             this.startTransition("MainMenuScene");
         }
 
+        let i = 0;
         for (const text of this.texts) {
             if (this.menuCursor.index === i) {
                 if (!text.alpha === 1.0) {
@@ -840,6 +841,7 @@ export class FreeplayScene extends FNFScene {
                     text.alpha = 0.6;
                 }
             }
+            i++
         }
     }
 }
