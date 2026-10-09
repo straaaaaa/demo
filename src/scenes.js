@@ -979,7 +979,6 @@ export class OptionScene extends FNFScene {
         this.texts = [];
         this.menuCursor.destroy();
         if (key === "main") {
-            alert("main");
             const options = Object.keys(this.registry.get("options"));
             for (const option of options) {
                 const text = this.drawText(0,0,option,"bold");
