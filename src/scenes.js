@@ -953,6 +953,7 @@ export class OptionScene extends FNFScene {
                 this.startTransition("MainMenuScene");
                 break;
             default:
+                this.positionNames.pop();
                 this.setItems(this.positionNames.at(-2))
         }
     }
