@@ -122,9 +122,11 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             case "bool":
                 const checkbox = this.scene.add.sprite(this.lastX,0,"checkboxanim","checkbox0000");
                 this.add(checkbox);
+                break;
             case "int":
                 this.text = `${this.text} ${value}`;
                 this.updateText();
+                break;
         }
     }
 
