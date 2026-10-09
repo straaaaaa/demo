@@ -837,6 +837,8 @@ export class FreeplayScene extends FNFScene {
 
     onUpdate(time,delta) {
         if (this.inputManager.wasPressed("back")) {
+            this.menuCursor.destroy();
+            this.menuCursor = null;
             this.startTransition("MainMenuScene");
         }
 
