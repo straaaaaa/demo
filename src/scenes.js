@@ -954,7 +954,7 @@ export class OptionScene extends FNFScene {
                 break;
             default:
                 this.positionNames.pop();
-                this.setItems(this.positionNames.at(-2))
+                this.setItems(this.positionNames.at(-1))
         }
     }
 
@@ -979,6 +979,7 @@ export class OptionScene extends FNFScene {
         this.texts = [];
         this.menuCursor.destroy();
         if (key === "main") {
+            alert("main");
             const options = Object.keys(this.registry.get("options"));
             for (const option of options) {
                 const text = this.drawText(0,0,option,"bold");
