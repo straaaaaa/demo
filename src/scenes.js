@@ -10,6 +10,7 @@ export class BootScene extends Phaser.Scene {
 
     preload() {
         this.load.atlas("phantommuff","assets/font/phantommuff.png","assets/font/phantommuff.json");
+        this.load.json("options","assets/data/options.json");
     }
 
     create() {
@@ -22,28 +23,7 @@ export class BootScene extends Phaser.Scene {
             if (saved) {
                 this.registry.set("options",saved);
             } else {
-                const options = {
-                    controls: {
-                        left: ["A", "Left"],
-                        down: ["S", "Down"],
-                        up: ["W", "Up"],
-                        right: ["D", "Right"],
-                        accept: ["Space", "Enter"],
-                        back: ["Escape","BackSpace"],
-                        reset: ["R"]
-                    },
-                    graphics: {
-                        fps: 120,
-                        disableFpsCounter: false
-                    },
-                    gameplay: {
-                        DownScroll: false,
-                        middlescroll: false,
-                        opponentNotes: true,
-                        ghostTapping: true,
-                        ratingOffset: 0,
-                    }
-                };
+                const options = this.cache.json.get("options");
                 this.registry.set("options",options);
             }
             this.scene.start("IntroScene");
@@ -838,6 +818,7 @@ export class FreeplayScene extends FNFScene {
             this.drawText(0,0,"Come along with me","bold",0)
         ]
         this.addMenuCursor(texts);
+        this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
@@ -847,6 +828,18 @@ export class FreeplayScene extends FNFScene {
     onUpdate(time,delta) {
         if (this.inputManager.wasPressed("back")) {
             this.startTransition("MainMenuScene");
+        }
+
+        for (const text of this.texts) {
+            if (this.menuCursor.index === i) {
+                if (!text.alpha === 1.0) {
+                    text.alpha = 1.0;
+                }
+            } else {
+                if (text.alpha === 0.6) {
+                    text.alpha = 0.6;
+                }
+            }
         }
     }
 }
@@ -863,32 +856,68 @@ export class OptionScene extends FNFScene {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
-        this.menuCursor = this.addMenuCursor(texts,1,"static",640,240,false);
+        this.menuCursor = this.addMenuCursor(texts,1,"static",640,240,false,120);
         this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
+
+        this.events.on("cursorAccepted",(index) => {
+            this.enter(index);
+        });
+
+        this.positionNames = ["main"];
+
         this.enterTransition();
     }
 
     onUpdate(time,delta) {
         let i = 0;
         if (this.inputManager.wasPressed("back")) {
-            this.startTransition("MainMenuScene");
+            this.back();
         }
-        for (const text of this.texts) {
-            if (this.menuCursor.index === i) {
-                if (!text.text.startsWith(">")) {
-                    text.text = `>${text.text}<`;
-                    text.updateText();
+        if (this.positionName.at(-1) === "main") {
+            for (const text of this.texts) {
+                if (this.menuCursor.index === i) {
+                    if (!text.text.startsWith(">")) {
+                        text.text = `>${text.text}<`;
+                        text.updateText();
+                    }
+                } else {
+                    if (text.text.startsWith(">")) {
+                        text.text = text.text.slice(1,-1);
+                        text.updateText();
+                    }
                 }
-            } else {
-                if (text.text.startsWith(">")) {
-                    text.text = text.text.slice(1,-1);
-                    text.updateText();
-                }
+                i++;
             }
-            i++;
+        }
+    }
+
+    back() {
+        switch(this.positionName.length) {
+            case 1:
+                this.startTransition("MainMenuScene");
+                break;
+            case 2:
+        }
+    }
+
+    enter(index) {
+        switch (this.positionName.at(-1)) {
+            case "main":
+                const options = Object.keys(this.registry.get("options"));
+                this.setItems(options[index]);
+                break;
+        }
+    }
+
+    setItems(key) {
+        const itemObjects = this.registry.get("options")[key];
+        this.text.length = 0;
+        for (const key in itemObjects) {
+            const text = ;
+            this.texts.push
         }
     }
 }

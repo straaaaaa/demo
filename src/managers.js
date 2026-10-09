@@ -43,7 +43,7 @@ export class InputManager {
     getKeys(action) {
         const options = this.scene.registry.get("options");
         const keybind = options.controls;
-        const keys = keybind?.[action];
+        const keys = keybind?.[action].value;
         if (!keys) return [];
 
         return keys.map(code => {
@@ -68,7 +68,7 @@ export class InputManager {
         return this.getKeys(action)
             .some(key => Phaser.Input.Keyboard.JustUp(key));
     }
-    isRepeated(action, delay = 500, interval = 60) {
+    isRepeated(action, delay = 500, interval = 100) {
         return this.getKeys(action).some(key => {
             const duration = key.getDuration();
 

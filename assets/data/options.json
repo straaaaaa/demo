@@ -1,0 +1,64 @@
+{
+    "controls": {
+        "left": {
+            "value": ["A", "Left"],
+            "type": "keybind"
+        },
+        "down": {
+            "value": ["S", "Down"],
+            "type": "keybind"
+        },
+        "up": {
+            "value": ["W", "Up"],
+            "type": "keybind"
+        },
+        "right": {
+            "value": ["D", "Right"],
+            "type": "keybind"
+        },
+        "accept": {
+            "value": ["Space", "Enter"],
+            "type": "keybind"
+        },
+        "back": {
+            "value": ["ESC", "BackSpace"],
+            "type": "keybind"
+        },
+        "reset": {
+            "value": ["R"],
+            "type": "keybind"
+        }
+    },
+    "graphics": {
+        "fps": {
+            "value": 120,
+            "type": "int"
+        },
+        "disableFpsCounter": {
+            "value": false,
+            "type": "bool"
+        }
+    },
+    "gameplay": {
+        "DownScroll": {
+            "value": false,
+            "type": "bool"
+        },
+        "middlescroll": {
+            "value": false,
+            "type": "bool"
+        },
+        "opponentNotes": {
+            "value": true,
+            "type": "bool"
+        },
+        "ghostTapping": {
+            "value": true,
+            "type": "bool"
+        },
+        "ratingOffset": {
+            "value": 0,
+            "type": "int"
+        }
+    }
+}
