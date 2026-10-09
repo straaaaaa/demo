@@ -826,7 +826,7 @@ export class FreeplayScene extends FNFScene {
         ]
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {
-            this.menuCursor.index = 0;
+            this.menuCursor.row = 0;
         }
         this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
@@ -959,15 +959,23 @@ export class OptionScene extends FNFScene {
 
     setItems(key) {
         const itemObjects = this.registry.get("options")[key];
-        this.texts.length = 0;
+        this.texts.length = [];
         this.menuCursor.destroy();
         for (const key in itemObjects) {
             const item = itemObjects[key];
             if (item.type) {
-                const text = this.drawText(0,0,`${key}`,"bold",0);
+                const text = this.drawText(0,0,`${key}`,"normal",0);
                 text.addValue(item.type,item.value);
                 this.texts.push(text);
+            } else {
+                const text = this.drawText(0,0,key,"bold");
+                this.texts.push(text);
             }
+        }
+        if (item.type) {
+            this.menuCursor = this.addMenuCursor(this.texts);
+        } else {
+            this.menuCursor = this.addMenuCursor(this.texts,1,"static",640,240,false,120);
         }
     }
 }
