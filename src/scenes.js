@@ -817,7 +817,7 @@ export class FreeplayScene extends FNFScene {
             this.drawText(0,0,"2hot","bold",0),
             this.drawText(0,0,"Come along with me","bold",0)
         ]
-        this.addMenuCursor(texts);
+        this.menuCursor = this.addMenuCursor(texts);
         this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
