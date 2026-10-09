@@ -952,7 +952,8 @@ export class OptionScene extends FNFScene {
                 }
                 this.startTransition("MainMenuScene");
                 break;
-            case 2:
+            default:
+                this.setItems(this.positionNames.at(-2))
         }
     }
 
@@ -960,30 +961,37 @@ export class OptionScene extends FNFScene {
         switch (this.positionNames.at(-1)) {
             case "main":
                 const options = Object.keys(this.registry.get("options"));
+                this.positionNames.push(options[index]);
                 this.setItems(options[index]);
                 break;
         }
     }
 
     setItems(key) {
-        this.positionNames.push(key);
-        const itemObjects = this.registry.get("options")[key];
-        this.texts.length = [];
-        this.menuCursor.destroy();
-        for (const key in itemObjects) {
-            const item = itemObjects[key];
-            if (item.type) {
-                const text = this.drawText(0,0,`${key}`,"normal",0);
-                text.addValue(item.type,item.value);
-                this.texts.push(text);
-            } else {
-                const text = this.drawText(0,0,key,"bold");
-                this.texts.push(text);
+        if (this.texts && this.texts.length > 0) {
+            for (const text of this.texts) {
+                if (text && text.destroy) {
+                    text.destroy();
+                }
             }
         }
-        if (this.positionNames.at(-1) === "main") {
+        this.texts = [];
+        this.menuCursor.destroy();
+        if (key === "main") {
+            const options = Object.keys(this.registry.get("options"));
+            for (const option of options) {
+                const text = this.drawText(0,0,option,"bold");
+                this.texts.push(text);
+            }
             this.menuCursor = this.addMenuCursor(this.texts,1,"static",640,240,false,120);
         } else {
+            const itemObjects = this.registry.get("options")[key];
+            for (const itemKey in itemObjects) {
+                const item = itemObjects[itemKey];
+                const text = this.drawText(0,0,`${itemKey}`,"normal",0);
+                text.addValue(item.type,item.value);
+                this.texts.push(text);
+            }
             this.menuCursor = this.addMenuCursor(this.texts);
         }
     }
