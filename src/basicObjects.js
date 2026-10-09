@@ -8,6 +8,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         this.originx = originX;
         this.originy = originY;
         this.distance = distance;
+        this.lastX = 0;
         this.depth = 1000;
         this.letters = [];
         this.updateText();
@@ -109,6 +110,21 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         const offsetX = (distance - this.distance) * this.originx;
         for (let i = 0; i < this.letters.length; i++) {
             this.letters[i].x -= offsetX;
+        }
+        if (this.letters.length > 0) {
+            const lastLetter = this.letters.at(-1);
+            this.lastX = lastLetter.x + lastLetter.width + this.distance;
+        }
+    }
+
+    adValue(type,value) {
+        switch (type) {
+            case "bool":
+                const checkbox = this.scene.add.sprite(this.lastX,0,"checkboxanim","checkbox0000");
+                this.add(checkbox);
+            case "int":
+                const text = `this.text ${value}`;
+                this.updateText();
         }
     }
 

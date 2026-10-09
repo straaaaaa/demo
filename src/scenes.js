@@ -219,6 +219,10 @@ export class FNFScene extends Phaser.Scene {
         }
         this.events.on("update",updateCursor);
 
+        cursor.destroy = () => {
+            this.events.off("update",updateCursor);
+        }
+
         return cursor;
     }
 
@@ -833,11 +837,11 @@ export class FreeplayScene extends FNFScene {
         let i = 0;
         for (const text of this.texts) {
             if (this.menuCursor.index === i) {
-                if (!text.alpha === 1.0) {
+                if (text.alpha !== 1.0) {
                     text.alpha = 1.0;
                 }
             } else {
-                if (text.alpha === 0.6) {
+                if (text.alpha !== 0.6) {
                     text.alpha = 0.6;
                 }
             }
@@ -849,6 +853,10 @@ export class FreeplayScene extends FNFScene {
 export class OptionScene extends FNFScene {
     constructor() {
         super("OptionScene");
+    }
+
+    preload() {
+        this.load.atlas("checkboxanim","checkboxanim.png","checkboxanim.json");
     }
 
     onCreate() {
@@ -866,6 +874,30 @@ export class OptionScene extends FNFScene {
 
         this.events.on("cursorAccepted",(index) => {
             this.enter(index);
+        });
+
+        this.anims.create({
+            key: "check_on",
+            frames: this.anims.generateFrameNames("checkboxanim",{
+                prefix:"checkbox anim",
+                start: 0,
+                end:9,
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: "check_off",
+            frames: this.anims.generateFrameNames("checkboxanim",{
+                prefix: "checkbox anim",
+                start: 9,
+                end: 0,
+                zeroPad: 4
+            }),
+            frameRate: 24,
+            repeat: 0
         });
 
         this.positionNames = ["main"];
@@ -916,9 +948,15 @@ export class OptionScene extends FNFScene {
 
     setItems(key) {
         const itemObjects = this.registry.get("options")[key];
-        this.text.length = 0;
+        this.texts.length = 0;
+        this.menuCursor.destroy();
         for (const key in itemObjects) {
-            this.texts.push
+            const item = itemObjects[key];
+            if (item.type) {
+                const text = this.drawText(0,0,`${key}`,"bold",0);
+                text.addValue(item.type,item.value);
+                this.texts.push(text);
+            }
         }
     }
 }
