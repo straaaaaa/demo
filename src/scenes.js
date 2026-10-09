@@ -166,7 +166,7 @@ export class FNFScene extends Phaser.Scene {
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
         texts.forEach((text,i) => {
-            text.y = i*distance+y;
+            text.y = i*distance+y+180;
             if (type === "v-slice") {
                 text.x = x + (i*20);
             } else {
@@ -175,6 +175,7 @@ export class FNFScene extends Phaser.Scene {
             text.targetY = text.y;
             text.targetX = text.x;
         });
+        let firstTime = true;
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
                 let moved = false;
@@ -191,7 +192,8 @@ export class FNFScene extends Phaser.Scene {
                     moved = true;
                     direction = -1;
                 }
-                if (followCamera && moved) {
+                if (followCamera && moved || firstTime) {
+                    firstTime = false;
                     const nextText = texts[cursor.row];
 
                     const diffY = 360 - nextText.y;
