@@ -181,12 +181,12 @@ export class FNFScene extends Phaser.Scene {
     }
 
 
-    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,followCamera=true,distance=120) {
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,y=360,followCamera=true,distance=160) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
         texts.forEach((text,i) => {
-            text.y = i*distance+360;
+            text.y = i*distance+y;
             if (type === "v-slice") {
                 text.x = x + (i*20);
             } else {
@@ -729,13 +729,13 @@ export class MainMenuScene extends FNFScene {
     onUpdate(time,delta) {
         if (this.isTransitioning) return;
 
-        if (this.inputManager.wasPressed("up")) {
+        if (this.inputManager.isRepeated("up")) {
             this.changeSelection(-1);
-        } else if (this.inputManager.wasPressed("down")) {
+        } else if (this.inputManager.isRepeated("down")) {
             this.changeSelection(1);
         }
 
-        if (this.inputManager.wasPressed("accept") && !this.accepted) {
+        if (this.inputManager.isRepeated("accept") && !this.accepted) {
             this.accepted = true;
             this.selectCurrentItem();
         }
@@ -843,6 +843,12 @@ export class FreeplayScene extends FNFScene {
         this.bg.setScale(1.175);
         this.enterTransition();
     }
+
+    onUpdate(time,delta) {
+        if (this.inputManager.wasPressed("back")) {
+            this.startTransition("MainMenuScene");
+        }
+    }
 }
 
 export class OptionScene extends FNFScene {
@@ -857,7 +863,7 @@ export class OptionScene extends FNFScene {
             const text = this.drawText(0,0,option,"bold");
             texts.push(text);
         }
-        this.menuCursor = this.addMenuCursor(texts,1,"static",640,false);
+        this.menuCursor = this.addMenuCursor(texts,1,"static",640,240,false);
         this.texts = texts;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
@@ -867,6 +873,9 @@ export class OptionScene extends FNFScene {
 
     onUpdate(time,delta) {
         let i = 0;
+        if (this.inputManager.wasPressed("back")) {
+            this.startTransition("MainMenuScene");
+        }
         for (const text of this.texts) {
             if (this.menuCursor.index === i) {
                 if (!text.text.startsWith(">")) {
