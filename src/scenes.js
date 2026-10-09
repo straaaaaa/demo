@@ -944,6 +944,8 @@ export class OptionScene extends FNFScene {
     back() {
         switch(this.positionNames.length) {
             case 1:
+                this.menuCursor.destroy();
+                this.menucursor = null;
                 this.startTransition("MainMenuScene");
                 break;
             case 2:
