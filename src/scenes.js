@@ -876,7 +876,7 @@ export class OptionScene extends FNFScene {
         if (this.inputManager.wasPressed("back")) {
             this.back();
         }
-        if (this.positionName.at(-1) === "main") {
+        if (this.positionNames.at(-1) === "main") {
             for (const text of this.texts) {
                 if (this.menuCursor.index === i) {
                     if (!text.text.startsWith(">")) {
@@ -895,7 +895,7 @@ export class OptionScene extends FNFScene {
     }
 
     back() {
-        switch(this.positionName.length) {
+        switch(this.positionNames.length) {
             case 1:
                 this.startTransition("MainMenuScene");
                 break;
@@ -904,7 +904,7 @@ export class OptionScene extends FNFScene {
     }
 
     enter(index) {
-        switch (this.positionName.at(-1)) {
+        switch (this.positionNames.at(-1)) {
             case "main":
                 const options = Object.keys(this.registry.get("options"));
                 this.setItems(options[index]);
