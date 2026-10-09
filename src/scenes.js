@@ -916,7 +916,6 @@ export class OptionScene extends FNFScene {
         const itemObjects = this.registry.get("options")[key];
         this.text.length = 0;
         for (const key in itemObjects) {
-            const text = ;
             this.texts.push
         }
     }
