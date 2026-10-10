@@ -165,8 +165,10 @@ export class FNFScene extends Phaser.Scene {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
         const cursor = new MenuCursor({rows: texts.length,cols:cols});
         cursor.lock = false;
+        let yoffset = 360;
+        if (!followCamera) yoffset = 0;
         texts.forEach((text,i) => {
-            text.y = i*distance+y+180;
+            text.y = i*distance+y+yoffset;
             if (type === "v-slice") {
                 text.x = x + (i*20);
             } else {
@@ -196,7 +198,7 @@ export class FNFScene extends Phaser.Scene {
                     firstTime = false;
                     const nextText = texts[cursor.row];
 
-                    const diffY = 360 - nextText.y;
+                    const diffY = y - nextText.y;
 
                     let diffX = 0;
                     if (type === "v-slice") {
