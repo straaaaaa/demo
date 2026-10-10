@@ -15,7 +15,11 @@ export class BootScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(640,360,"CLICK TO START")
+        this.add.text(640,360,"CLICK TO START",{
+            fonrFamily: "vcr",
+            fontSize: "36px",
+            fill: "#f0f0f0"
+        })
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
