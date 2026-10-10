@@ -126,7 +126,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 checkbox.xOffset = 0;
                 checkbox.yOffset = 2;
                 checkbox.setOrigin(0,0);
-                checkbox.setScale(0.6);
+                checkbox.setScale(0.9);
                 this.add(checkbox);
                 this.valueObj = checkbox;
                 break;
@@ -171,8 +171,8 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 }
             }
 
-            this.valueObj.x = this.valueObj.xx+this.valueObj.Xoffset;
-            this.valueObj.y = this.valueObj.yy+this.valueObj.Yoffset;
+            this.valueObj.x = this.valueObj.xx-this.valueObj.Xoffset;
+            this.valueObj.y = this.valueObj.yy-this.valueObj.Yoffset;
         }
     }
 }
