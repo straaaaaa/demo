@@ -10,16 +10,10 @@ export class BootScene extends Phaser.Scene {
 
     preload() {
         this.load.atlas("phantommuff","assets/font/phantommuff.png","assets/font/phantommuff.json");
-        this.load.font("vcr","assets/font/VCR_OSD_MONO.ttf");
         this.load.json("options","assets/data/options.json");
     }
 
     create() {
-        this.add.text(640,360,"CLICK TO START",{
-            fonrFamily: "vcr",
-            fontSize: "36px",
-            fill: "#f0f0f0"
-        })
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
