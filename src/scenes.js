@@ -760,10 +760,10 @@ export class MainMenuScene extends FNFScene {
         const currentY = this.container.y + this.menuSprites[this.currentIndex].y;
 
         if (currentY > 500) {
-            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(420-this.bg.y)*0.5},0.08);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(300-this.bg.y)*0.5});
         }
         else if (currentY < 200) {
-            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(300-this.bg.y)*0.5},0.08);
+            this.addCameraFollow([this.bg,this.magenta],{x:0,y:(420-this.bg.y)*0.5});
         }
     }
 
