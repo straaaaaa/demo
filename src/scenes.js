@@ -941,6 +941,7 @@ export class OptionScene extends FNFScene {
         let i = 0;
         if (this.inputManager.wasPressed("back")) {
             this.back();
+            return;
         }
         if (this.positionNames.at(-1) === "main") {
             for (const text of this.texts) {
@@ -958,6 +959,18 @@ export class OptionScene extends FNFScene {
                 i++;
             }
         } else {
+            for (const text of this.texts) {
+                if (this.menuCursor.index === i) {
+                    if (!text.alpha = 1.0) {
+                        text.alpha = 1.0;
+                    }
+                } else {
+                    if (!text.alpha = 0.6) {
+                        text.alpha = 0.6;
+                    }
+                }
+                i++;
+            }
         }
     }
 
