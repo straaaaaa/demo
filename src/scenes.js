@@ -186,6 +186,9 @@ export class FNFScene extends Phaser.Scene {
             text.targetX = text.x;
         });
         let firstTime = true;
+        if (!followCamera) {
+            firstTime = false;
+        }
         const updateCursor = (time, delta) => {
             if (!cursor.lock) {
                 let moved = false;
