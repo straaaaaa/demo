@@ -10,10 +10,12 @@ export class BootScene extends Phaser.Scene {
 
     preload() {
         this.load.atlas("phantommuff","assets/font/phantommuff.png","assets/font/phantommuff.json");
+        this.load.font("vcr","assets/font/VCR_OSD_MONO_1.001.ttf");
         this.load.json("options","assets/data/options.json");
     }
 
     create() {
+        this.add.text(640,360,"CLICK TO START")
         this.input.once("pointerdown",async () => {
             if (this.sound.context.state === "suspended") {
                 await this.sound.context.resume();
@@ -875,6 +877,7 @@ export class OptionScene extends FNFScene {
     }
 
     preload() {
+        this.load.json("optionSettings","assets/data/optionSettings.json");
         this.load.atlas("checkboxanim","assets/images/checkboxanim.png","assets/data/checkboxanim.json");
     }
 
@@ -887,6 +890,7 @@ export class OptionScene extends FNFScene {
         }
         this.menuCursor = this.addMenuCursor(texts,1,"static",640,240,false,120);
         this.texts = texts;
+        this.settings = this.cache.json.get("optionSettings");
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFEA71FD);
         this.bg.setScale(1.175);
@@ -1002,7 +1006,7 @@ export class OptionScene extends FNFScene {
                 text.addValue(item.type,item.value);
                 this.texts.push(text);
             }
-            this.menuCursor = this.addMenuCursor(this.texts);
+            this.menuCursor = this.addMenuCursor(this.texts,this.settings[key].cols);
         }
     }
 

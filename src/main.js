@@ -15,7 +15,6 @@ const config = {
     width: 1280,
     height: 720,
     backgroundColor: "#000000",
-    pipeline: { HueRotatePipeline },
     antialias: true,
     antialiasGL: true,
     pixelArt: false,
