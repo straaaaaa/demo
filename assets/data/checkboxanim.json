@@ -1,6 +1,6 @@
 {
   "frames": {
-    "checkbox anim0000": {
+    "checkbox0000": {
       "frame": {
         "x": 4,
         "y": 4,
@@ -18,6 +18,26 @@
       "sourceSize": {
         "w": 111,
         "h": 108
+      }
+    },
+    "checkbox anim0000": {
+      "frame": {
+        "x": 119,
+        "y": 4,
+        "w": 183,
+        "h": 142
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 183,
+        "h": 142
+      },
+      "sourceSize": {
+        "w": 183,
+        "h": 142
       }
     },
     "checkbox anim0001": {
@@ -42,7 +62,7 @@
     },
     "checkbox anim0002": {
       "frame": {
-        "x": 119,
+        "x": 306,
         "y": 4,
         "w": 183,
         "h": 142
@@ -82,7 +102,7 @@
     },
     "checkbox anim0004": {
       "frame": {
-        "x": 306,
+        "x": 493,
         "y": 4,
         "w": 183,
         "h": 142
@@ -122,7 +142,7 @@
     },
     "checkbox anim0006": {
       "frame": {
-        "x": 493,
+        "x": 680,
         "y": 4,
         "w": 183,
         "h": 142
@@ -162,26 +182,6 @@
     },
     "checkbox anim0008": {
       "frame": {
-        "x": 680,
-        "y": 4,
-        "w": 183,
-        "h": 142
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 183,
-        "h": 142
-      },
-      "sourceSize": {
-        "w": 183,
-        "h": 142
-      }
-    },
-    "checkbox anim0009": {
-      "frame": {
         "x": 4,
         "y": 150,
         "w": 183,
@@ -200,7 +200,7 @@
         "h": 142
       }
     },
-    "checkbox anim0010": {
+    "checkbox anim0009": {
       "frame": {
         "x": 4,
         "y": 150,

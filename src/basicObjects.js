@@ -121,6 +121,10 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         switch (type) {
             case "bool":
                 const checkbox = this.scene.add.sprite(this.lastX+10,50,"checkboxanim");
+                checkbox.xx = checkbox.x;
+                checkbox.yy = checkbox.y;
+                checkbox.xOffset = 0;
+                checkbox.yOffset = 0;
                 checkbox.setOrigin(0,0);
                 checkbox.setScale(0.6);
                 this.add(checkbox);
@@ -144,6 +148,29 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         for (const letter of this.letters) {
             const frameString = `${letter.frameString}${this.currentFrameNum}`;
             letter.setFrame(frameString);
+        }
+
+        if (this.valueObj) {
+            const frameName = this.valueObj.anims.currentFrame.textureFrame;
+            if (frameName.includes("anim0")) {
+                this.valueObj.Xoffset = 34;
+                this.valueObj.Yoffset = 25;
+            }
+            if (frameName.includes("finish")) {
+                this.valueObj.Xoffset = 3;
+                this.valueObj.Yoffset = 12;
+            }
+            if (frameName.includes("reverse")) {
+                this.valueObj.Xoffset = 25;
+                this.valueObj.Yoffset = 28;
+            }
+            if (frameName.includes("box0")) {
+                this.valueObj.Xoffset = 0;
+                this.valueObj.Yoffset = 2;
+            }
+
+            this.valueObj.x = this.valueObj.xx+this.valueObj.Xoffset;
+            this.valueObj.y = this.valueObj.yy+this.valueObj.Yoffset;
         }
     }
 }

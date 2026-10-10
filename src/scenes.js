@@ -908,26 +908,34 @@ export class OptionScene extends FNFScene {
             this.enter(index);
         });
 
-        this.anims.create({
-            key: "check_on",
-            frames: this.anims.generateFrameNames("checkboxanim",{
-                prefix:"checkbox anim",
-                start: 0,
-                end:10,
-                zeroPad: 4
-            }),
-            frameRate: 24,
-            repeat: 0
+        let checkOnFrames = this.anims.generateFrameNames("checkboxanim", { 
+            prefix: "checkbox anim", 
+            start: 0, 
+            end: 9, 
+            zeroPad: 4 
         });
+
+        checkOnFrames.push({ key: "checkboxanim", frame: "checkbox finish0000" });
+
+        this.anims.create({ 
+            key: "check_on", 
+            frames: checkOnFrames, 
+            frameRate: 24, 
+            repeat: 0 
+        });
+
+        let checkOffFrames = this.anims.generateFrameNames("checkboxanim", { 
+            prefix: "checkbox anim reverse",
+            start: 0,
+            end: 7,
+            zeroPad: 4
+        });
+
+        checkOffFrames.push({ key: "checkboxanim", frame: "checkbox0000" });
 
         this.anims.create({
             key: "check_off",
-            frames: this.anims.generateFrameNames("checkboxanim",{
-                prefix: "checkbox anim",
-                start: 10,
-                end: 0,
-                zeroPad: 4
-            }),
+            frames: checkOffFrames
             frameRate: 24,
             repeat: 0
         });
