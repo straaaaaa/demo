@@ -125,6 +125,11 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 checkbox.yy = checkbox.y;
                 checkbox.xOffset = 0;
                 checkbox.yOffset = 2;
+                if (value) {
+                    this.setFrame("checkbox finish0000");
+                } else {
+                    this.setFrame("checkbox0000");
+                }
                 checkbox.setOrigin(0,0);
                 checkbox.setScale(0.9);
                 this.add(checkbox);
