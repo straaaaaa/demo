@@ -961,11 +961,11 @@ export class OptionScene extends FNFScene {
         } else {
             for (const text of this.texts) {
                 if (this.menuCursor.index === i) {
-                    if (!text.alpha = 1.0) {
+                    if (text.alpha !== 1.0) {
                         text.alpha = 1.0;
                     }
                 } else {
-                    if (!text.alpha = 0.6) {
+                    if (text.alpha !== 0.6) {
                         text.alpha = 0.6;
                     }
                 }
