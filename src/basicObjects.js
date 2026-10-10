@@ -121,19 +121,33 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         switch (type) {
             case "bool":
                 const checkbox = this.scene.add.sprite(this.lastX+10,50,"checkboxanim");
+                const initialFrame = value ? "checkbox finish0000" : "checkbox0000";
+                checkbox.setFrame(initialFrame);
+                let initXoffset = 0;
+                let initYoffset = 0;
+
+                if (initialFrame.includes("finish")) {
+                    initXoffset = -3;
+                    initYoffset = -12;
+                } else if (initialFrame.includes("checkbox0000")) {
+                    initXoffset = 0;
+                    initYoffset = 2;
+                }
+
                 checkbox.xx = checkbox.x;
                 checkbox.yy = checkbox.y;
-                checkbox.xOffset = 0;
-                checkbox.yOffset = 2;
-                if (value) {
-                    checkbox.setFrame("checkbox finish0000");
-                } else {
-                    checkbox.setFrame("checkbox0000");
-                }
-                checkbox.setOrigin(0,0);
+
+                checkbox.Xoffset = initXoffset;
+                checkbox.Yoffset = initYoffset;
+
+                checkbox.setOrigin(0, 0);
                 checkbox.setScale(0.9);
+
                 this.add(checkbox);
                 this.valueObj = checkbox;
+
+                checkbox.x = checkbox.xx - checkbox.Xoffset;
+                checkbox.y = checkbox.yy - checkbox.Yoffset;
                 break;
             case "int":
                 this.text = `${this.text} ${value}`;
@@ -156,7 +170,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         }
 
         if (this.valueObj) {
-            const frameName = this.valueObj?.anims?.currentFrame?.textureFrame;
+            const frameName = this.valueObj?.anims?.currentFrame?.textureFrame || this.valueObj.frame.name;
             if (frameName) {
                 if (frameName.includes("reverse")) {
                     this.valueObj.Xoffset = 25;
