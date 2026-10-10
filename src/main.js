@@ -15,7 +15,6 @@ const config = {
     height: 720,
     backgroundColor: "#000000",
     antialias: true,
-    antialiasGL: true,
     pixelArt: false,
     roundPixels: false,
 
