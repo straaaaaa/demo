@@ -153,7 +153,11 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         if (this.valueObj) {
             const frameName = this.valueObj?.anims?.currentFrame?.textureFrame;
             if (frameName) {
-                if (frameName.includes("anim0")) {
+                if (frameName.includes("reverse")) {
+                    this.valueObj.Xoffset = 25;
+                    this.valueObj.Yoffset = 28;
+                }
+                else if (frameName.includes("anim0")) {
                     this.valueObj.Xoffset = 34;
                     this.valueObj.Yoffset = 25;
                 }
@@ -161,11 +165,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                     this.valueObj.Xoffset = 3;
                     this.valueObj.Yoffset = 12;
                 }
-                else if (frameName.includes("reverse")) {
-                    this.valueObj.Xoffset = 25;
-                    this.valueObj.Yoffset = 28;
-                }
-                else if (frameName.includes("box0")) {
+                else if (frameName.includes("checkbox0000")) {
                     this.valueObj.Xoffset = 0;
                     this.valueObj.Yoffset = 2;
                 }
