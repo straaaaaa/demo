@@ -943,7 +943,8 @@ export class OptionScene extends FNFScene {
             this.back();
             return;
         }
-        if (this.positionNames.at(-1) === "main" && this.menuCursor) {
+        if (this.positionNames.at(-1) === "main") {
+            if (!this.menuCursor) return;
             for (const text of this.texts) {
                 if (this.menuCursor.index === i) {
                     if (!text.text.startsWith(">")) {
@@ -959,6 +960,7 @@ export class OptionScene extends FNFScene {
                 i++;
             }
         } else {
+            if (!this.menuCursor) return;
             for (const text of this.texts) {
                 if (this.menuCursor.index === i) {
                     if (text.alpha !== 1.0) {
