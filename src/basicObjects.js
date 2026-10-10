@@ -124,7 +124,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 checkbox.xx = checkbox.x;
                 checkbox.yy = checkbox.y;
                 checkbox.xOffset = 0;
-                checkbox.yOffset = -2;
+                checkbox.yOffset = 2;
                 checkbox.setOrigin(0,0);
                 checkbox.setScale(0.6);
                 this.add(checkbox);
@@ -154,20 +154,20 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
             const frameName = this.valueObj?.anims?.currentFrame?.textureFrame;
             if (frameName) {
                 if (frameName.includes("anim0")) {
-                    this.valueObj.Xoffset = -34;
-                    this.valueObj.Yoffset = -25;
+                    this.valueObj.Xoffset = 34;
+                    this.valueObj.Yoffset = 25;
                 }
-                if (frameName.includes("finish")) {
-                    this.valueObj.Xoffset = -3;
-                    this.valueObj.Yoffset = -12;
+                else if (frameName.includes("finish")) {
+                    this.valueObj.Xoffset = 3;
+                    this.valueObj.Yoffset = 12;
                 }
-                if (frameName.includes("reverse")) {
-                    this.valueObj.Xoffset = -25;
-                    this.valueObj.Yoffset = -28;
+                else if (frameName.includes("reverse")) {
+                    this.valueObj.Xoffset = 25;
+                    this.valueObj.Yoffset = 28;
                 }
-                if (frameName.includes("box0")) {
+                else if (frameName.includes("box0")) {
                     this.valueObj.Xoffset = 0;
-                    this.valueObj.Yoffset = -2;
+                    this.valueObj.Yoffset = 2;
                 }
             }
 
