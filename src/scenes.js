@@ -913,7 +913,7 @@ export class OptionScene extends FNFScene {
             frames: this.anims.generateFrameNames("checkboxanim",{
                 prefix:"checkbox anim",
                 start: 0,
-                end:9,
+                end:10,
                 zeroPad: 4
             }),
             frameRate: 24,
@@ -924,7 +924,7 @@ export class OptionScene extends FNFScene {
             key: "check_off",
             frames: this.anims.generateFrameNames("checkboxanim",{
                 prefix: "checkbox anim",
-                start: 9,
+                start: 10,
                 end: 0,
                 zeroPad: 4
             }),
