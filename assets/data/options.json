@@ -30,11 +30,11 @@
         }
     },
     "graphics": {
-        "fps": {
+        "Fps": {
             "value": 120,
             "type": "int"
         },
-        "disableFpsCounter": {
+        "DisableFpsCounter": {
             "value": false,
             "type": "bool"
         }
@@ -44,19 +44,19 @@
             "value": false,
             "type": "bool"
         },
-        "middlescroll": {
+        "MiddleScroll": {
             "value": false,
             "type": "bool"
         },
-        "opponentNotes": {
+        "OpponentNotes": {
             "value": true,
             "type": "bool"
         },
-        "ghostTapping": {
+        "GhostTapping": {
             "value": true,
             "type": "bool"
         },
-        "ratingOffset": {
+        "RatingOffset": {
             "value": 0,
             "type": "int"
         }
