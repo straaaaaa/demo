@@ -841,7 +841,7 @@ export class FreeplayScene extends FNFScene {
 
     onUpdate(time,delta) {
         if (this.inputManager.wasPressed("back")) {
-            if (this.menucursor) {
+            if (this.menuCursor) {
                 this.menuCursor.destroy();
                 this.menuCursor = null;
             }
@@ -950,7 +950,7 @@ export class OptionScene extends FNFScene {
     back() {
         switch(this.positionNames.length) {
             case 1:
-                if (this.menucursor) {
+                if (this.menuCursor) {
                     this.menuCursor.destroy();
                     this.menuCursor = null;
                 }
