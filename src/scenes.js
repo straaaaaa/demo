@@ -991,11 +991,30 @@ export class OptionScene extends FNFScene {
 
     enter(index) {
         switch (this.positionNames.at(-1)) {
-            case "main":
+            case "main": {
                 const options = Object.keys(this.registry.get("options"));
                 this.positionNames.push(options[index]);
                 this.setItems(options[index]);
                 break;
+            }
+            default: {
+                const options = this.registry.get("options");
+                const currentPosition = options[this.positionNames.at(-1)];
+                const currentItem = Object.keys(currentPosition)[index];
+                if (currentPosition[currentItem].type === "bool") {
+                    let newValue = null;
+                    if (currentPosition[currentItem].value === true) {
+                        newValue = false;
+                        this.texts[index]?.valueObj.anims.play("check_off");
+                    } else {
+                        newValue = true;
+                        this.texts[index]?.valueObj.anims.play("check_on");
+                    }
+                    options[this.positionNames.at(-1)][currentItem].value = newValue;
+                    this.saveOptions(options);
+                }
+                break;
+            }
         }
     }
 

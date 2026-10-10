@@ -124,6 +124,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 checkbox.setOrigin(0,0);
                 checkbox.setScale(0.6);
                 this.add(checkbox);
+                this.valueObj = checkbox;
                 break;
             case "int":
                 this.text = `${this.text} ${value}`;
