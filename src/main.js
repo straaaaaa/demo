@@ -1,4 +1,3 @@
-import { HueRotatePipeline } from './HueRotatePipeline.js';
 import {
     BootScene,
     DebugScene,
