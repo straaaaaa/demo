@@ -875,7 +875,7 @@ export class OptionScene extends FNFScene {
     }
 
     preload() {
-        this.load.atlas("checkboxanim","checkboxanim.png","checkboxanim.json");
+        this.load.atlas("checkboxanim","assets/images/checkboxanim.png","assets/data/checkboxanim.json");
     }
 
     onCreate() {
