@@ -944,6 +944,7 @@ export class OptionScene extends FNFScene {
                 }
                 i++;
             }
+        } else {
         }
     }
 
@@ -957,8 +958,8 @@ export class OptionScene extends FNFScene {
                 this.startTransition("MainMenuScene");
                 break;
             default:
-                this.positionNames.pop();
-                this.setItems(this.positionNames.at(-1))
+                const current = this.positionNames.pop();
+                this.setItems(this.positionNames.at(-1),current);
         }
     }
 
@@ -972,7 +973,7 @@ export class OptionScene extends FNFScene {
         }
     }
 
-    setItems(key) {
+    setItems(key,current=null) {
         if (this.texts && this.texts.length > 0) {
             for (const text of this.texts) {
                 if (text && text.destroy) {
@@ -989,6 +990,10 @@ export class OptionScene extends FNFScene {
                 this.texts.push(text);
             }
             this.menuCursor = this.addMenuCursor(this.texts,1,"static",640,240,false,120);
+            const index = options.indexOf(current);
+            if (index >= 0) {
+                this.menuCursor.row = index;
+            }
         } else {
             const itemObjects = this.registry.get("options")[key];
             for (const itemKey in itemObjects) {
@@ -999,5 +1004,9 @@ export class OptionScene extends FNFScene {
             }
             this.menuCursor = this.addMenuCursor(this.texts);
         }
+    }
+
+    saveOptions(newOptions) {
+        this.registry.set("options",newOptions);
     }
 }
