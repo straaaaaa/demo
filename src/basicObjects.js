@@ -151,7 +151,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         }
 
         if (this.valueObj) {
-            const frameName = this.valueObj.anims.currentFrame?.textureFrame;
+            const frameName = this.valueObj?.anims?.currentFrame?.textureFrame;
             if (frameName) {
                 if (frameName.includes("anim0")) {
                     this.valueObj.Xoffset = -34;
