@@ -935,7 +935,7 @@ export class OptionScene extends FNFScene {
 
         this.anims.create({
             key: "check_off",
-            frames: checkOffFrames
+            frames: checkOffFrames,
             frameRate: 24,
             repeat: 0
         });
