@@ -1107,5 +1107,6 @@ export class OptionScene extends FNFScene {
 
     saveOptions(newOptions) {
         this.registry.set("options",newOptions);
+        this.changeFPS(newOptions.graphics.Fps.value);
     }
 }
