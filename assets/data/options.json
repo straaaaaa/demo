@@ -31,8 +31,10 @@
     },
     "graphics": {
         "Fps": {
-            "value": 120,
-            "type": "int"
+            "value": 60,
+            "type": "int",
+            "min": 30,
+            "max": 240
         },
         "DisableFpsCounter": {
             "value": false,
@@ -58,7 +60,9 @@
         },
         "RatingOffset": {
             "value": 0,
-            "type": "int"
+            "type": "int",
+            "min": -30,
+            "max": 30
         }
     }
 }

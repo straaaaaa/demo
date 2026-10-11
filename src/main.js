@@ -18,8 +18,13 @@ const config = {
     pixelArt: false,
     roundPixels: false,
     fps: {
-        target:120,
+        target:60,
         forceSetTimeOut:true
+    },
+    audio: {
+        disableWebAudio: false,
+        noAudio:false,
+        pauseOnBlur: false
     },
 
     scale: {

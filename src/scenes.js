@@ -98,10 +98,19 @@ export class FNFScene extends Phaser.Scene {
             this.soundManager = new SoundManager(this);
             this.registry.set("soundManager",this.soundManager);
         }
+
+        const options = this.registry.get("options");
+
+        const disableFpsCounter = options?.graphics?.DisableFpsCounter;
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
         }
-        this.scene.bringToTop("DebugScene");
+        if (disableFpsCounter) {
+            this.scene.sleep("DebugScene");
+        } else {
+            this.scene.wake("DebugScene");
+            this.scene.bringToTop("DebugScene");
+        }
     }
 
     onCreate() {}
@@ -116,6 +125,8 @@ export class FNFScene extends Phaser.Scene {
             obj.update(time,delta);
         }
     }
+
+    onUpdate(time,delta) {};
 
     changeFPS(targetFps) {
         const loop = this.game.loop;
@@ -254,8 +265,6 @@ export class FNFScene extends Phaser.Scene {
 
         return cursor;
     }
-
-    onUpdate(time,delta) {};
 
     drawText(x,y,text,type,originX,originY,scale,distance) {
         const textObj = new PhantommuffText(
@@ -1030,6 +1039,15 @@ export class OptionScene extends FNFScene {
                     }
                     options[this.positionNames.at(-1)][currentItem].value = newValue;
                     this.saveOptions(options);
+
+                    if (currentItem = "DisableFpsCounter") {
+                        if (newValue) {
+                            this.scene.sleep("DebugScene");
+                        } else {
+                            this.scene.wake("DebugScene");
+                            this.scene.bringToTop("DebugScene");
+                        }
+                    }
                 }
                 break;
             }
