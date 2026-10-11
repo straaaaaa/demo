@@ -101,6 +101,8 @@ export class FNFScene extends Phaser.Scene {
 
         const options = this.registry.get("options");
 
+        this.changeFPS(options.graphics.Fps.value);
+
         const disableFpsCounter = options?.graphics?.DisableFpsCounter?.value;
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
@@ -130,6 +132,10 @@ export class FNFScene extends Phaser.Scene {
 
     changeFPS(targetFps) {
         const loop = this.game.loop;
+
+        if (loop.target === targetFps) {
+            return;
+        }
 
         loop.stop();
 
