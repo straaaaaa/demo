@@ -1113,6 +1113,6 @@ export class OptionScene extends FNFScene {
 
     saveOptions(newOptions) {
         this.registry.set("options",newOptions);
-        this.changeFPS(newOptions.graphics.Fps.value);
+        if (Math.abs(this.game.loop.target - newOptions.graphics.Fps.value) > 10) this.changeFPS(newOptions.graphics.Fps.value);
     }
 }
