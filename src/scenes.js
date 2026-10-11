@@ -1027,6 +1027,7 @@ export class OptionScene extends FNFScene {
     }
 
     back() {
+        this.changeFPS(this.registry.get("options").graphics.Fps.value);
         switch(this.positionNames.length) {
             case 1:
                 if (this.menuCursor) {
@@ -1114,9 +1115,5 @@ export class OptionScene extends FNFScene {
 
     saveOptions(newOptions) {
         this.registry.set("options",newOptions);
-        if (Math.abs(this.game.loop.target - newOptions.graphics.Fps.value) >= 10) {
-            this.changeFPS(newOptions.graphics.Fps.value);
-            alert("changeFps")
-        }
     }
 }
