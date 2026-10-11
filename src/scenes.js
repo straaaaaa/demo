@@ -117,6 +117,20 @@ export class FNFScene extends Phaser.Scene {
         }
     }
 
+    changeFPS(targetFps) {
+        const loop = this.game.loop;
+
+        loop.stop();
+
+        Phaser.Core.TimeStep.call(loop, this.game, {
+            target: targetFps,
+            limit: targetFps,
+            forceSetTimeOut: false
+        });
+
+        loop.start(this.game.step.bind(this.game));
+    }
+
     addCameraFollow(obj, distance = { x: 0, y: 0 }, speed = 0.16) {
         const array = Array.isArray(obj) ? obj : [obj];
     
@@ -602,6 +616,7 @@ export class MainMenuScene extends FNFScene {
     }
 
     onCreate() {
+        this.changeFPS(45);
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
         this.magenta = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);

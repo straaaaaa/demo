@@ -17,6 +17,10 @@ const config = {
     antialias: true,
     pixelArt: false,
     roundPixels: false,
+    fps: {
+        target:120,
+        forceSetTimeOut:false
+    }
 
     scale: {
         mode: Phaser.Scale.FIT,
