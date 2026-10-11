@@ -203,18 +203,21 @@ export class FNFScene extends Phaser.Scene {
     }
 
 
-    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,y=360,followCamera=true,distance=160) {
+    addMenuCursor(texts=[],cols=1,type="v-slice",x=90,y=360,followCamera=true,distance=160,xDistance=350) {
         //typeには3つある斜めに並ぶv-slice,垂直に並ぶstatic
-        const cursor = new MenuCursor({rows: texts.length,cols:cols});
+        const rows = Math.ceil(texts.length / cols);
+        const cursor = new MenuCursor({rows: rows,cols:cols});
         cursor.lock = false;
-        let yoffset = texts.length+distance/2;
+        let yoffset = rows+distance/2;
         if (!followCamera) yoffset = 0;
         texts.forEach((text,i) => {
-            text.y = i*distance+y-yoffset;
+            const currentRow = Math.floor(i / cols);
+            const currentCol = i % cols;
+            text.y = currentRow*distance+y-yoffset;
             if (type === "v-slice") {
-                text.x = x + (i*20);
+                text.x = x + (currentCol * xDistance) + (currentRow * 20);
             } else {
-                text.x = x;
+                text.x = x + (currentCol * xDistance);
             }
             text.targetY = text.y;
             text.targetX = text.x;
@@ -241,15 +244,18 @@ export class FNFScene extends Phaser.Scene {
                 }
                 if (followCamera && moved || firstTime) {
                     firstTime = false;
-                    const nextText = texts[cursor.row];
+                    const currentGridIndex = cursor.row * cols;
+                    const nextText = texts[currentGridIndex];
 
-                    const diffY = y - nextText.y;
+                    if (nextText) {
+                        const diffY = y - nextText.y;
 
-                    let diffX = 0;
-                    if (type === "v-slice") {
-                        diffX = x - nextText.x;
+                        let diffX = 0;
+                        if (type === "v-slice") {
+                            diffX = x - nextText.x;
+                        }
+                        this.addCameraFollow(texts,{x: diffX,y: diffY });
                     }
-                    this.addCameraFollow(texts,{x: diffX,y: diffY });
                 }
                 if (cols !== 1) {
                     if (this.inputManager.isRepeated("right")) {
@@ -263,7 +269,9 @@ export class FNFScene extends Phaser.Scene {
                 }
             }
             if (this.inputManager.wasPressed("accept")) {
-                this.events.emit("cursorAccepted",cursor.index);
+                if (cursor.index < texts.length) {
+                    this.events.emit("cursorAccepted",cursor.index);
+                }
             }
         }
         this.events.on("update",updateCursor);
@@ -1108,12 +1116,35 @@ export class OptionScene extends FNFScene {
             for (const itemKey in itemObjects) {
                 const item = itemObjects[itemKey];
                 const text = this.drawText(0,0,`${itemKey}`,"normal",0);
-                text.addValue(item.type,item.value);
+                let cursorType = "v-slice";
+                let startx = 90;
+                if (item.type === "keybind") {
+                    cursorType = "static"
+                    startx = 140;
+                    const keybindValues = [
+                        this.drawText(0,0,`${item.value[0]}`,"normal",0);
+                        this.drawText(0,0,`${item.value[1]}`,"normal",0);
+                    ]
+                } else {
+                    text.addValue(item.type,item.value);
+                }
                 this.texts.push(text);
             }
-            this.menuCursor = this.addMenuCursor(this.texts,this.settings[key].cols);
+            this.menuCursor = this.addMenuCursor(this.texts,this.settings[key].cols,cursorType,startx);
         }
     }
+
+    getValueFromPattern(requestedIndex) {
+        const base = requestedIndex - 1;
+
+        const group = Math.floor(base / 2);
+
+        const offset = base % 2;
+
+        const originalIndex = (group * 3) + offset + 1;
+
+        return originalIndex;
+}
 
     saveOptions(newOptions) {
         SaveManager.saveOptions(newOptions);
