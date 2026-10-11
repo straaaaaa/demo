@@ -139,11 +139,12 @@ export class FNFScene extends Phaser.Scene {
 
         loop.stop();
 
-        Phaser.Core.TimeStep.call(loop, this.game, {
-            target: targetFps,
-            limit: targetFps,
-            forceSetTimeOut: true
-        });
+        loop.target = targetFps;
+        loop.targetFps = targetFps;
+        loop.fpsLimit = targetFps;
+        loop.forceSetTimeOut = true;
+
+        loop.resetDelta();
 
         loop.start(this.game.step.bind(this.game));
     }
