@@ -990,14 +990,18 @@ export class OptionScene extends FNFScene {
             const currentItem = Object.keys(currentPosition)[this.menuCursor.index];
             if (currentPosition[currentItem].type === "int") {
                 if (this.inputManager.isRepeated("left")) {
-                    currentItem.value --;
-                    if (currentItem.value < currentItem.min) currentItem.value = currentItem.min;
-                    this.texts[this.menuCursor.inde].changeValue("int",currentItem.value);
+                    currentPosition[currentItem].value --;
+                    if (currentPosition[currentItem].value < currentPosition[currentItem].min) currentPosition[currentItem].value = currentPosition[currentItem].min;
+                    this.texts[this.menuCursor.inde].changeValue("int",currentPosition[currentItem].value);
+                    options[this.positionNames.at(-1)][currentItem].value = currentPosition[currentItem].value;
+                    this.saveOptions(options);
                 }
                 if (this.inputManager.isRepeated("right")) {
-                    currentItem.value ++;
-                    if (currentItem.value > currentItem.max) currentItem.value = currentItem.max;
-                    this.texts[this.menuCursor.inde].changeValue("int",currentItem.value);
+                    currentPosition[currentItem].value ++;
+                    if (currentPosition[currentItem].value > currentPosition[currentItem].max) currentPosition[currentItem].value = currentPosition[currentItem].max;
+                    this.texts[this.menuCursor.inde].changeValue("int",currentPosition[currentItem].value);
+                    options[this.positionNames.at(-1)][currentItem].value = currentPosition[currentItem].value;
+                    this.saveOptions(options);
                 }
             }
             for (const text of this.texts) {
