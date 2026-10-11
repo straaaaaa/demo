@@ -101,7 +101,7 @@ export class FNFScene extends Phaser.Scene {
 
         const options = this.registry.get("options");
 
-        const disableFpsCounter = options?.graphics?.DisableFpsCounter;
+        const disableFpsCounter = options?.graphics?.DisableFpsCounter?.value;
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
         }
@@ -990,6 +990,7 @@ export class OptionScene extends FNFScene {
             const currentItem = Object.keys(currentPosition)[this.menuCursor.index];
             if (currentItem.type === "int") {
                 if (this.inputManager.isRepeated("left")) {
+                    alert("left")
                     currentItem.value --;
                     if (currentItem.value < currentItem.min) currentItem.value = currentItem.min;
                     this.texts[this.menuCursor.inde].changeValue("int",currentItem.value);
