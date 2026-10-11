@@ -989,8 +989,8 @@ export class OptionScene extends FNFScene {
             const currentPosition = options[this.positionNames.at(-1)];
             const currentItem = Object.keys(currentPosition)[this.menuCursor.index];
             if (currentItem.type === "int") {
+                alert("int")
                 if (this.inputManager.isRepeated("left")) {
-                    alert("left")
                     currentItem.value --;
                     if (currentItem.value < currentItem.min) currentItem.value = currentItem.min;
                     this.texts[this.menuCursor.inde].changeValue("int",currentItem.value);
