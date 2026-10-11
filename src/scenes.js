@@ -625,7 +625,6 @@ export class MainMenuScene extends FNFScene {
     }
 
     onCreate() {
-        this.changeFPS(45);
         this.container = this.add.container(640,0);
         this.bg = this.add.image(640,360,"menuBG").setOrigin(0.5,0.5);
         this.magenta = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
@@ -1040,7 +1039,7 @@ export class OptionScene extends FNFScene {
                     options[this.positionNames.at(-1)][currentItem].value = newValue;
                     this.saveOptions(options);
 
-                    if (currentItem = "DisableFpsCounter") {
+                    if (currentItem === "DisableFpsCounter") {
                         if (newValue) {
                             this.scene.sleep("DebugScene");
                         } else {
