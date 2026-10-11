@@ -992,10 +992,12 @@ export class OptionScene extends FNFScene {
                 if (this.inputManager.isRepeated("left")) {
                     currentItem.value --;
                     if (currentItem.value < currentItem.min) currentItem.value = currentItem.min;
+                    this.texts[this.menuCursor.inde].changeValue("int",currentItem.value);
                 }
                 if (this.inputManager.isRepeated("right")) {
                     currentItem.value ++;
                     if (currentItem.value > currentItem.max) currentItem.value = currentItem.max;
+                    this.texts[this.menuCursor.inde].changeValue("int",currentItem.value);
                 }
             }
             for (const text of this.texts) {

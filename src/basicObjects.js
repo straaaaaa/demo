@@ -3,6 +3,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         super(scene, x, y);
         scene.add.existing(this);
         this.text = text;
+        this.withoutValue = text;
         this.type = type;
         this.textScale = scale;
         this.originx = originX;
@@ -150,7 +151,17 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 checkbox.y = checkbox.yy - checkbox.Yoffset;
                 break;
             case "int":
+                this.withoutValue = this.text;
                 this.text = `${this.text} ${value}`;
+                this.updateText();
+                break;
+        }
+    }
+
+    changeValue(type,value) {
+        switch(type) {
+            case "int":
+                this.text = `${this.withoutValue} ${value}`;
                 this.updateText();
                 break;
         }
