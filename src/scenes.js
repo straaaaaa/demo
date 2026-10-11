@@ -985,6 +985,19 @@ export class OptionScene extends FNFScene {
             }
         } else {
             if (!this.menuCursor) return;
+            const options = this.registry.get("options");
+            const currentPosition = options[this.positionNames.at(-1)];
+            const currentItem = Object.keys(currentPosition)[this.menuCursor.index];
+            if (currentItem.type === "int") {
+                if (this.inputManager.isRepeated("left")) {
+                    currentItem.value --;
+                    if (currentItem.value < currentItem.min) currentItem.value = currentItem.min;
+                }
+                if (this.inputManager.isRepeated("right")) {
+                    currentItem.value ++;
+                    if (currentItem.value > currentItem.max) currentItem.value = currentItem.max;
+                }
+            }
             for (const text of this.texts) {
                 if (this.menuCursor.index === i) {
                     if (text.alpha !== 1.0) {

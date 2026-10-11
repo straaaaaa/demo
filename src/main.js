@@ -17,6 +17,9 @@ const config = {
     antialias: true,
     pixelArt: false,
     roundPixels: false,
+    game: {
+        pauseOnBlur: false
+    }
     fps: {
         target:60,
         forceSetTimeOut:true
