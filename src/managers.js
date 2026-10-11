@@ -1,9 +1,10 @@
-export class MenuCursor {
+export class MenuCursor extends Phaser.Events.EventEmitter {
     constructor({
         rows = 1,
         cols = 1,
         loop = true
     }) {
+        super();
         this.rows = rows;
         this.cols = cols;
         this.loop = loop;
