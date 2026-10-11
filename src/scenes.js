@@ -18,7 +18,7 @@ export class BootScene extends Phaser.Scene {
         newFontFace.load().then(() => {
             this.add.text(640,360,"CLICK TO START",{
             fontFamily: "vcr",
-            fontSize: "36px",
+            fontSize: "74px",
             fill: "#f0f0f0"
         }).setOrigin(0.5,0.5);
         this.input.once("pointerdown",async () => {
@@ -31,6 +31,7 @@ export class BootScene extends Phaser.Scene {
                 this.registry.set("options",saved);
             } else {
                 const options = this.cache.json.get("options");
+                SaveManager.saveOptions(options);
                 this.registry.set("options",options);
             }
             this.scene.start("IntroScene");
@@ -139,10 +140,11 @@ export class FNFScene extends Phaser.Scene {
 
         loop.stop();
 
-        loop.target = targetFps;
-        loop.targetFps = targetFps;
-        loop.fpsLimit = targetFps;
-        loop.forceSetTimeOut = true;
+        Phaser.Core.TimeStep.call(loop, this.game, {
+            target: targetFps,
+            limit: targetFps,
+            forceSetTimeOut: true
+        });
 
         loop.resetDelta();
 
@@ -1114,6 +1116,7 @@ export class OptionScene extends FNFScene {
     }
 
     saveOptions(newOptions) {
+        SaveManager.saveOptions(newOptions);
         this.registry.set("options",newOptions);
     }
 }
