@@ -988,7 +988,7 @@ export class OptionScene extends FNFScene {
             const options = this.registry.get("options");
             const currentPosition = options[this.positionNames.at(-1)];
             const currentItem = Object.keys(currentPosition)[this.menuCursor.index];
-            if (currentPosition[currentItem].type === "int") {
+            if (currentPosition[currentItem]?.type === "int") {
                 if (this.inputManager.isRepeated("left")) {
                     currentPosition[currentItem].value --;
                     if (currentPosition[currentItem].value < currentPosition[currentItem].min) currentPosition[currentItem].value = currentPosition[currentItem].min;
