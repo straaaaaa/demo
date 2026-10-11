@@ -1127,6 +1127,7 @@ export class OptionScene extends FNFScene {
             let cursorType = "v-slice";
             let startx = 90;
             let columns = this.settings[key]?.cols || 1;
+            let itemIndex = 0;
     
             for (const itemKey in itemObjects) {
                 const item = itemObjects[itemKey];
@@ -1136,11 +1137,13 @@ export class OptionScene extends FNFScene {
                     startx = 540;
                     columns = 2;
     
-                    const labelText = this.drawText(140, 0, `${itemKey}`, "normal", 0);
+                    const targetY = itemIndex * 120;
+    
+                    const labelText = this.drawText(140, targetY, `${itemKey}`, "normal", 0);
                     this.labels.push(labelText);
     
-                    const key1Text = this.drawText(540, 0, `${item.value[0]}`, "normal", 0);
-                    const key2Text = this.drawText(840, 0, `${item.value[1]}`, "normal", 0);
+                    const key1Text = this.drawText(540, targetY, `${item.value[0]}`, "normal", 0);
+                    const key2Text = this.drawText(840, targetY, `${item.value[1]}`, "normal", 0);
                     
                     this.texts.push(key1Text, key2Text);
     
@@ -1149,6 +1152,7 @@ export class OptionScene extends FNFScene {
                     text.addValue(item.type, item.value);
                     this.texts.push(text);
                 }
+                itemIndex++;
             }
             
             this.menuCursor = this.addMenuCursor(this.texts, columns, cursorType, startx);
