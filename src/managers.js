@@ -26,6 +26,8 @@ export class MenuCursor {
 
         this.row = r;
         this.col = c;
+
+        this.emit('move', this.index, this.row, this.col);
     }
 
     get index() {

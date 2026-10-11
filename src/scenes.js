@@ -1142,8 +1142,8 @@ export class OptionScene extends FNFScene {
                     const labelText = this.drawText(140, targetY, `${itemKey}`, "normal", 0);
                     this.labels.push(labelText);
     
-                    const key1Text = this.drawText(540, targetY, `${item.value[0]}`, "normal", 0);
-                    const key2Text = this.drawText(840, targetY, `${item.value[1]}`, "normal", 0);
+                    const key1Text = this.drawText(540, targetY, `${item.value}`, "normal", 0);
+                    const key2Text = this.drawText(840, targetY, `${item.value}`, "normal", 0);
                     
                     this.texts.push(key1Text, key2Text);
     
@@ -1156,6 +1156,17 @@ export class OptionScene extends FNFScene {
             }
             
             this.menuCursor = this.addMenuCursor(this.texts, columns, cursorType, startx);
+
+            if (columns === 2) {
+                this.menuCursor.on('move', () => {
+                    for (let i = 0; i < this.labels.length; i++) {
+                        const correspondingKeyText = this.texts[i * 2];
+                        if (correspondingKeyText && this.labels[i]) {
+                            this.labels[i].y = correspondingKeyText.y;
+                        }
+                    }
+                });
+            }
         }
     }
 
