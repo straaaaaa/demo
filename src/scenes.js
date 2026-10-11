@@ -1121,14 +1121,16 @@ export class OptionScene extends FNFScene {
                 if (item.type === "keybind") {
                     cursorType = "static"
                     startx = 140;
+                    this.texts.push(text);
                     const keybindValues = [
                         this.drawText(0,0,`${item.value[0]}`,"normal",0);
                         this.drawText(0,0,`${item.value[1]}`,"normal",0);
-                    ]
+                    ];
+                    this.texts.push(...keybindValues);
                 } else {
                     text.addValue(item.type,item.value);
+                    this.texts.push(text);
                 }
-                this.texts.push(text);
             }
             this.menuCursor = this.addMenuCursor(this.texts,this.settings[key].cols,cursorType,startx);
         }
