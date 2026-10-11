@@ -39,6 +39,8 @@ export class InputManager {
         this.keyboard = scene.input.keyboard;
 
         this.keyCache = {};
+
+        this.repeatTimers = {};
     }
     getKeys(action) {
         const options = this.scene.registry.get("options");
@@ -68,20 +70,29 @@ export class InputManager {
         return this.getKeys(action)
             .some(key => Phaser.Input.Keyboard.JustUp(key));
     }
+
     isRepeated(action, delay = 500, interval = 100) {
-        return this.getKeys(action).some(key => {
-            const duration = key.getDuration();
+        const keys = this.getKeys(action);
+        const isAnyDown = keys.some(key => key.isDown);
 
-            if (Phaser.Input.Keyboard.JustDown(key)) {
-                return true;
-            }
-
-            if (key.isDown && duration > delay) {
-                return (duration - delay) % interval < 16;
-            }
-
+        if (!isAnyDown) {
+            delete this.repeatTimers[action];
             return false;
-        });
+        }
+
+        const currentTime = this.scene.time.now;
+
+        if (!this.repeatTimers[action]) {
+            this.repeatTimers[action] = currentTime + delay;
+            return true;
+        }
+
+        if (currentTime >= this.repeatTimers[action]) {
+            this.repeatTimers[action] += interval;
+            return true;
+        }
+
+        return false;
     }
 }
 
