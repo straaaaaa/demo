@@ -20,7 +20,7 @@ const config = {
     fps: {
         target:120,
         forceSetTimeOut:false
-    }
+    },
 
     scale: {
         mode: Phaser.Scale.FIT,
