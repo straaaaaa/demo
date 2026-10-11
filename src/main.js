@@ -19,7 +19,7 @@ const config = {
     roundPixels: false,
     fps: {
         target:120,
-        forceSetTimeOut:false
+        forceSetTimeOut:true
     },
 
     scale: {
