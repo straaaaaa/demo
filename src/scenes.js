@@ -992,14 +992,14 @@ export class OptionScene extends FNFScene {
                 if (this.inputManager.isRepeated("left")) {
                     currentPosition[currentItem].value --;
                     if (currentPosition[currentItem].value < currentPosition[currentItem].min) currentPosition[currentItem].value = currentPosition[currentItem].min;
-                    this.texts[this.menuCursor.inde].changeValue("int",currentPosition[currentItem].value);
+                    this.texts[this.menuCursor.index].changeValue("int",currentPosition[currentItem].value);
                     options[this.positionNames.at(-1)][currentItem].value = currentPosition[currentItem].value;
                     this.saveOptions(options);
                 }
                 if (this.inputManager.isRepeated("right")) {
                     currentPosition[currentItem].value ++;
                     if (currentPosition[currentItem].value > currentPosition[currentItem].max) currentPosition[currentItem].value = currentPosition[currentItem].max;
-                    this.texts[this.menuCursor.inde].changeValue("int",currentPosition[currentItem].value);
+                    this.texts[this.menuCursor.index].changeValue("int",currentPosition[currentItem].value);
                     options[this.positionNames.at(-1)][currentItem].value = currentPosition[currentItem].value;
                     this.saveOptions(options);
                 }
