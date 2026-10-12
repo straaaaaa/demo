@@ -108,7 +108,7 @@ export class FNFScene extends Phaser.Scene {
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
         }
-        if (FpsCounter) {
+        if (!FpsCounter) {
             this.scene.sleep("DebugScene");
         } else {
             this.scene.wake("DebugScene");
@@ -1128,7 +1128,7 @@ export class OptionScene extends FNFScene {
                         this.saveOptions(options);
 
                         if (currentItem === "FpsCounter") {
-                            if (newValue) {
+                            if (!newValue) {
                                 this.scene.sleep("DebugScene");
                             } else {
                                 this.scene.wake("DebugScene");
