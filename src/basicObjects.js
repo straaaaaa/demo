@@ -13,6 +13,7 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         this.depth = 1000;
         this.letters = [];
         this.updateText();
+        this.followTarget = null;
         this.time = 0;
         this.interval = 41.67;
     }
@@ -167,6 +168,10 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
         }
     }
 
+    addFollowTarget(target) {
+        this.followTarget = target;
+    }
+
     update(time,delta) {
         this.time += delta;
         while (this.time >= this.interval) {
@@ -203,6 +208,10 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
 
             this.valueObj.x = this.valueObj.xx-this.valueObj.Xoffset;
             this.valueObj.y = this.valueObj.yy-this.valueObj.Yoffset;
+        } else {
+            if (this.followTarget) {
+                this.y = this.followTarget.y;
+            }
         }
     }
 }

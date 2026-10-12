@@ -1139,8 +1139,10 @@ export class OptionScene extends FNFScene {
                     const labelText = this.drawText(140, 0, `${itemKey}`, "normal", 0);
                     this.labels.push(labelText);
     
-                    const key1Text = this.drawText(540, 0, `${item.value[0]}`, "normal", 0);
-                    const key2Text = this.drawText(840, 0, `${item.value[1]}`, "normal", 0);
+                    const key1Text = this.drawText(540, 0, `${item.value[0] ?? "---"}`, "normal", 0);
+                    const key2Text = this.drawText(840, 0, `${item.value[1] ?? "---"}`, "normal", 0);
+
+                    labelText.addFollowTarget(key1Text);
                     
                     this.texts.push(key1Text, key2Text);
     
