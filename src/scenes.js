@@ -1149,7 +1149,7 @@ export class OptionScene extends FNFScene {
 
                         this.input.keyboard.once("keydown", (event) => {
 
-                            const newKey = getPhaserKeyString();
+                            const newKey = getPhaserKeyString(event);
 
                             const keySlotIndex = index % 2; 
 
