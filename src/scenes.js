@@ -913,6 +913,43 @@ export class FreeplayScene extends FNFScene {
     }
 }
 
+const browserToPhaserMap = {
+    'Escape': 'ESC',
+    'Space': 'SPACE',
+    'ArrowUp': 'UP',
+    'ArrowDown': 'DOWN',
+    'ArrowLeft': 'LEFT',
+    'ArrowRight': 'RIGHT',
+    'ControlLeft': 'CTRL',
+    'ControlRight': 'CTRL',
+    'ShiftLeft': 'SHIFT',
+    'ShiftRight': 'SHIFT',
+    'AltLeft': 'ALT',
+    'AltRight': 'ALT',
+    'Enter': 'ENTER',
+    'Backspace': 'BACKSPACE',
+    'Tab': 'TAB'
+};
+
+// キー入力を受け取る関数（キーバインド設定画面などで使用）
+function getPhaserKeyString(event) {
+    if (browserToPhaserMap[event.code]) {
+        return browserToPhaserMap[event.code];
+    }
+
+    if (event.code.startsWith('Key')) {
+        return event.code.replace('Key', ''); 
+    }
+
+    if (event.code.startsWith('Digit')) {
+        const numMap = ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'];
+        const num = parseInt(event.code.replace('Digit', ''), 10);
+        return numMap[num] || null;
+    }
+
+    return event.key.toUpperCase();
+}
+
 export class OptionScene extends FNFScene {
     constructor() {
         super("OptionScene");
@@ -985,7 +1022,6 @@ export class OptionScene extends FNFScene {
 
     onUpdate(time,delta) {
         if (this.isBinding) {
-            alert("Binding");
             return;
         }
 
@@ -1077,7 +1113,7 @@ export class OptionScene extends FNFScene {
             default: {
                 const options = this.registry.get("options");
                 const currentPosition = options[this.positionNames.at(-1)];
-                const currentItem = Object.keys(currentPosition)[index / this.menuCursor?.cols];
+                const currentItem = Object.keys(currentPosition)[Math.floor(index / this.menuCursor?.cols)];
                 switch (currentPosition[currentItem]?.type) {
                     case "bool": {
                         let newValue = null;
@@ -1102,10 +1138,8 @@ export class OptionScene extends FNFScene {
                         break;
                     }
                     case "keybind": {
-                        alert("keybind")
 
                         if (this.isBinding) return;
-                        alert("notIsBinding")
                         this.isBinding = true;
 
                         const targetTextObj = this.texts[index];
@@ -1115,7 +1149,7 @@ export class OptionScene extends FNFScene {
 
                         this.input.keyboard.once("keydown", (event) => {
 
-                            const newKey = event.key;
+                            const newKey = getPhaserKeyString();
 
                             const keySlotIndex = index % 2; 
 
