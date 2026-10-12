@@ -4,6 +4,7 @@ export class SaveManager {
     }
 
     static loadOptions() {
+        return null;
         const raw = localStorage.getItem("game_options");
         if (!raw) return null;
         return JSON.parse(raw);
