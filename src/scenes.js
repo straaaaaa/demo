@@ -1175,13 +1175,13 @@ export class OptionScene extends FNFScene {
             return;
         }
         const blackBand = this.add.rectangle(0,615,1280,105,0x000000,0.6).setOrigin(0,0);
-        blackBand.setDepth(100);
+        blackBand.setDepth(1500);
         const description = this.add.text(60,640,`${text}`,{
             fontFamily: "vcr",
             fontSize: "20px",
             fill: "#ffffff"
         }).setOrigin(0,0);
-        description.setDepth(150);
+        description.setDepth(1600);
         this.currentDescriptionText = text;
         this.descriptionObjects = [blackBand,description];
     }
