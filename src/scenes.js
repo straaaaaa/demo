@@ -985,6 +985,7 @@ export class OptionScene extends FNFScene {
             return;
         }
         if (this.positionNames.at(-1) === "main") {
+            this.showDescription(null);
             if (!this.menuCursor) return;
             for (const text of this.texts) {
                 if (this.menuCursor.index === i) {
@@ -1160,6 +1161,9 @@ export class OptionScene extends FNFScene {
     }
 
     showDescription(text) {
+        if (this.currentDescriptionText === text) {
+            return;
+        }
         if (this.descriptionObjects && this.descriptionObjects.length > 0) {
             this.descriptionObjects.forEach(obj => {
                 if (obj) obj.destroy();
@@ -1178,6 +1182,7 @@ export class OptionScene extends FNFScene {
             fill: "#ffffff"
         }).setOrigin(0,0);
         description.setDepth(150);
+        this.currentDescriptionText = text;
         this.descriptionObjects = [blackBand,description];
     }
 
