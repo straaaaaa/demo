@@ -1160,6 +1160,12 @@ export class OptionScene extends FNFScene {
     }
 
     showDescription(text) {
+        if (this.descriptionObjects && this.descriptionObjects.length > 0) {
+            this.descriptionObjects.forEach(obj => {
+                if (obj) obj.destroy();
+            });
+            this.descriptionObjects = [];
+        }
         if (!text) {
             this.descriptionObjects = [];
             return;
