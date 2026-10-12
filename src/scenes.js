@@ -1068,7 +1068,7 @@ export class OptionScene extends FNFScene {
             default: {
                 const options = this.registry.get("options");
                 const currentPosition = options[this.positionNames.at(-1)];
-                const currentItem = Object.keys(currentPosition)[index];
+                const currentItem = Object.keys(currentPosition)[index / this.menuCursor?.cols];
                 switch (currentPosition[currentItem]?.type) {
                     case "bool": {
                         let newValue = null;
