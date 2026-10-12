@@ -1090,7 +1090,7 @@ export class OptionScene extends FNFScene {
         }
     }
 
-    setItems(key, current = null) {
+    setItems(key,current=null) {
         if (this.texts && this.texts.length > 0) {
             for (const text of this.texts) {
                 if (text && text.destroy) {
@@ -1100,82 +1100,41 @@ export class OptionScene extends FNFScene {
         }
         this.texts = [];
         this.menuCursor.destroy();
-    
-        if (this.labels && this.labels.length > 0) {
-            for (const label of this.labels) {
-                if (label && label.destroy) {
-                    label.destroy();
-                }
-            }
-        }
-        this.labels = [];
-    
         if (key === "main") {
             const options = Object.keys(this.registry.get("options"));
             for (const option of options) {
-                const text = this.drawText(0, 0, option, "bold");
+                const text = this.drawText(0,0,option,"bold");
                 this.texts.push(text);
             }
-            this.menuCursor = this.addMenuCursor(this.texts, 1, "static", 640, 240, false, 120);
+            this.menuCursor = this.addMenuCursor(this.texts,1,"static",640,240,false,120);
             const index = options.indexOf(current);
             if (index >= 0) {
                 this.menuCursor.row = index;
             }
         } else {
             const itemObjects = this.registry.get("options")[key];
-            
-            let cursorType = "v-slice";
-            let startx = 90;
-            let columns = this.settings[key]?.cols || 1;
-            let itemIndex = 0;
-    
             for (const itemKey in itemObjects) {
                 const item = itemObjects[itemKey];
-                
+                const text = this.drawText(0,0,`${itemKey}`,"normal",0);
+                let cursorType = "v-slice";
+                let startx = 90;
                 if (item.type === "keybind") {
-                    cursorType = "static";
-                    startx = 540;
-                    columns = 2;
-    
-                    const targetY = itemIndex * 120;
-    
-                    const labelText = this.drawText(140, targetY, `${itemKey}`, "normal", 0);
-                    this.labels.push(labelText);
-    
-                    const key1Text = this.drawText(540, targetY, `${item.value[0] || ""}`, "normal", 0);
-                    const key2Text = this.drawText(840, targetY, `${item.value[1] || ""}`, "normal", 0);
-                    
-                    this.texts.push(key1Text, key2Text);
-    
+                    cursorType = "static"
+                    startx = 140;
+                    this.texts.push(text);
+                    const keybindValues = [
+                        this.drawText(0,0,`${item.value[0]}`,"normal",0);
+                        this.drawText(0,0,`${item.value[1]}`,"normal",0);
+                    ];
+                    this.texts.push(...keybindValues);
                 } else {
-                    const text = this.drawText(startx, 0, `${itemKey}`, "normal", 0);
-                    text.addValue(item.type, item.value);
+                    text.addValue(item.type,item.value);
                     this.texts.push(text);
                 }
-                itemIndex++;
             }
-            
-            this.menuCursor = this.addMenuCursor(this.texts, columns, cursorType, startx);
-    
-            if (columns === 2) {
-                const syncLabels = () => {
-                    for (let i = 0; i < this.labels.length; i++) {
-                        const correspondingKeyText = this.texts[i * 2];
-                        if (correspondingKeyText && this.labels[i]) {
-                            this.labels[i].y = correspondingKeyText.y;
-                            if (correspondingKeyText.scrollFactorX !== undefined) {
-                                this.labels[i].setScrollFactor(correspondingKeyText.scrollFactorX, correspondingKeyText.scrollFactorY);
-                            }
-                        }
-                    }
-                };
-                this.menuCursor.on('move', syncLabels);
-                syncLabels();
-            }
+            this.menuCursor = this.addMenuCursor(this.texts,this.settings[key].cols,cursorType,startx);
         }
     }
-
-
 
     getValueFromPattern(requestedIndex) {
         const base = requestedIndex - 1;
