@@ -1005,6 +1005,7 @@ export class OptionScene extends FNFScene {
             const options = this.registry.get("options");
             const currentPosition = options[this.positionNames.at(-1)];
             const currentItem = Object.keys(currentPosition)[this.menuCursor.index];
+            this.showDescription(currentPosition[currentItem]?.description);
             if (currentPosition[currentItem]?.type === "int") {
                 if (this.inputManager.isRepeated("left")) {
                     currentPosition[currentItem].value --;
@@ -1158,6 +1159,21 @@ export class OptionScene extends FNFScene {
         }
     }
 
+    showDescription(text) {
+        if (!text) {
+            this.descriptionObjects = [];
+            return;
+        }
+        const blackBand = this.add.rectangle(0,615,1280,105,0x000000,0.6).setOrigin(0,0);
+        blackBand.setDepth(100);
+        const description = this.add.text(60,640,`${text}`,{
+            fontFamily: "vcr",
+            fontSize: "20px",
+            fill: "#ffffff"
+        }).setOrigin(0,0);
+        description.setDepth(150);
+        this.descriptionObjects = [blackBand,description];
+    }
 
     getValueFromPattern(requestedIndex) {
         const base = requestedIndex - 1;
