@@ -102,7 +102,7 @@ export class FNFScene extends Phaser.Scene {
 
         const options = this.registry.get("options");
 
-        this.changeFPS(options.graphics.Fps.value);
+        this.changeFPS(options.graphics.Fps.value,options.graphics.VSync.value);
 
         const disableFpsCounter = options?.graphics?.DisableFpsCounter?.value;
         if (!this.scene.isActive("DebugScene")) {
@@ -131,7 +131,7 @@ export class FNFScene extends Phaser.Scene {
 
     onUpdate(time,delta) {};
 
-    changeFPS(targetFps) {
+    changeFPS(targetFps,VSync=true) {
         const loop = this.game.loop;
 
         if (loop.target === targetFps) {
@@ -143,7 +143,7 @@ export class FNFScene extends Phaser.Scene {
         Phaser.Core.TimeStep.call(loop, this.game, {
             target: targetFps,
             limit: targetFps,
-            forceSetTimeOut: true
+            forceSetTimeOut: !VSync
         });
 
         loop.resetDelta();
@@ -1037,7 +1037,8 @@ export class OptionScene extends FNFScene {
     }
 
     back() {
-        this.changeFPS(this.registry.get("options").graphics.Fps.value);
+        const options = this.registry.get("options");
+        this.changeFPS(options.graphics.Fps.value,options.graphics.VSync.value);
         switch(this.positionNames.length) {
             case 1:
                 if (this.menuCursor) {

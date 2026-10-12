@@ -39,6 +39,10 @@
         "DisableFpsCounter": {
             "value": false,
             "type": "bool"
+        },
+        "VSync": {
+            "value": true,
+            "type": "bool"
         }
     },
     "gameplay": {
