@@ -1041,6 +1041,7 @@ export class OptionScene extends FNFScene {
     }
 
     back() {
+        if (this.isBinding) return;
         const options = this.registry.get("options");
         this.changeFPS(options.graphics.Fps.value,options.graphics.VSync.value);
         switch(this.positionNames.length) {
@@ -1100,10 +1101,11 @@ export class OptionScene extends FNFScene {
                         const targetTextObj = this.texts[index];
 
                         targetTextObj.text = ">-<";
+                        targetTextObj.updateText();
 
                         this.input.keyboard.once("keydown", (event) => {
 
-                            const newKey = event.code; 
+                            const newKey = event.key;
 
                             const keySlotIndex = index % 2; 
 
@@ -1111,11 +1113,12 @@ export class OptionScene extends FNFScene {
                             this.saveOptions(options);
 
                             targetTextObj.text = newKey;
+                            targetTextObj.updateText();
 
                             this.soundManager.playSE("scrollMenu");
                             this.inputManager.keyCache = {};
 
-                            this.time.delayedCall(100, () => {
+                            this.time.delayedCall(200, () => {
                                 this.isBinding = false;
                             });
                         });
