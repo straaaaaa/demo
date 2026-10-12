@@ -979,6 +979,8 @@ export class OptionScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
+        if (this.isBinding) return;
+
         let i = 0;
         if (this.inputManager.wasPressed("back")) {
             this.back();
@@ -1056,7 +1058,6 @@ export class OptionScene extends FNFScene {
     }
 
     enter(index) {
-        wtf.setttt().pauefiaw();
         switch (this.positionNames.at(-1)) {
             case "main": {
                 const options = Object.keys(this.registry.get("options"));
@@ -1069,7 +1070,7 @@ export class OptionScene extends FNFScene {
                 const currentPosition = options[this.positionNames.at(-1)];
                 const currentItem = Object.keys(currentPosition)[index];
                 switch (currentPosition[currentItem]?.type) {
-                    case "bool":
+                    case "bool": {
                         let newValue = null;
                         if (currentPosition[currentItem].value === true) {
                             newValue = false;
@@ -1090,9 +1091,37 @@ export class OptionScene extends FNFScene {
                             }
                         }
                         break;
-                    case "keybind":
+                    }
+                    case "keybind": {
+
+                        if (this.isBinding) return;
+                        this.isBinding = true;
+
+                        const targetTextObj = this.texts[index];
+
+                        targetTextObj.text = ">-<";
+
+                        this.input.keyboard.once("keydown", (event) => {
+
+                            const newKey = event.code; 
+
+                            const keySlotIndex = index % 2; 
+
+                            currentPosition[currentItem].value[keySlotIndex] = newKey;
+                            this.saveOptions(options);
+
+                            targetTextObj.text = newKey;
+
+                            this.soundManager.playSE("scrollMenu");
+                            this.inputManager.keyCache = {};
+
+                            this.time.delayedCall(100, () => {
+                                this.isBinding = false;
+                            });
+                        });
+                        break;
+                    }
                 }
-                break;
             }
         }
     }
