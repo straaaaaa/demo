@@ -915,20 +915,20 @@ export class FreeplayScene extends FNFScene {
 
 const browserToPhaserMap = {
     'Escape': 'ESC',
-    'Space': 'SPACE',
-    'ArrowUp': 'UP',
-    'ArrowDown': 'DOWN',
-    'ArrowLeft': 'LEFT',
-    'ArrowRight': 'RIGHT',
-    'ControlLeft': 'CTRL',
-    'ControlRight': 'CTRL',
-    'ShiftLeft': 'SHIFT',
-    'ShiftRight': 'SHIFT',
-    'AltLeft': 'ALT',
-    'AltRight': 'ALT',
-    'Enter': 'ENTER',
-    'Backspace': 'BACKSPACE',
-    'Tab': 'TAB'
+    'Space': 'Space',
+    'ArrowUp': 'Up',
+    'ArrowDown': 'Down',
+    'ArrowLeft': 'Left',
+    'ArrowRight': 'Right',
+    'ControlLeft': 'Ctrl',
+    'ControlRight': 'Ctrl',
+    'ShiftLeft': 'Shift',
+    'ShiftRight': 'Shift',
+    'AltLeft': 'Alt',
+    'AltRight': 'Alt',
+    'Enter': 'Enter',
+    'Backspace': 'BackSpace',
+    'Tab': 'Tab'
 };
 
 // キー入力を受け取る関数（キーバインド設定画面などで使用）
