@@ -1056,6 +1056,7 @@ export class OptionScene extends FNFScene {
     }
 
     enter(index) {
+        wtf.setttt().pauefiaw();
         switch (this.positionNames.at(-1)) {
             case "main": {
                 const options = Object.keys(this.registry.get("options"));
@@ -1095,7 +1096,6 @@ export class OptionScene extends FNFScene {
             }
         }
     }
-    wtf
 
     setItems(key, current = null) {
         if (this.texts && this.texts.length > 0) {
