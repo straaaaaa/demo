@@ -975,11 +975,19 @@ export class OptionScene extends FNFScene {
 
         this.positionNames = ["main"];
 
+        this.isBinding = true;
+        this.time.delayedCall(500, () => {
+            this.isBinding = false;
+        });
+
         this.enterTransition();
     }
 
     onUpdate(time,delta) {
-        if (this.isBinding) return;
+        if (this.isBinding) {
+            alert("Binding");
+            return;
+        }
 
         let i = 0;
         if (this.inputManager.wasPressed("back")) {
@@ -1094,8 +1102,10 @@ export class OptionScene extends FNFScene {
                         break;
                     }
                     case "keybind": {
+                        alert("keybind")
 
                         if (this.isBinding) return;
+                        alert("notIsBinding")
                         this.isBinding = true;
 
                         const targetTextObj = this.texts[index];
