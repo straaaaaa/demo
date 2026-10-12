@@ -104,11 +104,11 @@ export class FNFScene extends Phaser.Scene {
 
         this.changeFPS(options.graphics.Fps.value,options.graphics.VSync.value);
 
-        const disableFpsCounter = options?.graphics?.DisableFpsCounter?.value;
+        const FpsCounter = options?.graphics?.FpsCounter?.value;
         if (!this.scene.isActive("DebugScene")) {
             this.scene.launch("DebugScene");
         }
-        if (disableFpsCounter) {
+        if (FpsCounter) {
             this.scene.sleep("DebugScene");
         } else {
             this.scene.wake("DebugScene");
@@ -1067,31 +1067,35 @@ export class OptionScene extends FNFScene {
                 const options = this.registry.get("options");
                 const currentPosition = options[this.positionNames.at(-1)];
                 const currentItem = Object.keys(currentPosition)[index];
-                if (currentPosition[currentItem]?.type === "bool") {
-                    let newValue = null;
-                    if (currentPosition[currentItem].value === true) {
-                        newValue = false;
-                        this.texts[index]?.valueObj.anims.play("check_off");
-                    } else {
-                        newValue = true;
-                        this.texts[index]?.valueObj.anims.play("check_on");
-                    }
-                    options[this.positionNames.at(-1)][currentItem].value = newValue;
-                    this.saveOptions(options);
-
-                    if (currentItem === "DisableFpsCounter") {
-                        if (newValue) {
-                            this.scene.sleep("DebugScene");
+                switch (currentPosition[currentItem]?.type) {
+                    case "bool":
+                        let newValue = null;
+                        if (currentPosition[currentItem].value === true) {
+                            newValue = false;
+                            this.texts[index]?.valueObj.anims.play("check_off");
                         } else {
-                            this.scene.wake("DebugScene");
-                            this.scene.bringToTop("DebugScene");
+                            newValue = true;
+                            this.texts[index]?.valueObj.anims.play("check_on");
                         }
-                    }
+                        options[this.positionNames.at(-1)][currentItem].value = newValue;
+                        this.saveOptions(options);
+
+                        if (currentItem === "FpsCounter") {
+                            if (newValue) {
+                                this.scene.sleep("DebugScene");
+                            } else {
+                                this.scene.wake("DebugScene");
+                                this.scene.bringToTop("DebugScene");
+                            }
+                        }
+                        break;
+                    case "keybind":
                 }
                 break;
             }
         }
     }
+    wtf
 
     setItems(key, current = null) {
         if (this.texts && this.texts.length > 0) {
