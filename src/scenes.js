@@ -1276,10 +1276,22 @@ export class OptionScene extends FNFScene {
         const originalIndex = (group * 3) + offset + 1;
 
         return originalIndex;
-}
+    }
 
     saveOptions(newOptions) {
         SaveManager.saveOptions(newOptions);
         this.registry.set("options",newOptions);
     }
+}
+
+export class PlayScene extends {
+    constructor() {
+        super("PlayScene");
+    }
+
+    init(data) {
+        this.song = data;
+    }
+
+
 }
