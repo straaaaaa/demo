@@ -5,7 +5,8 @@ import {
     TitleScene,
     MainMenuScene,
     FreeplayScene,
-    OptionScene
+    OptionScene,
+    PlayScene
 } from "./scenes.js";
 
 const config = {
@@ -40,7 +41,8 @@ const config = {
         TitleScene,
         MainMenuScene,
         FreeplayScene,
-        OptionScene
+        OptionScene,
+        PlayScene
     ]
 };
 new Phaser.Game(config);

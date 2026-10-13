@@ -299,7 +299,7 @@ export class FNFScene extends Phaser.Scene {
         return textObj;
     }
 
-    startTransition(scene) {
+    startTransition(scene,initData) {
         const transition = this.add.container(0, -1520).setDepth(2000);
 
         const gradient = this.add.graphics();
@@ -326,7 +326,7 @@ export class FNFScene extends Phaser.Scene {
             duration: 800,
             ease: "Linear",
             onComplete: () => {
-                this.scene.start(scene);
+                this.scene.start(scene,initData);
             }
         });
     }
@@ -634,6 +634,7 @@ export class MainMenuScene extends FNFScene {
     }
 
     preload() {
+        this.load.json("songs","mods/songs.json");
         this.load.image("menuBG","assets/images/menuBG.png");
         this.load.image("menuDesat","assets/images/menuDesat.png");
         this.load.atlas("menu_freeplay","assets/images/menu_freeplay.png","assets/data/menu_freeplay.json");
@@ -861,16 +862,17 @@ export class FreeplayScene extends FNFScene {
         super("FreeplayScene");
     }
 
+    preload() {
+        const songList = this.cache.json.get("songs").songs;
+        for (const song of songList) {}
+    }
+
     onCreate() {
         if (this.texts && this.texts.length > 0) {
             this.texts.forEach(text => { if(text.destroy) text.destroy(); });
         }
         const texts = [
             this.drawText(0,0,"Untold Loneliness","bold",0),
-            this.drawText(0,0,"Unknown Suffering","bold",0),
-            this.drawText(0,0,"Termination","bold",0),
-            this.drawText(0,0,"2hot","bold",0),
-            this.drawText(0,0,"Come along with me","bold",0)
         ]
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {

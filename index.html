@@ -25,6 +25,8 @@
             image-rendering: crisp-edges;
         }
     </style>
+
+    <script src="https://unpkg.com/wasmoon@1.16.0/dist/index.js"></script>
 </head>
 
 <body>
@@ -105,7 +107,23 @@
             }
         }, true);
     </script>
+    <script>
+        async function initLua() {
+            const { LuaFactory } = wasmoon; 
+            const factory = new LuaFactory(); 
+
+            window.luaEngine = await factory.createEngine(); 
+            console.log("Luaエンジンの準備が完了しました！コンソールから window.luaEngine が使えます。");
+        }
+
+        initLua();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+        eruda.init();
+        console.log('Hello World');
+    </script>
     <script type="module" src="./src/main.js" crossorigin="anonymous"></script>
 </body>
 </html>
