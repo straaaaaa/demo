@@ -1286,7 +1286,7 @@ export class OptionScene extends FNFScene {
     }
 }
 
-export class PlayScene extends {
+export class PlayScene extends FNFScene {
     constructor() {
         super("PlayScene");
     }
