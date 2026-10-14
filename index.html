@@ -2,8 +2,11 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>無題</title>
     <link href="">
+
+    <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 
     <style>
         body {
@@ -25,14 +28,21 @@
             image-rendering: crisp-edges;
         }
     </style>
-
-    <script src="https://unpkg.com/wasmoon@1.16.0/dist/index.js"></script>
 </head>
 
 <body>
     <div id="game-wrapper">
         <div id="game"></div>
     </div>
+
+    <script>
+    // ライブラリが自動で「Peer」を準備してくれているので、いきなり使えます！
+    const peer = new Peer(); 
+    
+    peer.on('open', (id) => {
+        console.log("あなたの通信用IDは: " + id);
+    });
+</script>
 
     <script>
         /**
@@ -106,17 +116,6 @@
                 logErrorToScreen("RESOURCE ERROR", "Failed to load: " + (event.target.src || event.target.href));
             }
         }, true);
-    </script>
-    <script>
-        async function initLua() {
-            const { LuaFactory } = wasmoon; 
-            const factory = new LuaFactory(); 
-
-            window.luaEngine = await factory.createEngine(); 
-            console.log("Luaエンジンの準備が完了しました！コンソールから window.luaEngine が使えます。");
-        }
-
-        initLua();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
