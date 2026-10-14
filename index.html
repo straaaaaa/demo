@@ -82,7 +82,7 @@
             return false;
         };
 
-        // 2. Promise内のエラー（AssetLoaderなど）をキャッチ
+        // 2. Promise内のエラーをキャッチ
         window.onunhandledrejection = function (event) {
             let reason = event.reason;
             let message = "No reason provided";
@@ -108,11 +108,6 @@
         }, true);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>
-        eruda.init();
-        console.log('Hello World');
-    </script>
     <script type="module" src="./src/main.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -896,6 +896,11 @@ export class FreeplayScene extends FNFScene {
 
         if (!this.menuCursor || !this.texts) return;
 
+        if (this.inputManager.wasPressed("accept")) {
+            this.scene.start("SongInfoScene",this.texts[this.menuCursor.index]);
+            return;
+        }
+
         let i = 0;
         for (const text of this.texts) {
 
@@ -1283,6 +1288,12 @@ export class OptionScene extends FNFScene {
     saveOptions(newOptions) {
         SaveManager.saveOptions(newOptions);
         this.registry.set("options",newOptions);
+    }
+}
+
+export class SongInfoScene extends FNFScene {
+    constructor() {
+        super("SongInfoScene");
     }
 }
 
