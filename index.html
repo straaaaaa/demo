@@ -34,15 +34,54 @@
     <div id="game-wrapper">
         <div id="game"></div>
     </div>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+        const roomId = urlParams.get('room');
 
-    <script>
-    // ライブラリが自動で「Peer」を準備してくれているので、いきなり使えます！
-    const peer = new Peer(); 
-    
-    peer.on('open', (id) => {
-        console.log("あなたの通信用IDは: " + id);
-    });
-</script>
+        if (roomId) {
+            // --------------------------------------------------
+            // 【ゲスト側】URLにパラメータがある場合、自動でホストへ接続
+            // --------------------------------------------------
+            const peer = new Peer();
+            
+            peer.on('open', () => {
+                console.log("【ゲスト】接続の準備ができました。ホストに接続します...");
+                const conn = peer.connect(roomId);
+                
+                conn.on('open', () => {
+                    console.log("★ホストとのP2P接続が完了しました！");
+                    // ここに接続成功後の処理（データの送受信など）を書く
+                });
+            });
+
+        } else {
+            // --------------------------------------------------
+            // 【ホスト側】通常アクセス時、自動で部屋URLを発行して画面に表示
+            // --------------------------------------------------
+            const peer = new Peer();
+            
+            peer.on('open', (id) => {
+                // 自分のIDをURLの末尾にくっつけて、接続用URLを作る
+                const shareUrl = `${window.location.origin}${window.location.pathname}?room=${id}`;
+                
+                // 画面にURLをそのまま表示（クリックできるようにリンク化）
+                document.body.innerHTML = `
+                    <h3>接続用URLを発行しました</h3>
+                    <p>このURLをコピーして、別のブラウザで開いてください：</p>
+                    <a href="${shareUrl}" target="_blank">${shareUrl}</a>
+                `;
+                console.log("【ホスト】相手の接続を待っています...");
+            });
+
+            // ゲストが接続してきたらここが動く
+            peer.on('connection', (conn) => {
+                conn.on('open', () => {
+                    console.log("★ゲストとのP2P接続が完了しました！");
+                    // ここに接続成功後の処理（データの送受信など）を書く
+                });
+            });
+        }
+    </script>
 
     <script>
         /**
