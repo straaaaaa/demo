@@ -406,52 +406,7 @@ export class UniversalPreloader extends Phaser.Scene {
     }
 
     create() {
-        if (this.nextInitData && this.nextInitData.dynamicType) {
-            
-            const mode = this.nextInitData.dynamicType;
-            const cacheKey = this.nextInitData.cacheKey;
-
-            if (mode === 'extract_games') {
-                const extractJson = this.cache.json.get(cacheKey);
-                const nextAssets = extractJson.games.map(game => {
-                    return { type: 'json', args: [game.key, game.configPath] };
-                });
-
-                const nextData = {
-                    nextScene: 'UniversalPreloader',
-                    assets: nextAssets,
-                    nextInitData: {
-                        dynamicType: 'extract_assets',
-                        cacheKeys: extractJson.games.map(game => game.key)
-                    }
-                };
-
-                this.scene.start(this.nextScene, nextData);
-                return;
-            }
-
-            if (mode === 'extract_assets') {
-                const keys = this.nextInitData.cacheKeys;
-                const nextAssets = [];
-
-                keys.forEach(key => {
-                    const gameJson = this.cache.json.get(key);
-                    gameJson.assets.forEach(asset => {
-                        nextAssets.push(asset); 
-                    });
-                });
-
-                const finalData = {
-                    nextScene: 'MainGameScene',
-                    assets: nextAssets,
-                    nextInitData: { hp: 100, score: 0 }
-                };
-
-                this.scene.start(this.nextScene, finalData);
-                return;
-            }
-        }
-        this.scene.start(this.nextScene, this.nextInitData);
+        this.scene.start(this.nextScene,this.nextInitData);
     }
 }
 
@@ -917,7 +872,7 @@ export class MainMenuScene extends FNFScene {
                     nextInitData: {
                         nextScene: "UniversalPreloader",
                         nextInitData: {},
-                        dynamicType :"extract_games",
+                        dynamicType :"extract",
                         cacheKey: "modList"
                     },
                     assets: [
