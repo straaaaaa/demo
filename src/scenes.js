@@ -365,6 +365,96 @@ export class FNFScene extends Phaser.Scene {
 
 }
 
+export class UniversalPreloader extends Phaser.Scene {
+    constructor() {
+        super("UniversalPreloader");
+    }
+
+    init(data) {
+        this.nextScene = data.nextScene;
+        this.nextInitData = data.nextInitData;
+        this.assetsToLoad = data.assets;
+        /*
+        dataの具体的なオブジェクト構成
+        {
+            nextScene: "scene名",
+            nextInitData: "次sceneに移行したときに渡すinitのdata"
+            assets: [
+                {
+                    type: "image"
+                    args: ["bg","assets/backGround.png"];
+                },
+                {
+                    type: "atlas"
+                    args: ["player","assets/player.png","asset/player.json"];
+                },
+            ]
+        }
+        */
+    }
+
+    preload() {
+        for (const asset of this.assetsToLoad || []) {
+            const {type,args} = asset;
+
+            if (typeof this.load[type] === "function") {
+                this.load[type](...args);
+            } else {
+                console.warn(`type(${type})が見つかりませんでした`)
+            }
+        }
+    }
+
+    create() {
+        if (this.nextInitData && this.nextInitData.dynamicType) {
+            
+            const mode = this.nextInitData.dynamicType;
+            const cacheKey = this.nextInitData.cacheKey;
+
+            if (mode === 'extract_games') {
+                const extractJson = this.cache.json.get(cacheKey);
+                const nextAssets = extractJson.games.map(game => {
+                    return { type: 'json', args: [game.key, game.configPath] };
+                });
+
+                const nextData = {
+                    nextScene: 'UniversalPreloader',
+                    assets: nextAssets,
+                    nextInitData: {
+                        dynamicType: 'extract_assets',
+                        cacheKeys: extractJson.games.map(game => game.key)
+                    }
+                };
+
+                this.scene.start(this.nextScene, nextData);
+                return;
+            }
+
+            if (mode === 'extract_assets') {
+                const keys = this.nextInitData.cacheKeys;
+                const nextAssets = [];
+
+                keys.forEach(key => {
+                    const gameJson = this.cache.json.get(key);
+                    gameJson.assets.forEach(asset => {
+                        nextAssets.push(asset); 
+                    });
+                });
+
+                const finalData = {
+                    nextScene: 'MainGameScene',
+                    assets: nextAssets,
+                    nextInitData: { hp: 100, score: 0 }
+                };
+
+                this.scene.start(this.nextScene, finalData);
+                return;
+            }
+        }
+        this.scene.start(this.nextScene, this.nextInitData);
+    }
+}
+
 export class IntroScene extends FNFScene {
     constructor() {
         super("IntroScene");
@@ -634,7 +724,6 @@ export class MainMenuScene extends FNFScene {
     }
 
     preload() {
-        this.load.json("songs","mods/songs.json");
         this.load.image("menuBG","assets/images/menuBG.png");
         this.load.image("menuDesat","assets/images/menuDesat.png");
         this.load.atlas("menu_freeplay","assets/images/menu_freeplay.png","assets/data/menu_freeplay.json");
@@ -779,6 +868,11 @@ export class MainMenuScene extends FNFScene {
             this.accepted = true;
             this.selectCurrentItem();
         }
+
+        if (this.inputManager.isRepeated("back") && !this.accepted) {
+            this.accepted = true;
+            this.scene.start("TitleScene");
+        }
     }
 
     changeSelection(dir) {
@@ -806,10 +900,33 @@ export class MainMenuScene extends FNFScene {
 
         const targetSprite = this.menuSprites[this.currentIndex];
 
+        for (const [index, sprite] of this.menuSprites.entries()) {
+            if (index === this.currentIndex) {
+                continue;
+            }
+            sprite.visible = false;
+        }
+
         let newSceneName = "";
+        let initData = null;
         switch (item.name) {
             case "freeplay":
-                newSceneName = "FreeplayScene";
+                newSceneName = "UniversalPreloader";
+                initData = {
+                    nextScene: "UniversalPreloader",
+                    nextInitData: {
+                        nextScene: "UniversalPreloader",
+                        nextInitData: {},
+                        dynamicType :"extract_games",
+                        cacheKey: "modList"
+                    },
+                    assets: [
+                        {
+                            type: "json"
+                            args: ["modList","mods/modList"];
+                        }
+                    ]
+                }
                 break;
             case "online":
                 newSceneName = "OnlineScene";
@@ -849,7 +966,7 @@ export class MainMenuScene extends FNFScene {
                 this.events.off("update", updateBlink);
                 targetSprite.visible = true;
                 targetSprite._isBlinking = false;
-                this.startTransition(newSceneName);
+                this.startTransition(newSceneName,initData);
             }
         };
 
@@ -862,15 +979,24 @@ export class FreeplayScene extends FNFScene {
         super("FreeplayScene");
     }
 
+    init() {
+        this.songList = [];
+    }
+
     preload() {
         const songList = this.cache.json.get("songs").songs;
-        for (const song of songList) {}
+        for (const song of songList) {
+            this.load.audio(`${song}_Inst`,``);
+            this.load.json(`${song}_`);
+            this.songList.push(song);
+        }
     }
 
     onCreate() {
         if (this.texts && this.texts.length > 0) {
             this.texts.forEach(text => { if(text.destroy) text.destroy(); });
         }
+        for ()
         const texts = [
             this.drawText(0,0,"Untold Loneliness","bold",0),
         ]
