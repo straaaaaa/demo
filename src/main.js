@@ -1,6 +1,7 @@
 import {
     BootScene,
     DebugScene,
+    UniversalPreloader,
     IntroScene,
     TitleScene,
     MainMenuScene,
@@ -37,6 +38,7 @@ const config = {
     scene: [
         BootScene,
         DebugScene,
+        UniversalPreloader,
         IntroScene,
         TitleScene,
         MainMenuScene,

@@ -373,12 +373,20 @@ export class UniversalPreloader extends Phaser.Scene {
     init(data) {
         this.nextScene = data.nextScene;
         this.nextInitData = data.nextInitData;
+        if (typeof data.action === "function") {
+            this.action = async () => {
+                await data.action(this);
+            }
+        }
         this.assetsToLoad = data.assets;
         /*
         dataの具体的なオブジェクト構成
         {
             nextScene: "scene名",
-            nextInitData: "次sceneに移行したときに渡すinitのdata"
+            nextInitData: "次sceneに移行したときに渡すinitのdata",
+            action: (targetScene) => {
+                このsceneのcreateで実行するプログラム
+            }
             assets: [
                 {
                     type: "image"
@@ -405,7 +413,8 @@ export class UniversalPreloader extends Phaser.Scene {
         }
     }
 
-    create() {
+    async create() {
+        if (typeof this.action === "function") await this.action();
         this.scene.start(this.nextScene,this.nextInitData);
     }
 }
