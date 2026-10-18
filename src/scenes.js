@@ -919,8 +919,6 @@ export class FreeplayScene extends FNFScene {
                                 this.load.atlas(lowerIconPath,`${_iconPath}.png`,`${_iconPath}.json`);
                             }
                             else {
-                                alert(`${_iconPath}.png`);
-                                alert(lowerIconPath);
                                 this.load.image(lowerIconPath,`${_iconPath}.png`)
                             }
                         }
@@ -943,7 +941,7 @@ export class FreeplayScene extends FNFScene {
             songText.addValue("icon",songData.icon);
             texts.push(songText);
         }
-        alert(songDatas[0].icon);
+        alert(songDatas[0]);
         this.add.sprite(600,300,songDatas[0].icon).depth = 2000000;
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {
