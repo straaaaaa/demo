@@ -941,7 +941,9 @@ export class FreeplayScene extends FNFScene {
             songText.addValue("icon",songData.icon);
             texts.push(songText);
         }
-        alert(songDatas[0].icon);
+        if (this.textures.exists("images/icons/icon-gf")) {
+            alert("images/icons/icon-gf")
+        }
         this.add.sprite(600,300,songDatas[0].icon).depth = 2000000;
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {
