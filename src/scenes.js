@@ -1,6 +1,7 @@
 import {SaveManager} from "./storage.js";
 import {PhantommuffText} from "./basicObjects.js";
 import {MenuCursor,InputManager,SoundManager} from "./managers.js";
+import {loadAndGetJson,waitUntilLoaded,checkFileExists} from './loaderUtils.js';
 
 export class BootScene extends Phaser.Scene {
     constructor() {
@@ -81,9 +82,9 @@ export class FNFScene extends Phaser.Scene {
         super({key: key});
     }
 
-    create() {
+    async create() {
         this.createCommon();
-        this.onCreate();
+        await this.onCreate();
     }
 
     createCommon() {
@@ -363,60 +364,6 @@ export class FNFScene extends Phaser.Scene {
         });
     }
 
-}
-
-export class UniversalPreloader extends Phaser.Scene {
-    constructor() {
-        super("UniversalPreloader");
-    }
-
-    init(data) {
-        this.nextScene = data.nextScene;
-        this.nextInitData = data.nextInitData;
-        if (typeof data.action === "function") {
-            this.action = async () => {
-                await data.action(this);
-            }
-        }
-        this.assetsToLoad = data.assets;
-        /*
-        dataの具体的なオブジェクト構成
-        {
-            nextScene: "scene名",
-            nextInitData: "次sceneに移行したときに渡すinitのdata",
-            action: (targetScene) => {
-                このsceneのcreateで実行するプログラム
-            }
-            assets: [
-                {
-                    type: "image"
-                    args: ["bg","assets/backGround.png"];
-                },
-                {
-                    type: "atlas"
-                    args: ["player","assets/player.png","asset/player.json"];
-                },
-            ]
-        }
-        */
-    }
-
-    preload() {
-        for (const asset of this.assetsToLoad || []) {
-            const {type,args} = asset;
-
-            if (typeof this.load[type] === "function") {
-                this.load[type](...args);
-            } else {
-                console.warn(`type(${type})が見つかりませんでした`)
-            }
-        }
-    }
-
-    async create() {
-        if (typeof this.action === "function") await this.action();
-        this.scene.start(this.nextScene,this.nextInitData);
-    }
 }
 
 export class IntroScene extends FNFScene {
@@ -875,22 +822,7 @@ export class MainMenuScene extends FNFScene {
         let initData = null;
         switch (item.name) {
             case "freeplay":
-                newSceneName = "UniversalPreloader";
-                initData = {
-                    nextScene: "UniversalPreloader",
-                    nextInitData: {
-                        nextScene: "UniversalPreloader",
-                        nextInitData: {},
-                        dynamicType :"extract",
-                        cacheKey: "modList"
-                    },
-                    assets: [
-                        {
-                            type: "json"
-                            args: ["modList","mods/modList"];
-                        }
-                    ]
-                }
+                newSceneName = "FreeplayScene";
                 break;
             case "online":
                 newSceneName = "OnlineScene";
@@ -947,23 +879,64 @@ export class FreeplayScene extends FNFScene {
         this.songList = [];
     }
 
-    preload() {
-        const songList = this.cache.json.get("songs").songs;
-        for (const song of songList) {
-            this.load.audio(`${song}_Inst`,``);
-            this.load.json(`${song}_`);
-            this.songList.push(song);
-        }
-    }
+    async onCreate() {
+        const songDatas = [];
+        try {
+            const modsConfig = await loadAndGetJson(this,"modsConfig","mods/mods.json");
+            for (const modName of modsConfig.mods) {
+                const weekJsonPath = `mods/${modName}/weeks/weeks.json`;
+                const weeksConfig = await loadAndGetJson(this,`weeks_json_${modName}`.toLowerCase(),weekJsonPath);
+                for (const weekName of weeksConfig.weeks) {
+                    const weekDetailPath = `mods/${modName}/weeks/${weekName}.json`;
+                    const weekDetail = await loadAndGetJson(this,`detail_json_${modName}_${weekName}`.toLowerCase(),weekDetailPath);
+                    if (weekDetail.songs) {
+                        const songData = {};
+                        songData.name = weekDetail.songs[0].toLowerCase();
 
-    onCreate() {
+                        const iconPath = `images/icons/icon-${weekDetail.songs[1]}`
+                        let _iconPath = "";
+                        let isJsonAtlas = false;
+                        if (await checkFileExists(`mods/${modName}/${iconPath}.png`)) {
+                            _iconPath = `mods/${modName}/${iconPath}`;
+                        }
+                        else if (await checkFileExists(`mods/${iconPath}.png`)) {
+                            _iconPath = `mods/${iconPath}`;
+                        }
+                        else if (await checkFileExists(`assets/shared/${iconPath}.png`)) {
+                            _iconPath = `assets/shared/${iconPath}`;
+                        }
+
+                        if (_iconPath !== "") {
+                            if (await checkFileExists(`${_iconPath}.json`)) {
+                                isJsonAtlas = true;
+                            }
+
+                            if (isJsonAtlas) {
+                                this.load.atlas(iconPath.toLowerCase(),`${_iconPath}.png`,`${_iconPath}.json`);
+                            }
+                            else {
+                                this.load.image(iconPath.toLowerCase(),`${_iconPath}.png`);
+                            }
+                        }
+
+                        songData.icon = iconPath.toLowerCase();
+                        songDatas.push(songData);
+                    }
+                }
+            }
+            await waitUntilLoaded(this);
+        } catch (error) {
+            console.error("Modの読み込みエラー",error);
+        }
         if (this.texts && this.texts.length > 0) {
             this.texts.forEach(text => { if(text.destroy) text.destroy(); });
         }
-        for ()
-        const texts = [
-            this.drawText(0,0,"Untold Loneliness","bold",0),
-        ]
+        const texts = [];
+        for (const songData of songDatas) {
+            const songText = this.drawText(0,0,songData.name,"bold",0);
+            songText.addValue("icon",songData.icon);
+            texts.push(songText);
+        }
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {
             this.menuCursor.row = 0;
