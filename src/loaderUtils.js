@@ -2,6 +2,7 @@ export function waitUntilLoaded(scene) {
     return new Promise((resolve) => {
 
         if (!scene.load.isLoading() && scene.load.totalToLoad === 0) {
+            alert("resolve");
             resolve();
             return;
         }
@@ -11,6 +12,7 @@ export function waitUntilLoaded(scene) {
         });
 
         if (!scene.load.isLoading()) {
+            alert("loadStart")
             scene.load.start();
         }
     });
