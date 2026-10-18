@@ -943,7 +943,7 @@ export class FreeplayScene extends FNFScene {
             texts.push(songText);
         }
         alert(songDatas[0].icon);
-        this.add.sprite(600,300,songDatas[0].icon);
+        this.add.sprite(600,300,songDatas[0].icon).depth = 2000000;
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {
             this.menuCursor.row = 0;
