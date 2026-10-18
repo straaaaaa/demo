@@ -891,15 +891,15 @@ export class FreeplayScene extends FNFScene {
                 for (const weekName of weeksConfig.weeks) {
                     const weekDetailPath = `mods/${modName}/weeks/${weekName}.json`;
                     const weekDetail = await loadAndGetJson(this,`detail_json_${modName}_${weekName}`.toLowerCase(),weekDetailPath);
-                    alert(weekDetailPath);
-                    alert(weekDetail);
-                    if (weekDetail.songs) {
+                    for (const song of weekDetail.songs) {
                         const songData = {};
-                        songData.name = weekDetail.songs[0].toLowerCase();
+                        songData.name = song[0].toLowerCase();
+                        alert(songData.name);
 
-                        const iconPath = `images/icons/icon-${weekDetail.songs[1]}`
+                        const iconPath = `images/icons/icon-${song[1]}`
                         let _iconPath = "";
                         let isJsonAtlas = false;
+                        alert("iconLoad")
                         if (await checkFileExists(`mods/${modName}/${iconPath}.png`)) {
                             _iconPath = `mods/${modName}/${iconPath}`;
                         }
@@ -909,6 +909,8 @@ export class FreeplayScene extends FNFScene {
                         else if (await checkFileExists(`assets/shared/${iconPath}.png`)) {
                             _iconPath = `assets/shared/${iconPath}`;
                         }
+
+                        alert(_iconPath);
 
                         if (_iconPath !== "") {
                             if (await checkFileExists(`${_iconPath}.json`)) {
