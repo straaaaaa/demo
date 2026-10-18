@@ -882,7 +882,7 @@ export class FreeplayScene extends FNFScene {
     async onCreate() {
         const songDatas = [];
         try {
-            const modsConfig = await loadAndGetJson(this,"modsConfig","mods/mods.json");
+            const modsConfig = await loadAndGetJson(this,"modsConfig","mods/modList.json");
             for (const modName of modsConfig.mods) {
                 const weekJsonPath = `mods/${modName}/weeks/weeks.json`;
                 const weeksConfig = await loadAndGetJson(this,`weeks_json_${modName}`.toLowerCase(),weekJsonPath);
