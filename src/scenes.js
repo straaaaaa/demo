@@ -911,11 +911,13 @@ export class FreeplayScene extends FNFScene {
                                 isJsonAtlas = true;
                             }
 
+                            song.isAtlas = isJsonAtlas;
+
                             if (isJsonAtlas) {
                                 this.load.atlas(iconPath.toLowerCase(),`${_iconPath}.png`,`${_iconPath}.json`);
                             }
                             else {
-                                this.load.spritesheet(iconPath.toLowerCase(),`${_iconPath}.png`,150,150);
+                                this.load.image(iconPath.toLowerCase(),`${_iconPath}.png`);
                             }
                         }
 
@@ -925,8 +927,18 @@ export class FreeplayScene extends FNFScene {
                 }
             }
             await waitUntilLoaded(this);
+
+            songDatas.forEach(song => {
+            if (song.isAtlas) return;
+            if (this.textures.exists(song.icon)) {
+                this.textures.addSpriteSheetFromTexture(song.icon, {
+                    source: song.icon,
+                    frameWidth: 150,
+                    frameHeight: 150
+                });
+            }
+        });
         } catch (error) {
-            alert("読み込めない"+error);
             console.error("Modの読み込みエラー",error);
         }
         if (this.texts && this.texts.length > 0) {
