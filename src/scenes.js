@@ -913,19 +913,18 @@ export class FreeplayScene extends FNFScene {
 
                             songData.isAtlas = isJsonAtlas;
 
+                            const lowerIconPath = iconPath.toLowerCase()
+
                             if (isJsonAtlas) {
-                                this.load.atlas(iconPath.toLowerCase(),`${_iconPath}.png`,`${_iconPath}.json`);
+                                this.load.atlas(lowerIconPath,`${_iconPath}.png`,`${_iconPath}.json`);
                             }
                             else {
                                 alert(`${_iconPath}.png`);
-                                this.load.spritesheet(iconPath.toLowerCase(), `${_iconPath}.png`, {
-                                    frameWidth: 150,
-                                    frameHeight: 150
-                                });
+                                this.load.image(lowerIconPath,`${_iconPath}.png`)
                             }
                         }
 
-                        songData.icon = iconPath.toLowerCase();
+                        songData.icon = lowerIconPath;
                         songDatas.push(songData);
                     }
                 }
