@@ -915,7 +915,7 @@ export class FreeplayScene extends FNFScene {
                                 isJsonAtlas = true;
                             }
 
-                            song.isAtlas = isJsonAtlas;
+                            songData.isAtlas = isJsonAtlas;
 
                             if (isJsonAtlas) {
                                 this.load.atlas(iconPath.toLowerCase(),`${_iconPath}.png`,`${_iconPath}.json`);
