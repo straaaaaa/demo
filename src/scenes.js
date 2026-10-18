@@ -915,7 +915,7 @@ export class FreeplayScene extends FNFScene {
                                 this.load.atlas(iconPath.toLowerCase(),`${_iconPath}.png`,`${_iconPath}.json`);
                             }
                             else {
-                                this.load.image(iconPath.toLowerCase(),`${_iconPath}.png`);
+                                this.load.spritesheet(iconPath.toLowerCase(),`${_iconPath}.png`,150,150);
                             }
                         }
 
