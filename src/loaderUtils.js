@@ -32,6 +32,7 @@ export async function checkFileExists(url) {
   try {
     const response = await fetch(url, { method: 'HEAD' });
 
+    alert(url +response.ok);
     return response.ok;
   } catch (error) {
     console.error('通信エラーが発生しました:', error);
