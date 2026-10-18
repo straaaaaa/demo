@@ -926,7 +926,9 @@ export class FreeplayScene extends FNFScene {
                     }
                 }
             }
+            alert("今からロード")
             await waitUntilLoaded(this);
+            alert("ロード完了")
 
             songDatas.forEach(song => {
             if (song.isAtlas) return;
@@ -938,6 +940,7 @@ export class FreeplayScene extends FNFScene {
                 });
             }
         });
+        alert("complete");
         } catch (error) {
             console.error("Modの読み込みエラー",error);
         }
