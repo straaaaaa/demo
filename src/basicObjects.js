@@ -157,7 +157,13 @@ export class PhantommuffText extends Phaser.GameObjects.Container {
                 this.updateText();
                 break;
             case "icon":
-                const icon = this.scene.add.sprite(this.lastX+10,0,value);
+                const icon = this.scene.add.sprite(this.lastX+10,0,value).setOrigin(0,0);
+                if (this.scene.textures.get(value).frameTotal > 1) {
+                    icon.setFrame("idle")
+                }
+                else {
+                    icon.setCrop(0,0,150,150);
+                }
                 this.icon = icon;
                 this.add(icon);
         }
