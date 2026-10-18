@@ -883,12 +883,16 @@ export class FreeplayScene extends FNFScene {
         const songDatas = [];
         try {
             const modsConfig = await loadAndGetJson(this,"modsConfig","mods/modList.json");
+            alert(modsConfig);
             for (const modName of modsConfig.mods) {
                 const weekJsonPath = `mods/${modName}/weeks/weeks.json`;
                 const weeksConfig = await loadAndGetJson(this,`weeks_json_${modName}`.toLowerCase(),weekJsonPath);
+                alert(weeksConfig);
                 for (const weekName of weeksConfig.weeks) {
                     const weekDetailPath = `mods/${modName}/weeks/${weekName}.json`;
                     const weekDetail = await loadAndGetJson(this,`detail_json_${modName}_${weekName}`.toLowerCase(),weekDetailPath);
+                    alert(weekDetailPath);
+                    alert(weekDetail);
                     if (weekDetail.songs) {
                         const songData = {};
                         songData.name = weekDetail.songs[0].toLowerCase();
@@ -942,6 +946,7 @@ export class FreeplayScene extends FNFScene {
         });
         alert("complete");
         } catch (error) {
+            alert("えらー")
             console.error("Modの読み込みエラー",error);
         }
         if (this.texts && this.texts.length > 0) {

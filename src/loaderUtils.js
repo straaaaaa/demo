@@ -18,6 +18,7 @@ export function waitUntilLoaded(scene) {
 
 export async function loadAndGetJson(scene, key, url) {
     if (scene.cache.json.exists(key)) {
+        alert(key);
         return scene.cache.json.get(key);
     }
 
@@ -31,6 +32,7 @@ export async function loadAndGetJson(scene, key, url) {
 export async function checkFileExists(url) {
   try {
     const response = await fetch(url, { method: 'HEAD' });
+    alert(response.ok);
     return response.ok;
   } catch (error) {
     console.error('通信エラーが発生しました:', error);
