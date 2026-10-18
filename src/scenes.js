@@ -926,6 +926,7 @@ export class FreeplayScene extends FNFScene {
             }
             await waitUntilLoaded(this);
         } catch (error) {
+            alert("読み込めない"+error);
             console.error("Modの読み込みエラー",error);
         }
         if (this.texts && this.texts.length > 0) {
