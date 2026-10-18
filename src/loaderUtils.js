@@ -22,6 +22,13 @@ export async function loadAndGetJson(scene, key, url) {
         return scene.cache.json.get(key);
     }
 
+    const loadErrorListener = (file) => {
+        if (file.key === key) {
+            alert(`【ファイル読込失敗】\nKey: ${key}\nURL: ${url}\n\nパスが間違っているか、ファイルが存在しないか、JSONの構文が壊れています。`);
+        }
+    };
+    scene.load.on('loaderror', loadErrorListener);
+
     scene.load.json(key, url);
 
     await waitUntilLoaded(scene);
@@ -32,7 +39,6 @@ export async function loadAndGetJson(scene, key, url) {
 export async function checkFileExists(url) {
   try {
     const response = await fetch(url, { method: 'HEAD' });
-    alert(response.ok);
     return response.ok;
   } catch (error) {
     console.error('通信エラーが発生しました:', error);
