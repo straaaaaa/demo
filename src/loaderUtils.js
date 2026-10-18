@@ -2,6 +2,7 @@ export function waitUntilLoaded(scene) {
     return new Promise((resolve) => {
 
         if (!scene.load.isLoading() && scene.load.queue.size === 0) {
+            resolve();
             return;
         }
 

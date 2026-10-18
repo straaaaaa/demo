@@ -117,7 +117,7 @@ export class FNFScene extends Phaser.Scene {
         }
     }
 
-    onCreate() {}
+    async onCreate() {}
 
     update(time,delta) {
         this.updateCommon(time,delta);
