@@ -950,6 +950,8 @@ export class FreeplayScene extends FNFScene {
             songText.addValue("icon",songData.icon);
             texts.push(songText);
         }
+        alert(songDatas[o].icon);
+        this.add.sprite(600,300,songDatas[0].icon).depth = 20000000;
         this.menuCursor = this.addMenuCursor(texts);
         if (this.menuCursor) {
             this.menuCursor.row = 0;
