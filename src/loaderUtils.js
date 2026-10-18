@@ -1,7 +1,7 @@
 export function waitUntilLoaded(scene) {
     return new Promise((resolve) => {
 
-        if (!scene.load.isLoading() && scene.load.queue.size === 0) {
+        if (!scene.load.isLoading() && scene.load.totalToLoad === 0) {
             resolve();
             return;
         }
@@ -21,13 +21,6 @@ export async function loadAndGetJson(scene, key, url) {
         alert(key);
         return scene.cache.json.get(key);
     }
-
-    const loadErrorListener = (file) => {
-        if (file.key === key) {
-            alert(`【ファイル読込失敗】\nKey: ${key}\nURL: ${url}\n\nパスが間違っているか、ファイルが存在しないか、JSONの構文が壊れています。`);
-        }
-    };
-    scene.load.on('loaderror', loadErrorListener);
 
     scene.load.json(key, url);
 
