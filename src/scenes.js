@@ -883,23 +883,19 @@ export class FreeplayScene extends FNFScene {
         const songDatas = [];
         try {
             const modsConfig = await loadAndGetJson(this,"modsConfig","mods/modList.json");
-            alert(modsConfig);
             for (const modName of modsConfig.mods) {
                 const weekJsonPath = `mods/${modName}/weeks/weeks.json`;
                 const weeksConfig = await loadAndGetJson(this,`weeks_json_${modName}`.toLowerCase(),weekJsonPath);
-                alert(weeksConfig);
                 for (const weekName of weeksConfig.weeks) {
                     const weekDetailPath = `mods/${modName}/weeks/${weekName}.json`;
                     const weekDetail = await loadAndGetJson(this,`detail_json_${modName}_${weekName}`.toLowerCase(),weekDetailPath);
                     for (const song of weekDetail.songs) {
                         const songData = {};
                         songData.name = song[0].toLowerCase();
-                        alert(songData.name);
 
                         const iconPath = `images/icons/icon-${song[1]}`
                         let _iconPath = "";
                         let isJsonAtlas = false;
-                        alert("iconLoad")
                         if (await checkFileExists(`mods/${modName}/${iconPath}.png`)) {
                             _iconPath = `mods/${modName}/${iconPath}`;
                         }
@@ -909,8 +905,6 @@ export class FreeplayScene extends FNFScene {
                         else if (await checkFileExists(`assets/shared/${iconPath}.png`)) {
                             _iconPath = `assets/shared/${iconPath}`;
                         }
-
-                        alert(_iconPath);
 
                         if (_iconPath !== "") {
                             if (await checkFileExists(`${_iconPath}.json`)) {
@@ -932,9 +926,7 @@ export class FreeplayScene extends FNFScene {
                     }
                 }
             }
-            alert("今からロード")
             await waitUntilLoaded(this);
-            alert("ロード完了")
 
             songDatas.forEach(song => {
             if (song.isAtlas) return;
@@ -946,9 +938,7 @@ export class FreeplayScene extends FNFScene {
                 });
             }
         });
-        alert("complete");
         } catch (error) {
-            alert("えらー")
             console.error("Modの読み込みエラー",error);
         }
         if (this.texts && this.texts.length > 0) {
