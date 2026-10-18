@@ -24,7 +24,7 @@ export async function loadAndGetJson(scene, key, url) {
 // 画像などのロード用（元のままでOK、ただしtotalToLoadを使う）
 export function waitUntilLoaded(scene) {
     return new Promise((resolve) => {
-        if (!scene.load.isLoading() && scene.load.totalToLoad === 0) {
+        if (scene.load.list.size === 0 && !scene.load.isLoading()) {
             resolve();
             return;
         }

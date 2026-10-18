@@ -919,7 +919,7 @@ export class FreeplayScene extends FNFScene {
                                 this.load.atlas(lowerIconPath,`${_iconPath}.png`,`${_iconPath}.json`);
                             }
                             else {
-                                this.load.image(lowerIconPath,`${_iconPath}.png`)
+                                this.load.image(lowerIconPath,`${_iconPath}.png`);
                             }
 
                             songData.icon = lowerIconPath;
