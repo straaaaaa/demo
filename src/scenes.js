@@ -961,7 +961,7 @@ export class FreeplayScene extends FNFScene {
             this.startTransition("MainMenuScene");
         }
 
-        alert(this.menuCursor || !this.texts);
+        alert(!this.menuCursor || !this.texts);
 
         if (!this.menuCursor || !this.texts) return;
 
