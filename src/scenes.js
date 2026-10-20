@@ -954,6 +954,7 @@ export class FreeplayScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
+        alert(this.inputManager.getKeys("accept"));
         if (this.inputManager.wasPressed("accept") && !this.selected) {
             this.selected = true;
             if (this.menuCursor) {
