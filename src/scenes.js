@@ -892,6 +892,7 @@ export class FreeplayScene extends FNFScene {
                     for (const song of weekDetail.songs) {
                         const songData = {};
                         songData.name = song[0].toLowerCase();
+                        songData.difficulty = song[3];
 
                         const iconPath = `images/icons/icon-${song[1]}`
                         let _iconPath = "";
@@ -946,7 +947,9 @@ export class FreeplayScene extends FNFScene {
             this.menuCursor.row = 0;
         }
         this.texts = texts;
-        this.selected = false;
+        this.events.on("cursorAccepted",(index) => {
+            this.scene.start("SongInfoScene",texts[]);
+        });
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
@@ -954,14 +957,6 @@ export class FreeplayScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
-        if (this.inputManager.isRepeated("accept") && !this.selected) {
-            this.selected = true;
-            if (this.menuCursor) {
-                this.menuCursor.destroy();
-                this.menuCursor = null;
-            }
-            this.startTransition("MainMenuScene");
-        }
         if (this.inputManager.wasPressed("back") && !this.selected) {
             this.selected = true;
             if (this.menuCursor) {
@@ -974,7 +969,11 @@ export class FreeplayScene extends FNFScene {
         if (!this.menuCursor || !this.texts) return;
 
         if (this.inputManager.wasPressed("accept")) {
-            this.scene.start("SongInfoScene",this.texts[this.menuCursor.index]);
+            const currentSong = songDatas[index];
+            this.scene.start("SongInfoScene",{
+                name: currentSong.name,
+                icon: currentSong.icon
+            });
             return;
         }
 
