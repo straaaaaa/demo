@@ -946,6 +946,7 @@ export class FreeplayScene extends FNFScene {
             this.menuCursor.row = 0;
         }
         this.texts = texts;
+        this.selected = false;
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
@@ -953,7 +954,8 @@ export class FreeplayScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
-        if (this.inputManager.wasPressed("back")) {
+        if (this.inputManager.wasPressed("back") && !this.selected) {
+            this.selected = true;
             if (this.menuCursor) {
                 this.menuCursor.destroy();
                 this.menuCursor = null;
@@ -961,10 +963,18 @@ export class FreeplayScene extends FNFScene {
             this.startTransition("MainMenuScene");
         }
 
+        if (this.inputManager.wasPressed("accept") && !this.selected) {
+            this.selected = true;
+            if (this.menuCursor) {
+                this.menuCursor.destroy();
+                this.menuCursor = null;
+            }
+            this.startTransition("SongInfoScene");
+        }
+
         if (!this.menuCursor || !this.texts) return;
 
         if (this.inputManager.wasPressed("accept")) {
-            alert("accept");
             this.scene.start("SongInfoScene",this.texts[this.menuCursor.index]);
             return;
         }
