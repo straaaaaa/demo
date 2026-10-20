@@ -6,6 +6,7 @@ import {
     MainMenuScene,
     FreeplayScene,
     OptionScene,
+    SongInfoScene,
     PlayScene
 } from "./scenes.js";
 
@@ -42,6 +43,7 @@ const config = {
         MainMenuScene,
         FreeplayScene,
         OptionScene,
+        SongInfoScene,
         PlayScene
     ]
 };
