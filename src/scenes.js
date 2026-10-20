@@ -960,7 +960,7 @@ export class FreeplayScene extends FNFScene {
                 this.menuCursor.destroy();
                 this.menuCursor = null;
             }
-            this.startTransition("SongInfoScene");
+            this.startTransition("MainMenuScene");
         }
         if (this.inputManager.wasPressed("back") && !this.selected) {
             this.selected = true;
