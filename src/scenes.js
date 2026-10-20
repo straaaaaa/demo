@@ -961,9 +961,10 @@ export class FreeplayScene extends FNFScene {
             this.startTransition("MainMenuScene");
         }
 
-        if (!this.menuCursor || !this.texts) return;
+        alert(!this.menuCursor);
+        alert(!this.texts)
 
-        alert("cursor");
+        if (!this.menuCursor || !this.texts) return;
 
         if (this.inputManager.wasPressed("accept")) {
             this.scene.start("SongInfoScene",this.texts[this.menuCursor.index]);
