@@ -954,10 +954,7 @@ export class FreeplayScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
-        if (this.inputManager.wasPressed("accept")) {
-            alert("accept!!");
-        }
-        if (this.inputManager.wasPressed("accept") && !this.selected) {
+        if (this.inputManager.isRepeated("accept") && !this.selected) {
             this.selected = true;
             if (this.menuCursor) {
                 this.menuCursor.destroy();
