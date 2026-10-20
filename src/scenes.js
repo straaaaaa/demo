@@ -954,15 +954,6 @@ export class FreeplayScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
-        if (this.inputManager.wasPressed("back") && !this.selected) {
-            this.selected = true;
-            if (this.menuCursor) {
-                this.menuCursor.destroy();
-                this.menuCursor = null;
-            }
-            this.startTransition("MainMenuScene");
-        }
-
         if (this.inputManager.wasPressed("accept") && !this.selected) {
             this.selected = true;
             if (this.menuCursor) {
@@ -970,6 +961,14 @@ export class FreeplayScene extends FNFScene {
                 this.menuCursor = null;
             }
             this.startTransition("SongInfoScene");
+        }
+        if (this.inputManager.wasPressed("back") && !this.selected) {
+            this.selected = true;
+            if (this.menuCursor) {
+                this.menuCursor.destroy();
+                this.menuCursor = null;
+            }
+            this.startTransition("MainMenuScene");
         }
 
         if (!this.menuCursor || !this.texts) return;
