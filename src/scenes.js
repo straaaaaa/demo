@@ -978,7 +978,7 @@ export class FreeplayScene extends FNFScene {
             } else {
                 if (this.current === 1) {
                     this.selected = false;
-                    this.showSongInfo();
+                    this.showSongList();
                 }
             }
         }
