@@ -948,7 +948,7 @@ export class FreeplayScene extends FNFScene {
         }
         this.texts = texts;
         this.events.on("cursorAccepted",(index) => {
-            this.scene.start("SongInfoScene",texts[]);
+            this.scene.start("SongInfoScene",texts[index]);
         });
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
@@ -967,15 +967,6 @@ export class FreeplayScene extends FNFScene {
         }
 
         if (!this.menuCursor || !this.texts) return;
-
-        if (this.inputManager.wasPressed("accept")) {
-            const currentSong = songDatas[index];
-            this.scene.start("SongInfoScene",{
-                name: currentSong.name,
-                icon: currentSong.icon
-            });
-            return;
-        }
 
         let i = 0;
         for (const text of this.texts) {
