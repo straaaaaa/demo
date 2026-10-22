@@ -950,6 +950,7 @@ export class FreeplayScene extends FNFScene {
             this.menuCursor.row = 0;
         }
         this.texts = texts;
+        this.selected = false;
         this.events.on("cursorAccepted",(index) => {
             this.showSongInfo(index);
         });
