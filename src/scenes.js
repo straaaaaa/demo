@@ -931,11 +931,14 @@ export class FreeplayScene extends FNFScene {
             }
             await waitUntilLoaded(this);
         } catch (error) {
+            alert(error);
             console.error("Modの読み込みエラー",error);
         }
         if (this.texts && this.texts.length > 0) {
             this.texts.forEach(text => { if(text.destroy) text.destroy(); });
         }
+        this.songDatas = songDatas;
+
         const texts = [];
         for (const songData of songDatas) {
             const songText = this.drawText(0,0,songData.name,"bold",0);
@@ -948,7 +951,7 @@ export class FreeplayScene extends FNFScene {
         }
         this.texts = texts;
         this.events.on("cursorAccepted",(index) => {
-            this.scene.start("SongInfoScene",texts[index]);
+            this.showSongInfo(index);
         });
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
@@ -984,6 +987,21 @@ export class FreeplayScene extends FNFScene {
             }
             i++
         }
+    }
+
+    showSongList() {
+        this.menuCursor.lock = false;
+        for (const text of this.texts) {
+            text.visible = false;
+        }
+    }
+
+    showSongInfo(index) {
+        this.menuCursor.lock = true;
+        for (const text of this.texts) {
+            text.visible = true;
+        }
+        const currentData = this.songDatas[index];
     }
 }
 
@@ -1355,12 +1373,6 @@ export class OptionScene extends FNFScene {
     saveOptions(newOptions) {
         SaveManager.saveOptions(newOptions);
         this.registry.set("options",newOptions);
-    }
-}
-
-export class SongInfoScene extends FNFScene {
-    constructor() {
-        super("SongInfoScene");
     }
 }
 
