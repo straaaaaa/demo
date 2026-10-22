@@ -949,10 +949,16 @@ export class FreeplayScene extends FNFScene {
         if (this.menuCursor) {
             this.menuCursor.row = 0;
         }
+        this.current = 0;
         this.texts = texts;
         this.selected = false;
         this.events.on("cursorAccepted",(index) => {
-            this.showSongInfo(index);
+            if (this.current === 0) {
+                this.showSongInfo(index);
+            }
+            else if(this.current === 1) {
+                //スタート処理 後でやる
+            }
         });
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
         this.bg.setTint(0xFFea71f);
@@ -961,13 +967,20 @@ export class FreeplayScene extends FNFScene {
     }
 
     onUpdate(time,delta) {
-        if (this.inputManager.wasPressed("back") && !this.selected) {
-            this.selected = true;
-            if (this.menuCursor) {
-                this.menuCursor.destroy();
-                this.menuCursor = null;
+        if (this.inputManager.wasPressed("back")) {
+            if (this.current === 0 && !this.selected) {
+                this.selected = true;
+                if (this.menuCursor) {
+                    this.menuCursor.destroy();
+                    this.menuCursor = null;
+                }
+                this.startTransition("MainMenuScene");
+            } else {
+                if (this.current === 1) {
+                    this.selected = false;
+                    this.showSongInfo();
+                }
             }
-            this.startTransition("MainMenuScene");
         }
 
         if (!this.menuCursor || !this.texts) return;
@@ -992,6 +1005,7 @@ export class FreeplayScene extends FNFScene {
 
     showSongList() {
         this.menuCursor.lock = false;
+        this.current = 0;
         for (const text of this.texts) {
             text.visible = false;
         }
@@ -999,6 +1013,7 @@ export class FreeplayScene extends FNFScene {
 
     showSongInfo(index) {
         this.menuCursor.lock = true;
+        this.current = 1;
         for (const text of this.texts) {
             text.visible = true;
         }
