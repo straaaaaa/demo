@@ -952,7 +952,6 @@ export class FreeplayScene extends FNFScene {
         if (this.menuCursor) {
             this.menuCursor.row = 0;
         }
-        this.current = 0;
         this.texts = texts;
         this.selected = false;
 
@@ -961,19 +960,13 @@ export class FreeplayScene extends FNFScene {
         this.bg.setTint(tintColor);
         this.bg.setScale(1.175);
         this.events.on("cursorAccepted",(index) => {
-            if (this.current === 0) {
-                this.showSongInfo(index);
-            }
-            else if(this.current === 1) {
-                //スタート処理 後でやる
-            }
+            this.selected = true;
+            //スタート処理 後でやる
         });
 
         this.events.on("moveCursor",(index) => {
-            if (this.current === 0) {
-                const currentBgColor = this.songDatas[index].color;
-                this.tweenTint(this.bg,currentBgColor[0],currentBgColor[1],currentBgColor[2]);
-            }
+            const currentBgColor = this.songDatas[index].color;
+            this.tweenTint(this.bg,currentBgColor[0],currentBgColor[1],currentBgColor[2]);
         })
         this.enterTransition();
     }
@@ -1011,18 +1004,13 @@ export class FreeplayScene extends FNFScene {
 
     onUpdate(time,delta) {
         if (this.inputManager.wasPressed("back")) {
-            if (this.current === 0 && !this.selected) {
+            if (!this.selected) {
                 this.selected = true;
                 if (this.menuCursor) {
                     this.menuCursor.destroy();
                     this.menuCursor = null;
                 }
                 this.startTransition("MainMenuScene");
-            } else {
-                if (this.current === 1) {
-                    this.selected = false;
-                    this.showSongList();
-                }
             }
         }
 
@@ -1044,23 +1032,6 @@ export class FreeplayScene extends FNFScene {
             }
             i++
         }
-    }
-
-    showSongList() {
-        this.menuCursor.lock = false;
-        this.current = 0;
-        for (const text of this.texts) {
-            text.visible = true;
-        }
-    }
-
-    showSongInfo(index) {
-        this.menuCursor.lock = true;
-        this.current = 1;
-        for (const text of this.texts) {
-            text.visible = false;
-        }
-        const currentData = this.songDatas[index];
     }
 }
 
