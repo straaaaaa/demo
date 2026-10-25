@@ -962,7 +962,7 @@ export class FreeplayScene extends FNFScene {
             }
         });
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
-        const tintColor = Phaser.Display.Color.GetColor(songDatas.color[0],songDatas.color[1],songDatas.color[2]);
+        const tintColor = Phaser.Display.Color.GetColor(songDatas[0].color[0],songDatas[0].color[1],songDatas[0].color[2]);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
         this.enterTransition();
