@@ -248,6 +248,8 @@ export class FNFScene extends Phaser.Scene {
                     const currentGridIndex = cursor.row * cols;
                     const nextText = texts[currentGridIndex];
 
+                    this.events.emit("moveCursor",cursor.index);
+
                     if (nextText) {
                         const diffY = y - nextText.y;
 
@@ -953,6 +955,11 @@ export class FreeplayScene extends FNFScene {
         this.current = 0;
         this.texts = texts;
         this.selected = false;
+
+        this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
+        const tintColor = Phaser.Display.Color.GetColor(songDatas[0].color[0],songDatas[0].color[1],songDatas[0].color[2]);
+        this.bg.setTint(tintColor);
+        this.bg.setScale(1.175);
         this.events.on("cursorAccepted",(index) => {
             if (this.current === 0) {
                 this.showSongInfo(index);
@@ -961,10 +968,13 @@ export class FreeplayScene extends FNFScene {
                 //スタート処理 後でやる
             }
         });
-        this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
-        const tintColor = Phaser.Display.Color.GetColor(songDatas[0].color[0],songDatas[0].color[1],songDatas[0].color[2]);
-        this.bg.setTint(0xFFea71f);
-        this.bg.setScale(1.175);
+
+        this.events.on("moveCursor",(index) => {
+            if (this.current === 0) {
+                const currentBgColor = this.songDatas[index].color;
+                this.tweenTint(this.bg,currentBgColor[0],currentBgColor[1],currentBgColor[2]);
+            }
+        })
         this.enterTransition();
     }
 
