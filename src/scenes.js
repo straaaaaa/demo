@@ -892,6 +892,7 @@ export class FreeplayScene extends FNFScene {
                     for (const song of weekDetail.songs) {
                         const songData = {};
                         songData.name = song[0].toLowerCase();
+                        songData.color = song[2];
                         songData.difficulty = song[3];
 
                         const iconPath = `images/icons/icon-${song[1]}`
@@ -961,10 +962,42 @@ export class FreeplayScene extends FNFScene {
             }
         });
         this.bg = this.add.image(640,360,"menuDesat").setOrigin(0.5,0.5);
+        const tintColor = Phaser.Display.Color.GetColor(songDatas,color[0],songDatas,color[1],songDatas,color[2]);
         this.bg.setTint(0xFFea71f);
         this.bg.setScale(1.175);
         this.enterTransition();
     }
+
+    tweenTint(image,targetR,targetG,targetB,duration = 1000) {
+        if (!image || !image.active) return;
+
+        const currentTint = image.tintTopLeft; 
+        const startColor = Phaser.Display.Color.IntegerToColor(currentTint);
+
+        const endColor = Phaser.Display.Color.ValueToColor({r: targetR,g: targetG,b: targetB });
+
+        if (image.colorTween) {
+            image.colorTween.stop();
+        }
+
+        image.colorTween = this.tweens.addCounter({
+            from: 0,
+            to: 100,
+            duration: duration,
+            ease: "Linear",
+            onUpdate: (tween) => {
+                const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    startColor,
+                    endColor,
+                    100,
+                    tween.getValue()
+                );
+                const colorHex = Phaser.Display.Color.GetColor(colorObject.r,colorObject.g,colorObject.b);
+                image.setTint(colorHex);
+            }
+        });
+    }
+
 
     onUpdate(time,delta) {
         if (this.inputManager.wasPressed("back")) {
@@ -1007,7 +1040,7 @@ export class FreeplayScene extends FNFScene {
         this.menuCursor.lock = false;
         this.current = 0;
         for (const text of this.texts) {
-            text.visible = false;
+            text.visible = true;
         }
     }
 
@@ -1015,7 +1048,7 @@ export class FreeplayScene extends FNFScene {
         this.menuCursor.lock = true;
         this.current = 1;
         for (const text of this.texts) {
-            text.visible = true;
+            text.visible = false;
         }
         const currentData = this.songDatas[index];
     }
