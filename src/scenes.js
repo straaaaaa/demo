@@ -961,6 +961,7 @@ export class FreeplayScene extends FNFScene {
         this.bg.setScale(1.175);
         this.events.on("cursorAccepted",(index) => {
             this.selected = true;
+            this.startTransition("PlayScene");
             //スタート処理 後でやる
         });
 
