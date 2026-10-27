@@ -895,7 +895,8 @@ export class FreeplayScene extends FNFScene {
                         const songData = {};
                         songData.name = song[0].toLowerCase();
                         songData.color = song[2];
-                        songData.difficulty = song[3];
+                        songData.difficulties = weekDetail.difficulties || "Easy, Normal, Hard";
+                        songData.filePath = `mods/${modName}`
 
                         const iconPath = `images/icons/icon-${song[1]}`
                         let _iconPath = "";
@@ -961,8 +962,7 @@ export class FreeplayScene extends FNFScene {
         this.bg.setScale(1.175);
         this.events.on("cursorAccepted",(index) => {
             this.selected = true;
-            this.startTransition("PlayScene");
-            //スタート処理 後でやる
+            this.startTransition("PlayScene",this.songDatas[index]);
         });
 
         this.events.on("moveCursor",(index) => {
@@ -1413,7 +1413,12 @@ export class PlayScene extends FNFScene {
     }
 
     init(data) {
-        this.song = data;
+        const basePath = data.filePath;
+
+        const inst = `${basePath}/songs/${data.name}/Inst.ogg`;
+        const opponent = `${basePath}/songs/${data.name}/Voices-Opponent.ogg`;
+        const player = `${basePath}/songs/${data.name}/Voices-Player.ogg`;
+        const voices = `${basePath}/songs/${data.name}/Voices.ogg`;
     }
 
 
