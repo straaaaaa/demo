@@ -918,7 +918,6 @@ export class FreeplayScene extends FNFScene {
                         Inst.ogg
                         Voices.ogg   or   Voices-Opponent.ogg / Voices-Player.ogg
                         */
-                        const basePath = data.filePath;
 
                         const requiredAssets = [
                             "HURTNOTE_assets.png",
@@ -949,12 +948,11 @@ export class FreeplayScene extends FNFScene {
                             "Voices-Player.ogg"
                         ];
 
-                        songData.assetsExist = await newAssetsExist(basePath,requiredAssets);
-
+                        songData.filePath = `mods/${modName}`;
+                        songData.assetsExist = await newAssetsExist(songData.filePath,requiredAssets);
                         songData.name = song[0].toLowerCase();
                         songData.color = song[2];
                         songData.difficulties = weekDetail.difficulties || "Easy, Normal, Hard";
-                        songData.filePath = `mods/${modName}`
 
                         const iconPath = `images/icons/icon-${song[1]}`
                         let _iconPath = "";
