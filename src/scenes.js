@@ -1,7 +1,7 @@
 import {SaveManager} from "./storage.js";
 import {PhantommuffText} from "./basicObjects.js";
 import {MenuCursor,InputManager,SoundManager} from "./managers.js";
-import {loadAndGetJson,waitUntilLoaded,checkFileExists} from './loaderUtils.js';
+import {loadAndGetJson,waitUntilLoaded,checkFileExists,newAssetsExist} from './loaderUtils.js';
 
 export class BootScene extends Phaser.Scene {
     constructor() {
@@ -893,6 +893,64 @@ export class FreeplayScene extends FNFScene {
                     const weekDetail = await loadAndGetJson(this,`detail_json_${modName}_${weekName}`.toLowerCase(),weekDetailPath);
                     for (const song of weekDetail.songs) {
                         const songData = {};
+
+                        /*
+                        <---書き換え可能なアセット--->
+                        HURTNOTE_assets.png / xml
+                        HURTnoteSplashes.png / xml
+                        NOTE_assets.png / xml
+                        bad.png
+                        combo.png
+                        go.png
+                        good.png
+                        healthBar.png
+                        noteSplashes.png / xml
+                        ready.png
+                        set.png
+                        shit.png
+                        sick.png
+                        fnf_loss_sfx.ogg
+                        intro1.ogg
+                        intro2.ogg
+                        intro3.ogg
+                        introGo.ogg
+                        <---必須のアセット--->
+                        Inst.ogg
+                        Voices.ogg   or   Voices-Opponent.ogg / Voices-Player.ogg
+                        */
+                        const basePath = data.filePath;
+
+                        const requiredAssets = [
+                            "HURTNOTE_assets.png",
+                            "HURTNOTE_assets.xml",
+                            "HURTnoteSplashes.png",
+                            "HURTnoteSplashes.xml",
+                            "NOTE_assets.png",
+                            "NOTE_assets.xml",
+                            "bad.png",
+                            "combo.png",
+                            "go.png",
+                            "good.png",
+                            "healthBar.png",
+                            "noteSplashes.png",
+                            "noteSplashes.xml",
+                            "ready.png",
+                            "set.png",
+                            "shit.png",
+                            "sick.png",
+                            "fnf_loss_sfx.ogg",
+                            "intro1.ogg",
+                            "intro2.ogg",
+                            "intro3.ogg",
+                            "introGo.ogg",
+                            "Inst.ogg",
+                            "Voices.ogg",
+                            "Voices-Opponent.ogg",
+                            "Voices-Player.ogg"
+                        ];
+
+                        songData.assetsExist = await newAssetsExist(basePath,requiredAssets);
+
                         songData.name = song[0].toLowerCase();
                         songData.color = song[2];
                         songData.difficulties = weekDetail.difficulties || "Easy, Normal, Hard";
@@ -1413,12 +1471,6 @@ export class PlayScene extends FNFScene {
     }
 
     init(data) {
-        const basePath = data.filePath;
-
-        const inst = `${basePath}/songs/${data.name}/Inst.ogg`;
-        const opponent = `${basePath}/songs/${data.name}/Voices-Opponent.ogg`;
-        const player = `${basePath}/songs/${data.name}/Voices-Player.ogg`;
-        const voices = `${basePath}/songs/${data.name}/Voices.ogg`;
     }
 
 

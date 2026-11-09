@@ -47,3 +47,21 @@ export async function checkFileExists(url) {
     return false;
   }
 }
+
+export async function newAssetsExist(basePath,files) {
+    const formatPath = basePath.endsWith('/') ? basePath : `${basePath}/`;
+
+    const promises = files.map(async (file) => {
+        const fileUrl = `${formatPath}${file}`;
+        try {
+            const response = await fetch(fileUrl,{method: "HEAD"});
+            return [file,response.ok];
+        } catch (error) {
+            return [file,false];
+        }
+    });
+
+    const results = await Promise.all(promises);
+
+    return Object.fromEntries(results);
+}
