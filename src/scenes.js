@@ -1469,6 +1469,34 @@ export class PlayScene extends FNFScene {
     }
 
     init(data) {
+        const requiredAssets = [
+            "HURTNOTE_assets.png",
+            "HURTNOTE_assets.xml",
+            "HURTnoteSplashes.png",
+            "HURTnoteSplashes.xml",
+            "NOTE_assets.png",
+            "NOTE_assets.xml",
+            "bad.png",
+            "combo.png",
+            "go.png",
+            "good.png",
+            "healthBar.png",
+            "noteSplashes.png",
+            "noteSplashes.xml",
+            "ready.png",
+            "set.png",
+            "shit.png",
+            "sick.png",
+            "fnf_loss_sfx.ogg",
+            "intro1.ogg",
+            "intro2.ogg",
+            "intro3.ogg",
+            "introGo.ogg",
+            "Inst.ogg",
+            "Voices.ogg",
+            "Voices-Opponent.ogg",
+            "Voices-Player.ogg"
+        ];
     }
 
 
