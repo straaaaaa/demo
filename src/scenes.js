@@ -1469,35 +1469,47 @@ export class PlayScene extends FNFScene {
     }
 
     init(data) {
+        this.data = data;
+    }
+
+    preload() {
         const requiredAssets = [
-            "HURTNOTE_assets.png",
-            "HURTNOTE_assets.xml",
-            "HURTnoteSplashes.png",
-            "HURTnoteSplashes.xml",
-            "NOTE_assets.png",
-            "NOTE_assets.xml",
-            "bad.png",
-            "combo.png",
-            "go.png",
-            "good.png",
-            "healthBar.png",
-            "noteSplashes.png",
-            "noteSplashes.xml",
-            "ready.png",
-            "set.png",
-            "shit.png",
-            "sick.png",
-            "fnf_loss_sfx.ogg",
-            "intro1.ogg",
-            "intro2.ogg",
-            "intro3.ogg",
-            "introGo.ogg",
+            ["HURTNOTE_assets.png","/images"],
+            ["HURTNOTE_assets.xml","/images"],
+            ["HURTnoteSplashes.png","/images"],
+            ["HURTnoteSplashes.xml","/images"],
+            ["NOTE_assets.png","/images"],
+            ["NOTE_assets.xml","/images"],
+            ["bad.png","/images"],
+            ["combo.png","/images"],
+            ["go.png","/images"],
+            ["good.png","/images"],
+            ["healthBar.png","/images"],
+            ["noteSplashes.png","/images"],
+            ["noteSplashes.xml","/images"],
+            ["ready.png","/images"],
+            ["set.png","/images"],
+            ["shit.png","/images"],
+            ["sick.png","/images"],
+            ["fnf_loss_sfx.ogg","/sounds"],
+            ["intro1.ogg","/sounds"],
+            ["intro2.ogg","/sounds"],
+            ["intro3.ogg","/sounds"],
+            ["introGo.ogg","/sounds"],
+        ];
+
+        const song = [
             "Inst.ogg",
             "Voices.ogg",
             "Voices-Opponent.ogg",
             "Voices-Player.ogg"
         ];
+        const basePath = this.data.filePath;
+        for (const key of requiredAssets) {
+            const exist = this.data.assetsExist[key];
+            if (exist) {
+                
+            }
+        }
     }
-
-
 }
