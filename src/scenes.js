@@ -152,6 +152,14 @@ export class FNFScene extends Phaser.Scene {
         loop.start(this.game.step.bind(this.game));
     }
 
+    lerp(a, b, ratio) {
+        return a + (b - a) * ratio;
+    }
+
+    bound(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
     addCameraFollow(obj, distance = { x: 0, y: 0 }, speed = 0.16) {
         const array = Array.isArray(obj) ? obj : [obj];
     
@@ -302,7 +310,7 @@ export class FNFScene extends Phaser.Scene {
         return textObj;
     }
 
-    startTransition(scene,initData) {
+    startTransition(scene,initData,callback) {
         const transition = this.add.container(0, -1520).setDepth(2000);
 
         const gradient = this.add.graphics();
@@ -328,7 +336,11 @@ export class FNFScene extends Phaser.Scene {
             y: 720,
             duration: 800,
             ease: "Linear",
-            onComplete: () => {
+            onComplete: async () => {
+                if (typeof callback === "function") {
+                    await callback();
+                }
+
                 this.scene.start(scene,initData);
             }
         });
@@ -1016,9 +1028,10 @@ export class FreeplayScene extends FNFScene {
         const tintColor = Phaser.Display.Color.GetColor(songDatas[0].color[0],songDatas[0].color[1],songDatas[0].color[2]);
         this.bg.setTint(tintColor);
         this.bg.setScale(1.175);
-        this.events.on("cursorAccepted",(index) => {
+        this.events.on("cursorAccepted",async (index) => {
             this.selected = true;
-            this.startTransition("PlayScene",this.songDatas[index]);
+            this.startTransition("PlayScene",this.songDatas[index],() => {
+            });
         });
 
         this.events.on("moveCursor",(index) => {
@@ -1058,7 +1071,6 @@ export class FreeplayScene extends FNFScene {
         });
     }
 
-
     onUpdate(time,delta) {
         if (this.inputManager.wasPressed("back")) {
             if (!this.selected) {
@@ -1075,7 +1087,6 @@ export class FreeplayScene extends FNFScene {
 
         let i = 0;
         for (const text of this.texts) {
-
             if (!text) continue; 
 
             if (this.menuCursor.index === i) {
